@@ -1,0 +1,256 @@
+.menu
+{
+  @extend %page;
+  @extend %cover;
+
+  overflow: hidden;
+
+  &__title
+  {
+    height: 100%;
+    width: 12rem;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    white-space: nowrap;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    padding: 0 2rem;
+
+    border-right: 1px solid $color-grey;
+
+    &__text
+    {
+      @extend %title-70;
+
+      text-transform: uppercase;
+      letter-spacing: 1rem;
+
+      margin: 1rem 0;
+
+      writing-mode: vertical-rl;
+      transform: scale(-1, -1);
+    }
+  }
+  &__wrapper
+  {
+    @extend %cover;
+
+    z-index: z('content');
+  }
+
+  &__gallery
+  {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -30rem * 0.5);
+
+    &__image
+    {
+      position: relative;
+      display: flex;
+
+      margin: 5rem 0;
+
+      &__link
+      {
+        @extend %link__menu--hidden;
+
+        padding: 2rem 0;
+        display: block;
+        z-index: 100;
+        width: 100%;
+      }
+
+      &__figure
+      {
+        height: 20rem;
+        width: 100rem;
+        position: relative;
+
+        visibility: hidden;
+
+        &__image
+        {
+          @extend %cover;
+
+          object-fit: cover;
+        }
+      }
+
+      &__type
+      {
+        align-self: flex-start;
+        padding: 2rem 0.5rem;
+
+        &__text
+        {
+          @extend %desc-20;
+
+          writing-mode: vertical-rl;
+          transform: scale(-1, -1);
+          word-spacing: 2rem;
+          overflow: hidden;
+          opacity: 0;
+
+          @include media('<tablet')
+          {
+            font-size: 4rem;
+            opacity: 1;
+          }
+
+          @include media('<phone')
+          {
+            font-size: 2rem;
+            opacity: 1;
+          }
+
+          span
+          {
+            line-height: normal;
+
+            span
+            {
+              opacity: 0;
+
+              @include media('<tablet')
+              {
+                opacity: 1;
+              }
+
+              @include media('<phone')
+              {
+                opacity: 1;
+              }
+            }
+          }
+        }
+      }
+
+      &__index
+      {
+        align-self: flex-end;
+        padding: 2rem 0.5rem;
+
+        &__text
+        {
+          @extend %desc-20;
+
+          writing-mode: vertical-rl;
+          transform: scale(1, 1);
+          word-spacing: 2rem;
+          overflow: hidden;
+          opacity: 0;
+
+          @include media('<tablet')
+          {
+            font-size: 4rem;
+            opacity: 1;
+          }
+
+          @include media('<phone')
+          {
+            font-size: 2rem;
+            opacity: 1;
+          }
+
+          span
+          {
+            line-height: 1;
+
+            span
+            {
+              opacity: 0;
+
+              @include media('<tablet')
+              {
+                opacity: 1;
+              }
+
+              @include media('<phone')
+              {
+                opacity: 1;
+              }
+            }
+          }
+        }
+      }
+
+      &__title
+      {
+        mix-blend-mode: difference;
+
+        &__text
+        {
+          @extend %title-70;
+
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+
+          text-align: center;
+          text-shadow:
+            -1px -1px 0 $color-night,
+            1px -1px 0 $color-night,
+            -1px 1px 0 $color-night,
+            1px 1px 0 $color-night;
+
+          width: 100%;
+
+          padding: 0 1rem;
+          overflow: hidden;
+
+          @include media('<tablet')
+          {
+            font-size: 10rem;
+          }
+
+          @include media('<phone')
+          {
+            font-size: 5rem;
+          }
+
+          span
+          {
+
+            span
+            {
+              opacity: 0;
+
+              @include media('<tablet')
+              {
+                opacity: 1;
+              }
+
+              @include media('<phone')
+              {
+                opacity: 1;
+              }
+            }
+          }
+        }
+
+        &__phone__left
+        {
+          display: none;
+        }
+
+        &__phone__right
+        {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+

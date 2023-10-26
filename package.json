@@ -1,0 +1,49 @@
+{
+  "name": "mdl",
+  "version": "1.0.0",
+  "scripts": {
+    "b:build": "node app.js",
+    "b:dev": "nodemon app.js",
+    "f:build": "webpack --progress --config webpack.prod.js",
+    "f:dev": "webpack serve --progress --config webpack.dev.js",
+    "dev": "concurrently --kill-others \"npm run b:dev\" \"npm run f:dev\""
+  },
+  "author": "Sune Valeur",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-loader": "^9.1.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "concurrently": "^8.2.1",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.2",
+    "file-loader": "^6.2.0",
+    "glslify-loader": "^2.0.0",
+    "gsap": "^3.12.2",
+    "include-media": "^2.0.0",
+    "mini-css-extract-plugin": "^2.7.2",
+    "normalize-wheel": "^1.0.1",
+    "postcss-loader": "^7.0.2",
+    "prefix": "^1.0.0",
+    "raw-loader": "^4.0.2",
+    "sass": "^1.56.2",
+    "sass-loader": "^13.2.0",
+    "splitting": "^1.0.6",
+    "terser-webpack-plugin": "^5.3.6",
+    "three": "^0.156.0",
+    "video.js": "^8.6.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1",
+    "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "@sanity/client": "^6.7.0",
+    "@sanity/image-url": "^1.0.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "node-fetch": "2.7",
+    "nodemon": "^3.0.1",
+    "pug": "^3.0.2",
+    "sanity": "^3.18.1"
+  }
+}

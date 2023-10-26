@@ -1,0 +1,32 @@
+extends ../base.pug
+
+block variables
+    - var template = 'film'
+
+block content
+  .video
+    .video__info
+      p.video__info__text!=film.project_desc.replace(/\n/g, '<br>')
+
+    .video__desc
+      .video__desc__client
+        p.video__desc__client__title.video__desc__title=film.client_title
+        h1.video__desc__client__text.video__desc__text!=film.client.replace(/\n/g, '<br>')
+
+      .video__desc__name
+        p.video__desc__name__title.video__desc__title=film.video_title_sm
+        p.video__desc__name__text.video__desc__text!=film.video_title_sm_text.replace(/\n/g, '<br>')
+
+      .video__desc__role
+        p.video__desc__role__title.video__desc__title=film.video_role
+        p.video__desc__role__text.video__desc__text!=film.video_role_text.replace(/\n/g, '<br>')
+
+    .video__wrapper
+      .video__media
+        figure.video__preview
+          img.video__preview__image(data-src=film.preview.url alt=film.preview.alt)
+        figure.video__selected
+          video.video__selected__video(src=film.selected_video.url paused controls playsinline)
+
+    .video__back
+      a.video__back__button(href=Link='/')=film.back_button

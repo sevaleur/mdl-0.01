@@ -1,0 +1,23 @@
+.footer
+  .footer__top
+    .footer__icons
+      .footer__icons__media.top
+        .footer__icons__media__div.outside__link
+          a.footer__icons__media__div__link(href=`mailto:${footer.email_icon.email}`)
+          img.footer__icons__media__div__icon(data-src=Build.image(footer.email_icon.asset._ref).url() alt=footer.email_icon.alt)
+      each icon in footer.top_links
+        .footer__icons__media.top
+          .footer__icons__media__div.outside__link
+            a.footer__icons__media__div__link(href=(icon.url))
+            img.footer__icons__media__div__icon(data-src=Build.image(icon.asset._ref).url())
+
+  .footer__title.hidden.mid__grid
+    p.footer__title__text=footer.title
+
+  .footer__btm
+    .footer__icons
+      each icon in footer.btm_links
+        .footer__icons__media.btm
+          .footer__icons__media__div.outside__link
+            a.footer__icons__media__div__link(href=(icon.url))
+            img.footer__icons__media__div__icon(data-src=Build.image(icon.asset._ref).url())

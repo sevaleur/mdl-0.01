@@ -1,0 +1,340 @@
+.gallery
+{
+  //@extend %page;
+
+  &__modal
+  {
+    @extend %cover;
+
+    height: 100%;
+    width: 100%;
+
+    z-index: z('modal');
+    background: #00000094;
+    opacity: 0.0;
+
+    display: none;
+
+    padding: 20rem;
+
+    @include media('<tablet')
+    {
+      padding: 10rem;
+    }
+
+    @include media('<phone')
+    {
+      padding: 2rem;
+    }
+
+    &__selected
+    {
+      height: 100%;
+      width: 100%;
+
+      &__figure
+      {
+        height: 100%;
+        width: 100%;
+
+        &__image
+        {
+          height: 100%;
+          width: 100%;
+          object-fit: contain;
+        }
+      }
+    }
+
+    &__close
+    {
+      position: absolute;
+      bottom: 5.2rem;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      @include media('<phone')
+      {
+
+      }
+
+      &__button
+      {
+        @extend %link__center--hidden;
+        @extend %title-30;
+
+        font-weight: 300;
+        font-style: normal;
+        display: block;
+        line-height: 1;
+        padding: .5rem 0;
+
+        text-shadow:
+              -1px -1px 0 $color-night,
+              1px -1px 0 $color-night,
+              -1px 1px 0 $color-night,
+              1px 1px 0 $color-night;
+
+        transition: all 0.5s ease-in-out;
+
+        color: $color-black-coral;
+
+        @include media('<tablet')
+        {
+          font-size: 10rem;
+          color: $color-cultured;
+        }
+
+        @include media('<phone')
+        {
+          font-size: 3rem;
+        }
+
+        &::first-letter
+        {
+          @extend %desc-50;
+
+          font-style: italic;
+          text-transform: uppercase;
+
+          @include media('<tablet')
+          {
+            font-size: 15rem;
+          }
+
+          @include media('<phone')
+          {
+            font-size: 5rem;
+          }
+        }
+
+        &:hover
+        {
+          color: $color-cultured;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  &__media
+  {
+    @extend %cover;
+
+    z-index: z('content');
+
+    &__div
+    {
+      margin: 0 10rem;
+      cursor: pointer;
+
+      &:first-child
+      {
+        margin-left: 0;
+      }
+
+      &:last-child
+      {
+        margin-right: 0;
+      }
+
+      &__figure
+      {
+        width: 50rem;
+        height: 65rem;
+        transform: translateY(50%);
+
+        position: relative;
+
+        visibility: hidden;
+
+        @include media('<tablet')
+        {
+          width: 80rem;
+          height: 100rem;
+        }
+
+        @include media('<phone')
+        {
+          width: 48rem;
+          height: 60rem;
+        }
+
+        @include media('<400px')
+        {
+          width: 38rem;
+          height: 50rem;
+        }
+
+        &__image
+        {
+          @extend %cover;
+
+          object-fit: cover;
+        }
+      }
+    }
+  }
+
+  &__wrapper
+  {
+    display: flex;
+    align-items: center;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-48rem * 0.5, -50%);
+
+    @include media('<tablet')
+    {
+      transform: translate(-80rem * 0.5, -50%);
+    }
+
+    @include media('<phone')
+    {
+      transform: translate(-48rem * 0.5, -50%);
+    }
+
+    @include media('<400px')
+    {
+      transform: translate(-38rem * 0.5, -50%);
+    }
+  }
+
+  &__info
+  {
+    position: absolute;
+    top: 50%;
+    left: 6rem;
+    transform: translateY(-50%);
+
+    z-index: z('title');
+    mix-blend-mode: difference;
+
+    @include media('<tablet')
+    {
+      padding: 40rem 0;
+      height: 100%;
+      width: 100%;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    @include media('<phone')
+    {
+      left: 0;
+      padding: 20rem 5rem;
+    }
+
+    &__title
+    {
+      @extend %title-30;
+
+      text-transform: uppercase;
+      letter-spacing: 2rem;
+
+      @include media('<tablet')
+      {
+        font-size: 10rem;
+      }
+
+      @include media('<phone')
+      {
+        font-size: 5rem;
+      }
+    }
+
+    &__desc
+    {
+      @extend %desc-16;
+
+      @include media('<tablet')
+      {
+        align-self: flex-start;
+
+        width: 70%;
+        font-size: 4rem;
+        padding-left: 10rem;
+      }
+
+      @include media('<phone')
+      {
+        width: 80%;
+        font-size: 2rem;
+      }
+    }
+  }
+
+
+  &__back
+  {
+    position: fixed;
+    bottom: 5.2rem;
+    right: 50%;
+    transform: translateX(50%);
+
+    z-index: z('link');
+
+    &__button
+    {
+      @extend %link__center--hidden;
+      @extend %title-30;
+
+      font-weight: 300;
+      font-style: normal;
+      display: block;
+      line-height: 1;
+      padding: .5rem 0;
+
+      text-shadow:
+            -1px -1px 0 $color-night,
+            1px -1px 0 $color-night,
+            -1px 1px 0 $color-night,
+            1px 1px 0 $color-night;
+
+      transition: all 0.5s ease-in-out;
+
+      color: $color-black-coral;
+
+      @include media('<tablet')
+      {
+        font-size: 10rem;
+        color: $color-cultured;
+      }
+
+      @include media('<phone')
+      {
+        font-size: 3rem;
+      }
+
+      &::first-letter
+      {
+        @extend %desc-50;
+
+        font-style: italic;
+        text-transform: uppercase;
+
+        @include media('<tablet')
+        {
+          font-size: 15rem;
+        }
+
+        @include media('<phone')
+        {
+          font-size: 5rem;
+        }
+      }
+
+      &:hover
+      {
+        color: $color-cultured;
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+$color-cultured: #EEF1EF;
+$color-night: #0D0D0D; 
+$color-grey: #5B5E5E;
+$color-cadet-blue-crayola: #A9B4C2;
+$color-black-coral: #5E6572;
+$color-pewter-blue: #7D98A1;
+$color-dark-jungle-green: #1C2321;
+$color-border-grey: #d4d4d4;
+
+$ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+$ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+
+$font-bodoni-libre: 'Bodoni Libre';
+$font-bodoni-moda: 'Bodoni Moda';
+$font-montserrat-light: 'Montserrat';
+
+$z-indexes: (
+  'preloader',
+  'navigation',
+  'footer',
+  'modal',
+  'link',
+  'content',
+  'canvas',
+  'title'
+);

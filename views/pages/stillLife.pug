@@ -1,0 +1,32 @@
+extends ../base.pug
+
+block variables
+    - var template = 'stillLife'
+
+block content
+  .stillLife
+
+  .gallery
+
+    .gallery__media
+      .gallery__wrapper
+        each img in sl.images
+          .gallery__media__div
+            figure.gallery__media__div__figure
+              img.gallery__media__div__figure__image(data-src=Build.image(img.asset._ref).url() alt=img.alt)
+
+    .gallery__info
+      h1.gallery__info__title!=sl.title.replace(/\s/, '<br>')
+      if(sl.project_description.length > 0)
+        p.gallery__info__desc!=sl.project_description.replace(/\n/g, '<br>')
+
+    .gallery__back
+      a.gallery__back__button(href=Link=('/'))=sl.back
+
+    .gallery__modal
+      .gallery__modal__selected
+        figure.gallery__modal__selected__figure
+          img.gallery__modal__selected__figure__image(src='' alt='')
+
+      .gallery__modal__close
+        p.gallery__modal__close__button=sl.close

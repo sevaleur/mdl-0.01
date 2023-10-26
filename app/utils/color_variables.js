@@ -1,0 +1,6 @@
+export const COLOR_CULTURED = '#EEF1EF'
+export const COLOR_NIGHT = '#0D0D0D'
+export const COLOR_CADET_BLUE_CRAYOLA = '#A9B4C2'
+export const COLOR_BLACK_CORAL = '#5E6572'
+export const COLOR_PEWTER_BLUE = '#7D98A1'
+export const COLOR_DARK_JUNGLE_GREEN = '#1C2321'

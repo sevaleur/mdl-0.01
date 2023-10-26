@@ -1,0 +1,26 @@
+@font-face {
+  font-family: $font-montserrat-light;
+  src: url('../fonts/Montserrat_Light.woff2') format('woff2'),
+      url('../fonts/Montserrat_Light.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: $font-bodoni-moda;
+  src: url('../fonts/Bodoni_Moda.woff2') format('woff2'),
+      url('../fonts/Bodoni_Moda.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: $font-bodoni-libre;
+  src: url('../fonts/Libre_Bodoni.woff2') format('woff2'),
+      url('../fonts/Libre_Bodoni.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

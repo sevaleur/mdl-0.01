@@ -1,0 +1,491 @@
+%link__wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+}
+
+/*
+  line through - right out.
+*/
+
+%link__line__through__lr {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transition: transform 0.7s $ease-in-out;
+}
+
+%link__line__through__lr--visible {
+  transform: scaleX(1);
+  transform-origin: right center;
+}
+
+%link__line__through__lr--hidden {
+  transform: scaleX(0);
+  transform-origin: right center;
+}
+
+/*
+  Complete link through - left out.
+*/
+
+%link__through__lr {
+  @extend %link__wrapper;
+
+  display: inline-block;
+
+  &:after {
+    @extend %link__line__through__lr;
+    @extend %link__line__through__lr--visible;
+  }
+
+  /* &:hover {
+    &:after {
+      @extend %link__line__through__lr--hidden;
+    }
+  } */
+}
+
+%link__through__lr--hidden {
+  @extend %link__wrapper;
+
+  display: inline-block;
+
+  &:after {
+    @extend %link__line__through__lr;
+    @extend %link__line__through__lr--hidden;
+  }
+}
+
+/*
+  line through - right//left out.
+*/
+
+%link__line__through__rl {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transition: transform 0.7s $ease-in-out;
+}
+
+%link__line__through__rl--visible {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+%link__line__through__rl--hidden {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/*
+  Complete link through - right left out.
+*/
+
+%link__through__rl {
+  @extend %link__wrapper;
+
+  display: inline-block;
+
+  &:after {
+    @extend %link__line__through__rl;
+    @extend %link__line__through__rl--visible;
+  }
+
+  /* &:hover {
+    &:after {
+      @extend %link__line__through__rl--hidden;
+    }
+  } */
+}
+
+%link__through__rl--hidden {
+  @extend %link__wrapper;
+
+  display: inline-block;
+
+  &:after {
+    @extend %link__line__through__rl;
+    @extend %link__line__through__rl--hidden;
+  }
+}
+
+/*
+  Bottom link line // from center.
+*/
+
+%link__line__center {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transition: transform 0.7s $ease-in-out;
+}
+
+%link__line__center--visible {
+  transform: scaleX(1);
+  transform-origin: center center;
+}
+
+%link__line__center--hidden {
+  transform: scaleX(0);
+  transform-origin: center center;
+}
+
+/*
+  Complete link center.
+*/
+
+%link__center {
+  @extend %link__wrapper;
+
+  display: inline-block;
+
+  &:after {
+    @extend %link__line__center;
+    @extend %link__line__center--visible;
+  }
+}
+
+%link__center--hidden {
+  @extend %link__wrapper;
+
+  display: inline-block;
+
+  &:after {
+    @extend %link__line__center;
+    @extend %link__line__center--hidden;
+  }
+
+  &:hover {
+
+    &:after {
+      @extend %link__line__center--visible;
+    }
+  }
+}
+
+
+/*
+  Top link line left.
+*/
+
+%link__line__top {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transition: transform 0.7s $ease-in-out;
+}
+
+%link__line__top--visible {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+%link__line__top--hidden {
+  transform: scaleX(0);
+  transform-origin: right center;
+}
+
+/*
+  Bottom link line right.
+*/
+
+%link__line__btm {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transition: transform 0.7s $ease-in-out;
+}
+
+%link__line__btm--visible {
+  transform: scaleX(1);
+  transform-origin: right center;
+}
+
+%link__line__btm--hidden {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/*
+  Complete link // top//btm.
+*/
+
+%link {
+  @extend %link__wrapper;
+
+  display: inline-block;
+
+  &:before
+  {
+    @extend %link__line__top;
+    @extend %link__line__top--visible;
+  }
+
+  &:after {
+    @extend %link__line__btm;
+    @extend %link__line__btm--visible;
+  }
+
+  &:hover {
+    &:before
+    {
+      @extend %link__line__top--hidden;
+    }
+
+    &:after {
+      @extend %link__line__btm--hidden;
+    }
+  }
+}
+
+%link--hidden {
+  @extend %link__wrapper;
+
+  display: inline-block;
+
+  &:before
+  {
+    @extend %link__line__top;
+    @extend %link__line__top--hidden;
+  }
+
+  &:after {
+    @extend %link__line__btm;
+    @extend %link__line__btm--hidden;
+  }
+
+  &:hover {
+    &:before
+    {
+      @extend %link__line__top--visible;
+    }
+
+    &:after {
+      @extend %link__line__btm--visible;
+    }
+  }
+}
+
+
+/*
+  Top link line // Menu gallery.
+*/
+
+%link__line__top__menu {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: currentColor;
+  transition: transform 0.7s $ease-in-out;
+}
+
+%link__line__top__menu--visible {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+%link__line__top__menu--hidden {
+  transform: scaleX(0);
+  transform-origin: right center;
+}
+
+/*
+  Bottom link line // Menu gallery.
+*/
+
+%link__line__btm__menu {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 5px;
+  background: currentColor;
+  transition: transform 0.7s $ease-in-out;
+}
+
+%link__line__btm__menu--visible {
+  transform: scaleX(1);
+  transform-origin: right center;
+}
+
+%link__line__btm__menu--hidden {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/*
+  Complete link // Menu gallery.
+*/
+
+%link__menu {
+  @extend %link__wrapper;
+
+  display: inline-block;
+
+  &:before
+  {
+    @extend %link__line__top__menu;
+    @extend %link__line__top__menu--visible;
+  }
+
+  &:after {
+    @extend %link__line__btm__menu;
+    @extend %link__line__btm__menu--visible;
+  }
+
+  &:hover {
+    &:before
+    {
+      @extend %link__line__top__menu--hidden;
+    }
+
+    &:after {
+      @extend %link__line__btm__menu--hidden;
+    }
+  }
+}
+
+%link__menu--hidden {
+  @extend %link__wrapper;
+
+  display: inline-block;
+
+  &:before
+  {
+    @extend %link__line__top__menu;
+    @extend %link__line__top__menu--hidden;
+  }
+
+  &:after {
+    @extend %link__line__btm__menu;
+    @extend %link__line__btm__menu--hidden;
+  }
+
+  &:hover {
+    &:before
+    {
+      @extend %link__line__top__menu--visible;
+    }
+
+    &:after {
+      @extend %link__line__btm__menu--visible;
+    }
+  }
+}
+
+
+/*
+  dot.
+*/
+
+%link__dot {
+  content: '';
+  position: absolute;
+  top: 45%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  border-radius: 100%;
+  background: currentColor;
+  transition: transform 0.7s $ease-in-out;
+}
+
+%link__dot--visible {
+  transform: scale(1);
+  transform-origin: center center;
+}
+
+%link__dot--hidden {
+  transform: scale(0);
+  transform-origin: center center;
+}
+
+/*
+  Complete link // Menu gallery.
+*/
+
+%link__dot__selection {
+  @extend %link__wrapper;
+
+  display: inline-block;
+
+  &:before
+  {
+    @extend %link__dot;
+    @extend %link__dot--visible;
+  }
+/*
+  &:after {
+    @extend %link__line__btm__menu;
+    @extend %link__line__btm__menu--visible;
+  } */
+
+  &:hover {
+    &:before
+    {
+      @extend %link__dot--hidden;
+    }
+
+    /* &:after {
+      @extend %link__line__btm__menu--hidden;
+    } */
+  }
+}
+
+%link__dot__selection--hidden {
+  @extend %link__wrapper;
+
+  display: inline-block;
+
+  &:before
+  {
+    @extend %link__dot;
+    @extend %link__dot--hidden;
+  }
+
+  /* &:after {
+    @extend %link__line__btm__menu;
+    @extend %link__line__btm__menu--hidden;
+  } */
+
+  &:hover {
+    &:before
+    {
+      @extend %link__dot--visible;
+    }
+
+   /*  &:after {
+      @extend %link__line__btm__menu--visible;
+    } */
+  }
+}
+

@@ -1,0 +1,26 @@
+extends ../base.pug
+
+block variables
+    - var template = 'shortFilms'
+
+block content
+  .shortFilms
+
+  .menu
+    .menu__title
+      h1.menu__title__text=shortFilms.title
+      span.menu__title__text=shortFilms.title
+      span.menu__title__text=shortFilms.title
+    .menu__wrapper
+      .menu__gallery
+        each obj, index in shortFilms.showcase
+          .menu__gallery__image
+            .menu__gallery__image__type
+              h2.menu__gallery__image__type__text=obj._type
+            a.menu__gallery__image__link(href=Link=(`${obj._type}/${obj.slug}`) aria-label=obj.title)
+              figure.menu__gallery__image__figure
+                img.menu__gallery__image__figure__image(alt=obj.preview.alt data-src=Build.image(obj.preview.asset._ref).url())
+            .menu__gallery__image__title
+              h2.menu__gallery__image__title__text=obj.title
+            .menu__gallery__image__index
+              h2.menu__gallery__image__index__text=`00.${index}`

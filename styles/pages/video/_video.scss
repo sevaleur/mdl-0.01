@@ -1,0 +1,260 @@
+.video
+{
+  @extend %cover;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 100px repeat(3, 1fr);
+
+  @include media('<tablet')
+  {
+    display: grid;
+    grid-template-rows: 100px repeat(3, 1fr);
+    grid-template-columns: 1fr;
+  }
+
+  &__desc
+  {
+    grid-area: 2 / 1 / 4 / 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+
+    @include media('<tablet')
+    {
+      grid-area: 3 / 1 / 4 / -1;
+
+      padding-top: 5rem;
+    }
+
+    &__title
+    {
+      @extend %desc-20;
+
+      font-style: italic;
+
+      @include media('<tablet')
+      {
+        font-size: 4rem;
+      }
+
+      @include media('<phone')
+      {
+        font-size: 2rem;
+      }
+    }
+
+    &__text
+    {
+      @extend %title-40;
+
+      @include media('<tablet')
+      {
+        font-size: 6rem;
+      }
+
+      @include media('<phone')
+      {
+        font-size: 4rem;
+      }
+    }
+
+    &__client
+    {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &__name
+    {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &__role
+    {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &__info
+  {
+    grid-area: 4 / 1 / -1 / 3;
+
+    align-self: center;
+    justify-self: center;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include media('<tablet')
+    {
+      grid-area: 4 / 1 / -1 / -1;
+      padding: 2.5rem 5rem;
+      width: 60%;
+      align-self: flex-start;
+    }
+
+    @include media('<phone')
+    {
+      width: 100%;
+    }
+
+    &__text
+    {
+      @extend %desc-20;
+
+      @include media('<tablet')
+      {
+        font-size: 4rem;
+      }
+
+      @include media('<phone')
+      {
+        font-size: 2.5rem;
+      }
+    }
+  }
+
+  &__wrapper
+  {
+    grid-area: 2 / 2 / 4 / -1;
+
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    @include media('<tablet')
+    {
+      grid-area: 2 / 1 / 3 / -1
+    }
+  }
+
+  &__media
+  {
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+  }
+
+  &__preview
+  {
+    z-index: z('canvas');
+
+    height: 100%;
+    width: 100%;
+
+    &__image
+    {
+      height: 100%;
+      width: 100%;
+
+      object-fit: cover;
+    }
+  }
+
+  &__selected
+  {
+    @extend %cover;
+
+    width: 100%;
+    height: 100%;
+
+    &__video
+    {
+      @extend %cover;
+
+      z-index: z('content');
+
+      opacity: 0;
+      object-fit: contain;
+    }
+  }
+
+  &__back
+  {
+    grid-area: 4 / 3 / -1 / -1;
+
+    align-self: center;
+    justify-self: flex-start;
+
+    z-index: z('content');
+
+    @include media('<tablet')
+    {
+      position: fixed;
+      bottom: 4rem;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    &__button
+    {
+      @extend %link__center--hidden;
+      @extend %title-30;
+
+      font-weight: 300;
+      font-style: normal;
+      display: block;
+      line-height: 1;
+      padding: .5rem 0;
+
+      text-shadow:
+            -1px -1px 0 #0D0D0D,
+            1px -1px 0 #0D0D0D,
+            -1px 1px 0 #0D0D0D,
+            1px 1px 0 #0D0D0D;
+
+      transition: all 0.5s ease-in-out;
+
+      color: $color-black-coral;
+
+      @include media('<tablet')
+      {
+        font-size: 10rem;
+        color: $color-cultured;
+      }
+
+      @include media('<phone')
+      {
+        font-size: 3rem;
+      }
+
+      &::first-letter
+      {
+        @extend %desc-50;
+
+        font-style: italic;
+        text-transform: uppercase;
+
+        @include media('<tablet')
+        {
+          font-size: 15rem;
+        }
+
+        @include media('<phone')
+        {
+          font-size: 5rem;
+        }
+      }
+
+      &:hover
+      {
+        color: $color-cultured;
+      }
+    }
+  }
+}
