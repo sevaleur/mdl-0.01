@@ -28,7 +28,7 @@ export default class Media
   createMesh()
   {
     this.texture = window.IMAGE_TEXTURES[this.element.getAttribute('data-src')]
-  
+
     this.material = new ShaderMaterial(
     {
       vertexShader: vertex,
@@ -53,7 +53,7 @@ export default class Media
     ]
 
     this.plane = new Mesh( this.geo, this.material )
-    this.plane.position.z = 0.01
+    this.plane.position.z = 0.001
     this.scene.add(this.plane)
   }
 
@@ -181,7 +181,7 @@ export default class Media
   {
     if(!this.bounds) return
 
-    this.plane.material.uniforms.u_scroll.value = ((scroll.current - scroll.last) / this.screen.height) * 20
+    this.plane.material.uniforms.u_scroll.value = ((scroll.current - scroll.last) / this.screen.height) * 5
 
     this.updateScale()
     this.updateX()

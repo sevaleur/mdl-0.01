@@ -33,7 +33,7 @@ export default class Element
   createMesh()
   {
     this.texture = window.IMAGE_TEXTURES[this.element.getAttribute('data-src')]
-    console.log(this.texture)
+    
     this.material = new ShaderMaterial(
     {
       vertexShader: vertex,

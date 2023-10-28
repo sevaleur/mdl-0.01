@@ -17,7 +17,6 @@ export default class App
   constructor()
   {
     this.createContent()
-
     this.createCanvas()
     this.createPreloader()
     this.createNavigation()
@@ -33,8 +32,16 @@ export default class App
   }
 
   /*
-    Create.
+  *
+  ** CREATE.
+  *
   */
+
+  createContent()
+  {
+    this.content = document.querySelector('.content')
+    this.template = this.content.getAttribute('data-template')
+  }
 
   createCanvas()
   {
@@ -67,12 +74,6 @@ export default class App
     })
   }
 
-  createContent()
-  {
-    this.content = document.querySelector('.content')
-    this.template = this.content.getAttribute('data-template')
-  }
-
   createPages()
   {
     this.pages = {
@@ -93,7 +94,9 @@ export default class App
   }
 
   /*
-    Events.
+  *
+  ** EVENTS.
+  *
   */
 
   onPreloaded()
@@ -208,7 +211,9 @@ export default class App
   }
 
   /*
-    Loop.
+  *
+  ** LOOP.
+  *
   */
 
   update()
@@ -223,7 +228,9 @@ export default class App
   }
 
   /*
-    Listeners.
+  *
+  ** LISTENERS.
+  *
   */
 
   addEventListeners()

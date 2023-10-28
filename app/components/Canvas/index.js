@@ -21,6 +21,26 @@ export default class Canvas
     this.template = template
     this.canvas = canvas
 
+    this.createObjects()
+    this.createSizes()
+    this.createScene()
+    this.createCamera()
+    this.createRenderer()
+    this.createImage()
+    
+    this.onResize()
+    
+    this.createController()
+  }
+
+  /*
+  *
+  ** CREATE.
+  *
+  */
+
+  createObjects()
+  {
     this.touch = {
       y: {
         start: 0,
@@ -35,21 +55,7 @@ export default class Canvas
     }
 
     this.scroll = {}
-
-    this.createSizes()
-    this.createScene()
-    this.createCamera()
-    this.createRenderer()
-    this.createImage()
-    
-    this.onResize()
-    
-    this.createController()
   }
-
-  /*
-    CREATE.
-  */
 
   createSizes()
   {
@@ -109,12 +115,15 @@ export default class Canvas
       bgTMap: this.bgTMap, 
       sizes: this.sizes, 
       scene: this.scene, 
-      viewport: this.viewport
+      viewport: this.viewport,
+      camera: this.camera
     })
   }
 
   /*
-    EVENTS.
+  *
+  ** EVENTS.
+  *
   */
 
   onPreloaded()
@@ -203,7 +212,9 @@ export default class Canvas
   }
 
   /*
-    LOOP.
+  *
+  ** LOOP.
+  *
   */
 
   update(scroll)

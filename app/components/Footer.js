@@ -15,6 +15,7 @@ export default class Footer extends Component
     })
 
     this.template = template
+    this.clicked = false
 
     this.createElements()
   }
@@ -26,7 +27,7 @@ export default class Footer extends Component
   createElements()
   {
     const footer = document.querySelector('.footer')
-    this.title = document.querySelector('.footer__title')
+    this.connect = document.querySelector('.footer__title')
     this.tt = document.querySelector('.footer__title__text')
     this.icons = document.querySelectorAll('.footer__icons')
     this.icon = document.querySelectorAll('.footer__icons__media__div__icon')
@@ -47,14 +48,21 @@ export default class Footer extends Component
 
   onInteraction(footer, fb)
   {
-    footer.onmouseenter = () => { this.onMouseEnter(footer, fb) }
-    footer.onmouseleave = () => { this.onMouseLeave(footer, fb) }
+    footer.onmouseover = () => { this.onInitalInteraction() }
+    this.connect.onclick = () => { this.onInteraction(footer, fb) }
   }
 
-  onMouseEnter(footer, fb)
+  onInitalInteraction()
   {
-    this.title.classList.toggle('selected')
-    this.title.classList.toggle('hidden')
+
+  }
+
+  onMouseClick(footer, fb)
+  {
+    if(this.clicked)
+      return 
+
+    this.clicked = true
 
     const enter = gsap.timeline()
 
@@ -65,7 +73,7 @@ export default class Footer extends Component
       height: fb.height * 3.0,
       width: fb.width * 3.0,
       duration: 0.5,
-      ease: 'power2.inOut'
+      ease: 'back.inOut'
     }, 'start')
 
     this.media.forEach(
@@ -109,15 +117,11 @@ export default class Footer extends Component
 
   onMouseLeave(footer, fb)
   {
-    this.title.classList.toggle('selected')
-    this.title.classList.toggle('hidden')
-
     gsap.set(
       this.media,
     {
       opacity: 0.0
     })
-    
 
     gsap.to(
       footer,
@@ -128,6 +132,8 @@ export default class Footer extends Component
       delay: 0.2,
       ease: 'power2.inOut'
     })
+
+    this.clicked = false
   }
 
   show()

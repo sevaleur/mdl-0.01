@@ -3,8 +3,8 @@ import gsap from 'gsap'
 
 import Prefix from 'prefix'
 
-import vertex from 'shaders/menu/element/vertex.glsl'
-import fragment from 'shaders/menu/element/fragment.glsl'
+import vertex from 'shaders/menu/vertex.glsl'
+import fragment from 'shaders/menu/fragment.glsl'
 
 export default class Element
 {

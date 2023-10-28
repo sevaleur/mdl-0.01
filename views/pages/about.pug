@@ -55,9 +55,9 @@ block content
         section.about__contact
           .about__contact__title
             h2.about__contact__title__text(data-animation='title')=about.contact.title
-          .about__contact__details
-            p.about__contact__details__copied=about.contact_copy_message
-            p.about__contact__details__text(data-animation="label")=about.contact.email
+          .about__contact__details.outside__link
+            p.about__contact__details__text(data-animation='label')=about.contact.email
+              a.about__contact__details__text__link(href=`mailto:${about.contact.email}`)
           .about__contact__icons
             each obj in about.contact.icons
               .about__contact__icons__icon

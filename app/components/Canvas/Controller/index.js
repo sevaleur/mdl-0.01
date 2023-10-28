@@ -1,22 +1,24 @@
 import { PlaneGeometry } from 'three'
 import gsap from 'gsap'
 
-import Home from './Home'
+import Showcase from './Showcase'
 import Menu from './Menu'
 import Gallery from './Gallery'
 import Video from './Video'
 import About from './About'
-import Transition from './Transition'
 import Logo from './Logo'
+import Transition from './Transition'
+import Ray from './Ray'
 
 export default class Controller 
 {
-  constructor({ bgTMap, sizes, scene, viewport })
+  constructor({ bgTMap, sizes, scene, viewport, camera })
   {
     this.bgTMap = bgTMap
     this.sizes = sizes 
     this.scene = scene 
     this.viewport = viewport
+    this.camera = camera
 
     this.createGeometry()
   }
@@ -36,11 +38,25 @@ export default class Controller
       100
     )
   }
+  
+  createRay()
+  {
+    this.ray = new Ray({
+      scene: this.scene, 
+      screen: this.sizes.screen, 
+      camera: this.camera.instance
+    })
+  }
 
   createNavigation()
   {
-    this.navigation = new Logo({
-      id: 'navigation',
+    this.navigation = this.createLogo('navigation')
+  }
+
+  createLogo(id)
+  {
+    return new Logo({
+      id,
       bgTMap: this.bgTMap,
       scene: this.scene,
       screen: this.sizes.screen,
@@ -49,11 +65,11 @@ export default class Controller
     })
   }
 
-  createHome(transition = false)
+  createShowcase(transition = false)
   {
-    if(this.home) this.destroyHome()
+    if(this.showcase) this.destroyShowcase()
 
-    this.home = new Home({
+    this.showcase = new Showcase({
       bgTMap: this.bgTMap,
       scene: this.scene,
       screen: this.sizes.screen,
@@ -122,12 +138,12 @@ export default class Controller
   * 
   */
 
-  destroyHome()
+  destroyShowcase()
   {
-    if(!this.home) return
+    if(!this.showcase) return
 
-    this.home.destroy()
-    this.home = null
+    this.showcase.destroy()
+    this.showcase = null
   }
 
   destroyMenu()
@@ -173,8 +189,8 @@ export default class Controller
     if(!push)
       return
 
-    if(this.home)
-      this.home.hide()
+    if(this.showcase)
+      this.showcase.hide()
 
     if(this.menu)
       this.menu.hide()
@@ -188,7 +204,7 @@ export default class Controller
     if(this.video)
       this.video.hide()
 
-    this.menu_to_view = template === 'commercial' && url.indexOf('still_life') > -1 || template === 'commercial' && url.indexOf('portraits') > -1
+    /* this.menu_to_view = template === 'commercial' && url.indexOf('still_life') > -1 || template === 'commercial' && url.indexOf('portraits') > -1
     this.menu_to_gallery = template === 'commercial' && url.indexOf('gallery') > -1
     this.gallery_to_menu = template === 'gallery' && url.indexOf('commercial') > -1
 
@@ -210,7 +226,7 @@ export default class Controller
         url,
         scroll
       })
-    }
+    } */
   }
 
   onChange(template)
@@ -222,8 +238,8 @@ export default class Controller
     {
       case 'home':
         this.transition
-          ? this.createHome(this.transition)
-          : this.createHome()
+          ? this.createShowcase(this.transition)
+          : this.createShowcase()
 
         this.destroyMenu()
         this.destroyGallery()
@@ -246,7 +262,7 @@ export default class Controller
           }
         })
 
-        this.destroyHome()
+        this.destroyShowcase()
         this.destroyGallery()
         this.destroyVideo()
         this.destroyAbout()
@@ -256,7 +272,7 @@ export default class Controller
       case 'stillLife':
         this.createGallery()
 
-        this.destroyHome()
+        this.destroyShowcase()
         this.destroyMenu()
         this.destroyVideo()
         this.destroyAbout()
@@ -271,7 +287,7 @@ export default class Controller
           if(this.menu_to_gallery) this.transition.animateGallery(this.gallery)
         })
 
-        this.destroyHome()
+        this.destroyShowcase()
         this.destroyMenu()
         this.destroyVideo()
         this.destroyAbout()
@@ -285,7 +301,7 @@ export default class Controller
           if(this.menu_to_video) this.transition.animateVideo(this.video)
         })
 
-        this.destroyHome()
+        this.destroyShowcase()
         this.destroyMenu()
         this.destroyGallery()
         this.destroyAbout()
@@ -294,7 +310,7 @@ export default class Controller
       case 'about':
         this.createAbout()
 
-        this.destroyHome()
+        this.destroyShowcase()
         this.destroyMenu()
         this.destroyGallery()
         this.destroyVideo()
@@ -315,9 +331,9 @@ export default class Controller
       })
     }
 
-    if(this.home)
+    if(this.showcase)
     {
-      this.home.onResize({
+      this.showcase.onResize({
         screen,
         viewport
       })
@@ -358,43 +374,22 @@ export default class Controller
 
   onTouchDown({ y, x })
   {
-    if(this.navigation)
-    {
-      this.navigation.onTouchDown({
-        y,
-        x
-      })
-    }
-
-    if(this.home)
-    {
-      this.home.onTouchDown({
-        y,
-        x
-      })
-    }
-
     if(this.menu)
     {
-      this.menu.onTouchDown({
-        y,
-        x
-      })
+      this.menu.onTouchDown({ y, x })
+      this.navigation.onTouchDown({ y, x })
     }
 
     if(this.gallery)
     {
-      this.gallery.onTouchDown({
-        y,
-        x
-      })
+      this.gallery.onTouchDown({ y, x })
+      this.navigation.onTouchDown({ y, x })
     }
 
     if(this.about)
     {
-      this.about.onTouchDown({
-        y
-      })
+      this.about.onTouchUp({ y })
+      this.navigation.onTouchDown({ y, x })
     }
   }
 
@@ -402,102 +397,68 @@ export default class Controller
   {
     if(this.navigation)
     {
-      this.navigation.onTouchMove({
-        y,
-        x
-      })
-    }
-
-    if(this.home)
-    {
-      this.home.onTouchMove({
-        y,
-        x
-      })
+      this.navigation.onTouchMove({ y, x })
     }
 
     if(this.menu)
     {
-      this.menu.onTouchMove({
-        y,
-        x
-      })
+      this.menu.onTouchMove({ y, x })
+      this.navigation.onTouchMove({ y, x })
     }
 
     if(this.gallery)
     {
-      this.gallery.onTouchMove({
-        y,
-        x
-      })
+      this.gallery.onTouchMove({ y, x })
+      this.navigation.onTouchMove({ y, x })
     }
 
     if(this.about)
     {
-      this.about.onTouchMove({
-        y
-      })
+      this.about.onTouchMove({ y })
+      this.navigation.onTouchMove({ y, x })
     }
   }
 
   onTouchUp({ y, x })
   {
-    if(this.navigation)
-    {
-      this.navigation.onTouchUp({
-        y,
-        x
-      })
-    }
-
-    if(this.home)
-    {
-      this.home.onTouchUp({
-        y,
-        x
-      })
-    }
-
     if(this.menu)
     {
-      this.menu.onTouchUp({
-        y,
-        x
-      })
+      this.menu.onTouchUp({ y, x })
+      this.navigation.onTouchUp({ y, x })
     }
 
     if(this.gallery)
     {
-      this.gallery.onTouchUp({
-        y,
-        x
-      })
+      this.gallery.onTouchUp({ y, x })
+      this.navigation.onTouchUp({ y, x })
     }
 
     if(this.about)
     {
-      this.about.onTouchUp({
-        y
-      })
+      this.about.onTouchUp ({ y })
+      this.navigation.onTouchUp({ y, x })
     }
   }
 
   onWheel(e)
   {
-    if(this.navigation)
-      this.navigation.onWheel(e)
-
-    if(this.home)
-      this.home.onWheel(e)
-
     if(this.menu)
+    {
       this.menu.onWheel(e)
+      this.navigation.onWheel(e)
+    }
 
     if(this.gallery)
+    {
       this.gallery.onWheel(e)
+      this.navigation.onWheel(e)
+    }
 
     if(this.about)
+    {
       this.about.onWheel(e)
+      this.navigation.onWheel(e)
+    }
   }
 
   /* 
@@ -511,8 +472,8 @@ export default class Controller
     if(this.navigation)
       this.navigation.update()
 
-    if(this.home)
-      this.home.update()
+    if(this.showcase)
+      this.showcase.update()
 
     if(this.menu)
       this.menu.update()

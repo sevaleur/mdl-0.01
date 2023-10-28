@@ -677,6 +677,11 @@
         {
           font-size: 10rem;
         }
+
+        &__link
+        {
+          visibility: hidden;
+        }
       }
     }
 
@@ -688,24 +693,6 @@
 
       display: flex;
       flex-direction: column;
-
-      &__copied
-      {
-        @extend %desc-30;
-
-        padding: 0.5rem 0;
-        opacity: 0;
-
-        @include media('<tablet')
-        {
-          font-size: 5rem;
-        }
-
-        @include media('<phone')
-        {
-          font-size: 3rem;
-        }
-      }
 
       &__text
       {
