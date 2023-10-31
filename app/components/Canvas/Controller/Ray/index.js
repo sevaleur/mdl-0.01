@@ -1,4 +1,5 @@
 import { Raycaster, Vector2 } from 'three'
+import gsap from 'gsap'
 
 export default class Ray 
 {
@@ -9,12 +10,19 @@ export default class Ray
     this.camera = camera
   }
 
-  init(obj)
+  init({ obj })
   {
     this.objects = obj
-    this.mouse = new Vector2()
-    this.hit = new Vector2()
     this.ray = new Raycaster()
+
+    this.mouse = {
+      x: 0, 
+      y: 0,
+      pX: 0, 
+      pY: 0, 
+      vX: 0, 
+      vY: 0
+    }
 
     window.onmousemove = (e) => { this.onMouseMove(e) }
   }
@@ -23,17 +31,32 @@ export default class Ray
   {
     this.mouse.x = e.clientX / this.screen.width * 2 - 1
     this.mouse.y = -(e.clientY / this.screen.height * 2 - 1)
+
+    this.mouse.vX = this.mouse.x - this.mouse.pX 
+    this.mouse.vY = this.mouse.y - this.mouse.pY 
+
+    this.mouse.pX = this.mouse.x 
+    this.mouse.pY = this.mouse.y
   }
 
   update()
   {
     this.ray.setFromCamera(this.mouse, this.camera)
 
-    const intersects = this.ray.intersectObjects( this.objects )
+    const intersects = this.ray.intersectObjects( [ ...this.objects ] )
     if(intersects.length > 0)
     {
-      this.hit = intersects[0].uv
-      console.log(this.hit)
+      let obj = intersects[0].object
+    
+      gsap.to(
+        obj.material.uniforms.u_hover.value,
+        {
+          x: intersects[0].uv.x * 2 - 1, 
+          y: intersects[0].uv.y * 2 - 1, 
+          duration: 1.0, 
+          ease: 'linear'
+        }
+      )
     }
   }
 }

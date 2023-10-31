@@ -7,8 +7,10 @@ import Gallery from './Gallery'
 import Video from './Video'
 import About from './About'
 import Logo from './Logo'
+import Background from './Background'
 import Transition from './Transition'
 import Ray from './Ray'
+import DataMap from './DataMap'
 
 export default class Controller 
 {
@@ -21,6 +23,8 @@ export default class Controller
     this.camera = camera
 
     this.createGeometry()
+    this.createDataTexture()
+    this.createRay()
   }
 
   /*
@@ -48,20 +52,44 @@ export default class Controller
     })
   }
 
-  createNavigation()
+  createDataTexture()
   {
-    this.navigation = this.createLogo('navigation')
+    this.dataTexture = new DataMap({
+      screen: this.sizes.screen
+    })
   }
 
-  createLogo(id)
+  createNavigation()
+  {
+    this.navigation = this.createLogo('navigation', 0.001)
+  }
+
+  createLogo(id, zIndex)
   {
     return new Logo({
       id,
+      zIndex,
       bgTMap: this.bgTMap,
       scene: this.scene,
       screen: this.sizes.screen,
       viewport: this.viewport,
-      geo: this.geo
+      geo: this.geo,
+    })
+  }
+
+  createBackground(id)
+  {
+    if(this.bg) this.destroyBG()
+
+    this.bg = new Background({
+      id, 
+      bgTMap: this.bgTMap, 
+      scene: this.scene, 
+      screen: this.sizes.screen, 
+      viewport: this.viewport, 
+      geo: this.geo,
+      dt: this.dataTexture, 
+      ray: this.ray
     })
   }
 
@@ -146,6 +174,14 @@ export default class Controller
     this.showcase = null
   }
 
+  destroyBG()
+  {
+    if(!this.bg) return 
+
+    this.bg.destroy()
+    this.bg = null
+  }
+
   destroyMenu()
   {
     if(!this.menu) return
@@ -191,6 +227,9 @@ export default class Controller
 
     if(this.showcase)
       this.showcase.hide()
+
+    if(this.bg)
+      this.bg.hide()
 
     if(this.menu)
       this.menu.hide()
@@ -238,8 +277,8 @@ export default class Controller
     {
       case 'home':
         this.transition
-          ? this.createShowcase(this.transition)
-          : this.createShowcase()
+          ? (this.createShowcase(this.transition), this.createBackground('home'))
+          : (this.createShowcase(), this.createBackground('home'))
 
         this.destroyMenu()
         this.destroyGallery()
@@ -263,6 +302,7 @@ export default class Controller
         })
 
         this.destroyShowcase()
+        this.destroyBG()
         this.destroyGallery()
         this.destroyVideo()
         this.destroyAbout()
@@ -273,6 +313,7 @@ export default class Controller
         this.createGallery()
 
         this.destroyShowcase()
+        this.destroyBG()
         this.destroyMenu()
         this.destroyVideo()
         this.destroyAbout()
@@ -288,6 +329,7 @@ export default class Controller
         })
 
         this.destroyShowcase()
+        this.destroyBG()
         this.destroyMenu()
         this.destroyVideo()
         this.destroyAbout()
@@ -302,6 +344,7 @@ export default class Controller
         })
 
         this.destroyShowcase()
+        this.destroyBG()
         this.destroyMenu()
         this.destroyGallery()
         this.destroyAbout()
@@ -311,6 +354,7 @@ export default class Controller
         this.createAbout()
 
         this.destroyShowcase()
+        this.destroyBG()
         this.destroyMenu()
         this.destroyGallery()
         this.destroyVideo()
@@ -335,6 +379,14 @@ export default class Controller
     {
       this.showcase.onResize({
         screen,
+        viewport
+      })
+    }
+
+    if(this.bg)
+    {
+      this.bg.onResize({
+        screen, 
         viewport
       })
     }
@@ -474,6 +526,9 @@ export default class Controller
 
     if(this.showcase)
       this.showcase.update()
+
+    if(this.bg)
+      this.bg.update()
 
     if(this.menu)
       this.menu.update()

@@ -10,9 +10,9 @@
   grid-template-rows: repeat(5, 1fr);
   gap: 0px 0px;
 
-  &__logo
+  &__background
   {
-    @extend %cover;
+    @extend %cover; 
 
     &__figure
     {

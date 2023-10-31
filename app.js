@@ -16,6 +16,7 @@ const app = express()
 this.assets = []
 
 const path = require('path')
+const device = require('device')
 
 app.use(express.static(path.join(__dirname, 'public')))
 

@@ -21,7 +21,7 @@ export default class Canvas
     this.template = template
     this.canvas = canvas
 
-    this.createObjects()
+    this.createScroll()
     this.createSizes()
     this.createScene()
     this.createCamera()
@@ -39,7 +39,7 @@ export default class Canvas
   *
   */
 
-  createObjects()
+  createScroll()
   {
     this.touch = {
       y: {

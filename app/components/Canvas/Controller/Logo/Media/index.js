@@ -6,10 +6,11 @@ import fragment from 'shaders/logo/fragment.glsl'
 
 export default class Media
 {
-  constructor({ element, index, bgTMap, geometry, scene, screen, viewport })
+  constructor({ element, index, zIndex, bgTMap, geometry, scene, screen, viewport })
   {
     this.element = element
     this.index = index
+    this.zIndex = zIndex
     this.bgTMap = bgTMap
     this.geo = geometry
     this.scene = scene
@@ -43,7 +44,6 @@ export default class Media
         u_intensity: { value: 10.0 },
         u_imageSize: { value: [ 0, 0 ] },
         u_planeSize: { value: [ 0, 0 ] },
-        u_viewportSize: { value: [ this.viewport.width, this.viewport.height ] }
       }
     })
 
@@ -53,7 +53,7 @@ export default class Media
     ]
 
     this.plane = new Mesh( this.geo, this.material )
-    this.plane.position.z = 0.001
+    this.plane.position.z = this.zIndex
     this.scene.add(this.plane)
   }
 
@@ -141,11 +141,7 @@ export default class Media
       const { screen, viewport } = sizes
 
       if(screen) this.screen = screen
-      if(viewport) {
-        this.viewport = viewport
-
-        this.plane.material.uniforms.u_viewportSize.value = [this.viewport.width, this.viewport.height]
-      }
+      if(viewport) this.viewport = viewport
     }
 
     this.createBounds()

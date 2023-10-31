@@ -84,7 +84,7 @@ export default class Element
 
   show()
   {
-    gsap.fromTo(
+   /*  gsap.fromTo(
       this.material.uniforms.u_state,
       {
         value: 0.0
@@ -104,7 +104,7 @@ export default class Element
         value: 1.0,
         delay: 1.0,
         duration: 1.0,
-      })
+      }) */
   }
 
   hide()

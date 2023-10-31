@@ -2,7 +2,6 @@
 
 uniform vec2 u_imageSize;
 uniform vec2 u_planeSize;
-uniform vec2 u_viewportSize;
 
 uniform float u_alpha;
 uniform float u_state;

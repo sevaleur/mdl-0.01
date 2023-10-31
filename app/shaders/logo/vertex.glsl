@@ -2,8 +2,7 @@
 
 uniform float u_time;
 
-varying vec2 v_uv;
-varying float v_ele;
+varying vec2 v_uv; 
 
 void main()
 {

@@ -7,9 +7,10 @@ import Media from './Media'
 
 export default class Logo
 {
-  constructor({ id, bgTMap, scene, screen, viewport, geo })
+  constructor({ id, zIndex, bgTMap, scene, screen, viewport, geo })
   {
     this.id = id
+    this.zIndex = zIndex
     this.bgTMap = bgTMap
     this.scene = scene
     this.screen = screen
@@ -55,6 +56,7 @@ export default class Logo
       return new Media({
         element,
         index,
+        zIndex: this.zIndex,
         bgTMap: this.bgTMap,
         geometry: this.geo,
         scene: this.group,
