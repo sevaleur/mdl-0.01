@@ -21,7 +21,7 @@ export default class Canvas
     this.template = template
     this.canvas = canvas
 
-    this.createScroll()
+    this.createObjects()
     this.createSizes()
     this.createScene()
     this.createCamera()
@@ -39,7 +39,7 @@ export default class Canvas
   *
   */
 
-  createScroll()
+  createObjects()
   {
     this.touch = {
       y: {
@@ -204,6 +204,11 @@ export default class Canvas
       y: this.touch.y, 
       x: this.touch.x
     })
+  }
+
+  onMove(e)
+  {
+    this.controller.onMove(e)
   }
 
   onWheel(e)

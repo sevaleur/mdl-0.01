@@ -18,7 +18,6 @@ class Colors
     gsap.to(
       '.navigation__list',
       {
-        backgroundColor,
         color,
         duration: 1.5
       }

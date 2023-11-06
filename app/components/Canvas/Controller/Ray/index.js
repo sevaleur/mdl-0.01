@@ -1,21 +1,31 @@
-import { Raycaster, Vector2 } from 'three'
+import { Raycaster } from 'three'
+
 import gsap from 'gsap'
 
 export default class Ray 
 {
-  constructor({ scene, screen, camera })
+  constructor({ scene, screen, camera, objs })
   {
     this.scene = scene
     this.screen = screen
     this.camera = camera
+
+    this.create(objs)
   }
 
-  init({ obj })
+  create(objs)
   {
-    this.objects = obj
+    this.os = []
     this.ray = new Raycaster()
+    
+    objs.forEach(
+      o => 
+      {
+        this.os.push(o.plane)
+      }
+    )
 
-    this.mouse = {
+    this.hits = {
       x: 0, 
       y: 0,
       pX: 0, 
@@ -23,40 +33,43 @@ export default class Ray
       vX: 0, 
       vY: 0
     }
-
-    window.onmousemove = (e) => { this.onMouseMove(e) }
   }
 
-  onMouseMove(e)
+  destroy()
   {
-    this.mouse.x = e.clientX / this.screen.width * 2 - 1
-    this.mouse.y = -(e.clientY / this.screen.height * 2 - 1)
-
-    this.mouse.vX = this.mouse.x - this.mouse.pX 
-    this.mouse.vY = this.mouse.y - this.mouse.pY 
-
-    this.mouse.pX = this.mouse.x 
-    this.mouse.pY = this.mouse.y
+    this.objects = null
+    this.ray = null 
   }
 
-  update()
+  update(mouse)
   {
-    this.ray.setFromCamera(this.mouse, this.camera)
+    this.ray.setFromCamera(mouse, this.camera)
 
-    const intersects = this.ray.intersectObjects( [ ...this.objects ] )
+    const intersects = this.ray.intersectObjects( this.os )
+
     if(intersects.length > 0)
     {
-      let obj = intersects[0].object
-    
+      this.hits.x = intersects[0].uv.x * 2 - 1
+      this.hits.y = intersects[0].uv.y * 2 - 1
+     
+      this.hits.vX = this.hits.x - this.hits.pX 
+      this.hits.vY = this.hits.y - this.hits.pY 
+      
+      this.o = intersects[0].object
+
       gsap.to(
-        obj.material.uniforms.u_hover.value,
+        this.o.material.uniforms.u_hover.value,
         {
-          x: intersects[0].uv.x * 2 - 1, 
-          y: intersects[0].uv.y * 2 - 1, 
-          duration: 1.0, 
-          ease: 'linear'
+          x: this.hits.x, 
+          y: this.hits.y, 
+          duration: 0.8, 
+          delay: 0.2, 
+          ease: 'linear',
         }
       )
+
+      this.hits.pX = this.hits.x 
+      this.hits.pY = this.hits.y
     }
   }
 }

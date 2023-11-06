@@ -17,11 +17,11 @@ export default class App
   constructor()
   {
     this.createContent()
+    this.createPages()
     this.createCanvas()
     this.createPreloader()
     this.createNavigation()
     this.createFooter()
-    this.createPages()
 
     this.addEventListeners()
     this.addLinkListeners()
@@ -41,6 +41,25 @@ export default class App
   {
     this.content = document.querySelector('.content')
     this.template = this.content.getAttribute('data-template')
+  }
+
+  createPages()
+  {
+    this.pages = {
+      home: new Home(),
+      advertising: new Menu(),
+      shortFilms: new Menu(),
+      commercial: new Menu(),
+      portraits: new Gallery(),
+      stillLife: new Gallery(),
+      gallery: new Gallery(),
+      advert: new Video(),
+      film: new Video(),
+      about: new About(),
+    }
+
+    this.page = this.pages[this.template]
+    this.page.create()
   }
 
   createCanvas()
@@ -74,25 +93,6 @@ export default class App
     })
   }
 
-  createPages()
-  {
-    this.pages = {
-      home: new Home(),
-      advertising: new Menu(),
-      shortFilms: new Menu(),
-      commercial: new Menu(),
-      portraits: new Gallery(),
-      stillLife: new Gallery(),
-      gallery: new Gallery(),
-      advert: new Video(),
-      film: new Video(),
-      about: new About(),
-    }
-
-    this.page = this.pages[this.template]
-    this.page.create()
-  }
-
   /*
   *
   ** EVENTS.
@@ -116,7 +116,6 @@ export default class App
     this.canvas.onChangeStart(this.template, url, push)
 
     await this.page.hide()
-
     const req = await window.fetch(url)
 
     if(req.status === 200)
@@ -191,6 +190,12 @@ export default class App
       this.page.onTouchUp(e)
   }
 
+  onMove(e)
+  {
+    if(this.canvas && this.canvas.onMove)
+      this.canvas.onMove(e)
+  }
+
   onWheel(e)
   {
     const norm_wheel = normalizeWheel(e)
@@ -237,10 +242,7 @@ export default class App
   {
     window.addEventListener('popstate', this.onPopState.bind(this))
     window.addEventListener('mousewheel', this.onWheel.bind(this))
-
-    window.addEventListener('mousedown', this.onTouchDown.bind(this))
-    window.addEventListener('mousemove', this.onTouchMove.bind(this))
-    window.addEventListener('mouseup', this.onTouchUp.bind(this))
+    window.addEventListener('mousemove', this.onMove.bind(this))
 
     window.addEventListener('touchstart', this.onTouchDown.bind(this))
     window.addEventListener('touchmove', this.onTouchMove.bind(this))

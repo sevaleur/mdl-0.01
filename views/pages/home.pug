@@ -5,21 +5,15 @@ block variables
 
 block content
   .home
-    .home__background
-      figure.home__background__figure
-        img.home__background__figure__image(data-src=Build.image(home.logo.asset._ref).url() alt=home.logo.alt)
-
+    .home__title 
+      h1.home__title__text=home.name
     .home__gallery
-      .home__gallery__wrapper
-
-        .home__gallery__showcase
-          each obj in home.showcase
-            .home__gallery__image
-              a.home__gallery__image__link(href=Link=(`${obj._type}/${obj.slug.current}`) aria-label=obj.title)
-                figure.home__gallery__image__figure
-                  if(obj.preview)
-                    img.home__gallery__image__figure__image(alt=obj.preview.alt data-src=Build.image(obj.preview.asset._ref).url())
-                  else 
-                    img.home__gallery__image__figure__image(alt=obj.images[0].alt data-src=Build.image(obj.images[0].asset._ref).url())
-
-
+      .home__gallery__showcase 
+        each obj, index in home.showcase
+          .home__gallery__image(data-index=index)
+            a.home__gallery__image__link(href=Link=(`${obj._type}/${obj.slug}`) aria-label=obj.title)
+              figure.home__gallery__image__figure
+                if(obj.preview)
+                  img.home__gallery__image__figure__image(alt=obj.preview.alt data-src=Build.image(obj.preview.asset._ref).url())
+                else 
+                  img.home__gallery__image__figure__image(alt=obj.image.alt data-src=Build.image(obj.image.asset._ref).url())

@@ -7,10 +7,8 @@ import Gallery from './Gallery'
 import Video from './Video'
 import About from './About'
 import Logo from './Logo'
-import Background from './Background'
 import Transition from './Transition'
 import Ray from './Ray'
-import DataMap from './DataMap'
 
 export default class Controller 
 {
@@ -23,8 +21,7 @@ export default class Controller
     this.camera = camera
 
     this.createGeometry()
-    this.createDataTexture()
-    this.createRay()
+    this.createMouse()
   }
 
   /*
@@ -42,26 +39,32 @@ export default class Controller
       100
     )
   }
+
+  createMouse()
+  {
+    this.mouse = {
+      x: 0, 
+      y: 0,
+      pX: 0, 
+      pY: 0, 
+      vX: 0, 
+      vY: 0
+    }
+  }
   
-  createRay()
+  createRay(objs)
   {
     this.ray = new Ray({
       scene: this.scene, 
       screen: this.sizes.screen, 
-      camera: this.camera.instance
-    })
-  }
-
-  createDataTexture()
-  {
-    this.dataTexture = new DataMap({
-      screen: this.sizes.screen
+      camera: this.camera.instance,
+      objs
     })
   }
 
   createNavigation()
   {
-    this.navigation = this.createLogo('navigation', 0.001)
+    this.navigation = this.createLogo('navigation')
   }
 
   createLogo(id, zIndex)
@@ -74,22 +77,6 @@ export default class Controller
       screen: this.sizes.screen,
       viewport: this.viewport,
       geo: this.geo,
-    })
-  }
-
-  createBackground(id)
-  {
-    if(this.bg) this.destroyBG()
-
-    this.bg = new Background({
-      id, 
-      bgTMap: this.bgTMap, 
-      scene: this.scene, 
-      screen: this.sizes.screen, 
-      viewport: this.viewport, 
-      geo: this.geo,
-      dt: this.dataTexture, 
-      ray: this.ray
     })
   }
 
@@ -166,20 +153,20 @@ export default class Controller
   * 
   */
 
+  destroyRay()
+  {
+    if(!this.ray) return 
+
+    this.ray.destroy()
+    this.ray = null 
+  }
+
   destroyShowcase()
   {
     if(!this.showcase) return
 
     this.showcase.destroy()
     this.showcase = null
-  }
-
-  destroyBG()
-  {
-    if(!this.bg) return 
-
-    this.bg.destroy()
-    this.bg = null
   }
 
   destroyMenu()
@@ -277,8 +264,10 @@ export default class Controller
     {
       case 'home':
         this.transition
-          ? (this.createShowcase(this.transition), this.createBackground('home'))
-          : (this.createShowcase(), this.createBackground('home'))
+          ? (this.createShowcase(this.transition))
+          : (this.createShowcase())
+
+        this.createRay(this.showcase.elements)
 
         this.destroyMenu()
         this.destroyGallery()
@@ -302,10 +291,10 @@ export default class Controller
         })
 
         this.destroyShowcase()
-        this.destroyBG()
         this.destroyGallery()
         this.destroyVideo()
         this.destroyAbout()
+        this.destroyRay()
 
         break
       case 'portraits':
@@ -313,10 +302,11 @@ export default class Controller
         this.createGallery()
 
         this.destroyShowcase()
-        this.destroyBG()
         this.destroyMenu()
         this.destroyVideo()
         this.destroyAbout()
+        this.destroyRay()
+
         break
       case 'gallery':
         this.transition
@@ -329,10 +319,10 @@ export default class Controller
         })
 
         this.destroyShowcase()
-        this.destroyBG()
         this.destroyMenu()
         this.destroyVideo()
         this.destroyAbout()
+        this.destroyRay()
 
         break
       case 'video':
@@ -344,20 +334,20 @@ export default class Controller
         })
 
         this.destroyShowcase()
-        this.destroyBG()
         this.destroyMenu()
         this.destroyGallery()
         this.destroyAbout()
+        this.destroyRay()
 
         break
       case 'about':
         this.createAbout()
 
         this.destroyShowcase()
-        this.destroyBG()
         this.destroyMenu()
         this.destroyGallery()
         this.destroyVideo()
+        this.destroyRay()
 
         break
       default:
@@ -379,14 +369,6 @@ export default class Controller
     {
       this.showcase.onResize({
         screen,
-        viewport
-      })
-    }
-
-    if(this.bg)
-    {
-      this.bg.onResize({
-        screen, 
         viewport
       })
     }
@@ -492,6 +474,18 @@ export default class Controller
     }
   }
 
+  onMove(e)
+  {
+    this.mouse.x = e.clientX / this.sizes.screen.width * 2 - 1
+    this.mouse.y = -(e.clientY / this.sizes.screen.height * 2 - 1)
+
+    this.mouse.vX = this.mouse.x - this.mouse.pX 
+    this.mouse.vY = this.mouse.y - this.mouse.pY 
+
+    this.mouse.pX = this.mouse.x 
+    this.mouse.pY = this.mouse.y
+  }
+
   onWheel(e)
   {
     if(this.menu)
@@ -524,11 +518,11 @@ export default class Controller
     if(this.navigation)
       this.navigation.update()
 
+    if(this.ray && this.ray.ray)
+      this.ray.update(this.mouse)
+
     if(this.showcase)
       this.showcase.update()
-
-    if(this.bg)
-      this.bg.update()
 
     if(this.menu)
       this.menu.update()

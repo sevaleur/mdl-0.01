@@ -8,10 +8,11 @@ import fragment from 'shaders/showcase/fragment.glsl'
 
 export default class Element
 {
-  constructor({ element, index, bgTMap, link, geometry, length, scene, screen, viewport })
+  constructor({ element, index, grid, bgTMap, link, geometry, length, scene, screen, viewport })
   {
     this.element = element
     this.index = index
+    this.grid = grid
     this.bgTMap = bgTMap
     this.link = link
     this.geo = geometry
@@ -23,6 +24,7 @@ export default class Element
     this.l_prefix = Prefix('transform')
 
     this.link_parent = this.link.parentElement
+    this.link_parent.classList.add(`${this.grid}${this.index}`)
 
     this.createMesh()
     this.createBounds()
@@ -47,13 +49,12 @@ export default class Element
         u_imageSize: { value: [0, 0] },
         u_planeSize: { value: [0, 0] },
         u_alpha: { value: 0.0 },
-        u_offset: { value: 0 },
-        u_progress: { value: 0.0 },
-        u_viewportSize: { value: [this.viewport.width, this.viewport.height] },
+        u_hover: { value : [ 0, 0 ] }, 
+        u_state: { value: 0.0 },
         u_intensity: { value: 10. },
-        u_state: { value: 1.0 },
+        u_viewportSize: { value: [this.viewport.width, this.viewport.height] },
       },
-      transparent: true
+      transparent: true,
     })
 
     this.material.uniforms.u_imageSize.value = [
@@ -61,9 +62,11 @@ export default class Element
       this.texture.image.naturalHeight
     ]
 
-    this.plane = new Mesh( this.geo, this.material )
+    this.plane = new Mesh(
+      this.geo, 
+      this.material
+    )
 
-    this.plane.position.z = 0.01
     this.scene.add(this.plane)
   }
 
@@ -84,16 +87,17 @@ export default class Element
 
   show()
   {
-   /*  gsap.fromTo(
+    gsap.fromTo(
       this.material.uniforms.u_state,
       {
         value: 0.0
       },
       {
         value: 1.0,
-        delay: 1.0,
+        delay: 0.8 * this.index, 
         duration: 1.0,
-      })
+      }
+    )
 
     gsap.fromTo(
       this.material.uniforms.u_alpha,
@@ -102,9 +106,10 @@ export default class Element
       },
       {
         value: 1.0,
-        delay: 1.0,
         duration: 1.0,
-      }) */
+        delay: 0.8 * this.index, 
+      }
+    )
   }
 
   hide()

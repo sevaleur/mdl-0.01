@@ -1,7 +1,5 @@
 import { Group } from 'three'
 
-import map from 'lodash/map'
-
 import Element from './Element'
 
 export default class Showcase
@@ -18,8 +16,10 @@ export default class Showcase
     this.group = new Group()
 
     this.index = null
+    this.grid = null
 
     this.createElements()
+    this.createGrid()
     this.createMenu()
 
     this.onResize()
@@ -39,21 +39,45 @@ export default class Showcase
     this.menu_element = document.querySelector('.home__gallery')
     this.menu_wrapper = document.querySelector('.home__gallery__wrapper')
 
-    this.img_el = document.querySelectorAll('img.home__gallery__image__figure__image')
+    this.images = document.querySelectorAll('img.home__gallery__image__figure__image')
     this.img_links = document.querySelectorAll('.home__gallery__image__link')
 
-    this.img_length = this.img_el.length
+    this.img_length = this.images.length
+  }
+
+  createGrid()
+  {
+    switch(this.img_length)
+    {
+      case 5: 
+        this.grid = 'five__'
+        break 
+      case 4: 
+        this.grid = 'four__'
+        break 
+      case 3: 
+        this.grid = 'three__'
+        break 
+      case 2: 
+        this.grid = 'two__'
+        break 
+      case 1: 
+        this.grid = 'one__'
+        break 
+      default: 
+        break
+    }
   }
 
   createMenu()
   {
-    this.elements = map(
-      this.img_el,
+    this.elements = Array.from(this.images,
       (element, index) =>
     {
       return new Element({
         element,
         index,
+        grid: this.grid,
         bgTMap: this.bgTMap, 
         link: this.img_links[index],
         geometry: this.geo,
@@ -66,21 +90,21 @@ export default class Showcase
   }
 
   /*
-    Animations.
+    ANIMATIONS.
   */
 
   show()
   {
-    map(this.elements, element => element.show())
+    this.elements.forEach( element => { element.show() })
   }
 
   hide()
   {
-    map(this.elements, element => element.hide())
+    this.elements.forEach( element => { element.hide() })
   }
 
   /*
-    Events.
+    EVENTS.
   */
 
   onGalleryClick()
@@ -96,14 +120,18 @@ export default class Showcase
 
   onResize()
   {
-    map(this.elements, element => element.onResize({
-      screen: this.screen,
-      viewport: this.viewport,
-    }))
+    this.elements.forEach( element => 
+    { 
+      element.onResize(
+      {
+        screen: this.screen,
+        viewport: this.viewport,
+      })
+    })
   }
 
   /*
-    Update.
+    UPDATE.
   */
 
   update()
@@ -114,7 +142,7 @@ export default class Showcase
   }
 
   /*
-    Destroy.
+    DESTROY.
   */
 
   destroy()

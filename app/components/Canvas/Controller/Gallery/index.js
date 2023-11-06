@@ -1,7 +1,6 @@
 import { Group } from 'three'
 import gsap from 'gsap'
 
-import map from 'lodash/map'
 import Prefix from 'prefix'
 
 import Element from './Element'
@@ -21,21 +20,10 @@ export default class Gallery
 
     this.group = new Group()
 
-    this.back_pressed = false
-    this.faded = false
-    this.enlarged = false
-
-    this.scroll = {
-      current: 0,
-      target: 0,
-      last: 0,
-      speed: 0.1,
-      ease: 0.05
-    }
-
     this.t_prefix = Prefix('transform')
 
     this.createElements()
+    this.createConfig()
     this.createGallery()
     this.onResize()
 
@@ -55,7 +43,7 @@ export default class Gallery
     this.gallery_element = document.querySelector('.gallery__media')
     this.gallery_wrapper = document.querySelector('.gallery__wrapper')
 
-    this.elements = document.querySelectorAll('img.gallery__media__div__figure__image')
+    this.images = document.querySelectorAll('img.gallery__media__div__figure__image')
     this.links = document.querySelectorAll('.gallery__media__div')
 
     this.back_button = document.querySelector('.gallery__back__button')
@@ -64,12 +52,28 @@ export default class Gallery
     this.modal_image = document.querySelector('.gallery__modal__selected__figure__image')
     this.modal_close = document.querySelector('.gallery__modal__close__button')
 
-    this.length = this.elements.length
+    this.length = this.images.length
+  }
+
+  createConfig()
+  {
+    this.back_pressed = false
+    this.faded = false
+    this.enlarged = false
+
+    this.scroll = {
+      current: 0,
+      target: 0,
+      last: 0,
+      speed: 0.1,
+      ease: 0.05
+    }
   }
 
   createGallery()
   {
-    this.gallery_elements = map(this.elements, (element, index) =>
+    this.elements = Array.from(this.images, 
+      (element, index) =>
     {
       return new Element({
         element,
@@ -104,20 +108,20 @@ export default class Gallery
 
   show()
   {
-    map(this.gallery_elements, element => element.show())
+    this.elements.forEach( element => { element.show() })
   }
 
   hide()
   {
-    map(this.gallery_elements, element => element.hide())
+    this.elements.forEach( element => { element.hide() })
   }
 
   enlarge(index)
   {
     this.enlarged = true
 
-    this.modal_image.src = this.gallery_elements[index].texture.image.src
-    this.modal_image.alt = this.gallery_elements[index].texture.image.alt
+    this.modal_image.src = this.elements[index].texture.image.src
+    this.modal_image.alt = this.elements[index].texture.image.alt
 
     this.modal.style.display = 'block'
 
@@ -198,12 +202,16 @@ export default class Gallery
   {
     this.full_bounds = this.gallery_wrapper.getBoundingClientRect()
 
-    map(this.gallery_elements, element => element.onResize({
-      screen: this.screen,
-      viewport: this.viewport,
-    }))
+    this.elements.forEach( element => 
+    {
+      element.onResize(
+      {
+        screen: this.screen,
+        viewport: this.viewport,
+      })
+    })
 
-    this.scroll.limit = this.full_bounds.width - this.gallery_elements[0].bounds.width
+    this.scroll.limit = this.full_bounds.width - this.elements[0].bounds.width
   }
 
   onTouchDown({ y })
@@ -252,7 +260,7 @@ export default class Gallery
 
     this.gallery_element.style[this.t_prefix] = `translateX(${this.scroll.current}px)`
 
-    map(this.gallery_elements, element => element.update(this.scroll.current, this.scroll.last))
+    this.elements.forEach( element => { element.update(this.scroll.current, this.scroll.last) })
 
     this.scroll.last = this.scroll.current
 

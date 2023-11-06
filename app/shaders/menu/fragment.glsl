@@ -44,11 +44,8 @@ void main()
   vec4 t1 = texture2D(u_bg, uv_displaced1);
   t1.a = u_alpha;
 
-  float r = texture2D(tMap, uv_displaced2.xy -= u_scroll * (0.1 * .5)).x;
-  float g = texture2D(tMap, uv_displaced2.xy -= u_scroll * (0.1 * .525)).y;
-  float b = texture2D(tMap, uv_displaced2.xy -= u_scroll * (0.1 * .55)).z;
-
-  vec4 t2 = vec4(r, g, b, u_alpha);
+  vec4 t2 = texture2D(tMap, uv_displaced2);
+  t2.a = u_alpha; 
 
   gl_FragColor = mix(t1, t2, u_state);
   gl_FragColor.a = u_alpha;

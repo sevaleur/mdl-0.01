@@ -1,7 +1,6 @@
 import { Group } from 'three'
-import map from 'lodash/map'
 
-import Media from './Media'
+import Flag from './Flag'
 
 export default class About
 {
@@ -15,10 +14,9 @@ export default class About
     this.group = new Group()
 
     this.createElements()
+    this.createFlags()
 
     this.onResize()
-
-    this.createMedias()
 
     this.scene.add(this.group)
 
@@ -27,15 +25,15 @@ export default class About
 
   createElements()
   {
-    this.elements = document.querySelectorAll('.about__media__figure__image')
+    this.images = document.querySelectorAll('.about__media__figure__image')
   }
 
-  createMedias()
+  createFlags()
   {
-    this.media_elements = map(this.elements,
+    this.elements = Array.from(this.images,
       (element, index) =>
     {
-      return new Media({
+      return new Flag({
         element,
         index,
         geometry: this.geo,
@@ -47,29 +45,34 @@ export default class About
   }
 
   /*
-    Animations.
+    ANIMATIONS.
   */
 
   show()
   {
-    map(this.media_elements, media => media.show())
+    this.elements.forEach( element => { element.show() })
   }
 
   hide()
   {
-    map(this.media_elements, media => media.hide())
+    this.elements.forEach( element => { element.hide() })
   }
 
   /*
-    Events.
+    EVENTS.
   */
 
   onResize()
   {
-    map(this.media_elements, media => media.onResize({
-      screen: this.screen,
-      viewport: this.viewport,
-    }))
+    this.elements.forEach( 
+      element => 
+    {
+      element.onResize(
+      {
+        screen: this.screen,
+        viewport: this.viewport,
+      })
+    })
   }
 
   onTouchDown({ y })
@@ -93,7 +96,7 @@ export default class About
   }
 
   /*
-    Update.
+    UPDATE.
   */
 
   update(scroll)
@@ -102,11 +105,11 @@ export default class About
 
     this.group.position.y = current
 
-    map(this.media_elements, media => media.update())
+    this.elements.forEach( element => { element.update() })
   }
 
   /*
-    Destroy.
+    DESTROY.
   */
 
   destroy()

@@ -1,8 +1,6 @@
 import { Group } from 'three'
 import gsap from 'gsap'
 
-import map from 'lodash/map'
-
 import Media from './Media'
 
 export default class Logo
@@ -10,7 +8,7 @@ export default class Logo
   constructor({ id, zIndex, bgTMap, scene, screen, viewport, geo })
   {
     this.id = id
-    this.zIndex = zIndex
+    this.zIndex = zIndex || 0.0
     this.bgTMap = bgTMap
     this.scene = scene
     this.screen = screen
@@ -45,12 +43,12 @@ export default class Logo
 
   createElements()
   {
-    this.elements = document.querySelectorAll(`.${this.id}__logo__figure__image`)
+    this.images = document.querySelectorAll(`.${this.id}__logo__figure__image`)
   }
 
   createLogo()
   {
-    this.logos = map(this.elements,
+    this.elements = Array.from(this.images,
       (element, index) =>
     {
       return new Media({
@@ -72,24 +70,28 @@ export default class Logo
 
   show()
   {
-    map(this.logos, logo => logo.show())
+    this.elements.forEach( element => { element.show() })
   }
 
   hide()
   {
-    map(this.logos, logo => logo.hide())
+    this.elements.forEach( element => { element.hide() })
   }
 
   /*
-    Events.
+    EVENTS.
   */
 
   onResize()
   {
-    map(this.logos, logo => logo.onResize({
-      screen: this.screen,
-      viewport: this.viewport,
-    }))
+    this.elements.forEach( element => 
+    {
+      element.onResize(
+      {
+        screen: this.screen,
+        viewport: this.viewport,
+      })
+    })
   }
 
   onTouchDown({ y, x })
@@ -119,7 +121,7 @@ export default class Logo
   }
 
   /*
-    Update.
+    UPDATE.
   */
 
   update()
@@ -127,13 +129,13 @@ export default class Logo
     this.scroll.target = gsap.utils.clamp(-this.scroll.limit, 0, this.scroll.target)
     this.scroll.current = gsap.utils.interpolate(this.scroll.current, this.scroll.target, this.scroll.ease)
 
-    map(this.logos, logo => logo.update(this.scroll))
+    this.elements.forEach( element => { element.update(this.scroll) })
 
     this.scroll.last = this.scroll.current
   }
 
   /*
-    Destroy.
+    DESTROY.
   */
 
   destroy()

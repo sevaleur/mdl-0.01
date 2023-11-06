@@ -1,7 +1,6 @@
 import { Group } from 'three'
 import gsap from 'gsap'
 
-import map from 'lodash/map'
 import Prefix from 'prefix'
 
 import Element from './Element'
@@ -56,15 +55,15 @@ export default class Menu
     this.menu_wrapper = document.querySelector('.menu__wrapper')
     this.menu_gallery = document.querySelector('.menu__gallery')
 
-    this.img_el = document.querySelectorAll('img.menu__gallery__image__figure__image')
+    this.images = document.querySelectorAll('img.menu__gallery__image__figure__image')
     this.img_links = document.querySelectorAll('.menu__gallery__image__link')
 
-    this.img_length = this.img_el.length
+    this.img_length = this.images.length
   }
 
   createMenu()
   {
-    this.image_elements = map(this.img_el,
+    this.elements = Array.from(this.images,
       (element, index) =>
     {
       return new Element({
@@ -89,12 +88,12 @@ export default class Menu
 
   show()
   {
-    map(this.image_elements, element => element.show())
+    this.elements.forEach(element => { element.show() })
   }
 
   hide()
   {
-    map(this.image_elements, element => element.hide())
+    this.elements.forEach(element => { element.hide() })
   }
 
   animateText()
@@ -134,12 +133,17 @@ export default class Menu
   {
     this.full_bounds = this.menu_gallery.getBoundingClientRect()
 
-    map(this.image_elements, element => element.onResize({
-      screen: this.screen,
-      viewport: this.viewport,
-    }))
+    this.elements.forEach(
+      element => 
+    { 
+      element.onResize(
+      {
+        screen: this.screen,
+        viewport: this.viewport,
+      })
+    })
 
-    this.scroll.limit = this.full_bounds.height - this.image_elements[0].bounds.height
+    this.scroll.limit = this.full_bounds.height - this.elements[0].bounds.height
   }
 
   onTouchDown({ y, x })
@@ -194,7 +198,7 @@ export default class Menu
 
     this.menu_wrapper.style[this.t_prefix] = `translateY(${this.scroll.current}px)`
 
-    map(this.image_elements, (element, index) => { element.update(this.scroll) })
+    this.elements.forEach(element => { element.update(this.scroll) })
 
     this.scroll.last = this.scroll.current
   }

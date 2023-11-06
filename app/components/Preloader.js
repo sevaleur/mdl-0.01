@@ -91,17 +91,18 @@ export default class Preloader extends Component
   animateLines()
   {
     gsap.to([
-      '.preloader__nav',
-      '.preloader__bottom'
+      '.bottom',
+      '.lbb',
     ],
     {
-      scaleX: this.percent
+      scaleX: this.percent,
+      ease: 'power2.inOut'
     })
 
     gsap.to([
-      '.preloader__left',
-      '.preloader__logoBorder',
-      '.preloader__right'
+      '.left',
+      '.lbr',
+      '.right'
     ],
     {
       scaleY: this.percent,

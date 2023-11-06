@@ -95,16 +95,7 @@ app.use((req, res, next) => {
 const handleReq = async() =>
 {
   if(this.assets.length === 0)
-  {
-    const home = await url(
-      encodeURIComponent(
-        `*[_type == "home"]{
-          "image": logo.asset._ref
-        }`
-      )
-    )
-    this.assets.push(build.image(home.result[0].image).url())
-    
+  { 
     const all_galleries = await url(
       encodeURIComponent(
         `*[_type == "gallery"]{
@@ -231,7 +222,13 @@ app.get('/', async(req, res) =>
     encodeURIComponent(
       `*[_type == "home"]{
         ..., 
-        showcase[] ->
+        showcase[]->{
+          _type, 
+          title, 
+          preview, 
+          "image": images[0], 
+          "slug": slug.current
+        }
       }`
     )
   )
@@ -280,7 +277,7 @@ app.get('/advert/:uid', async(req, res) =>
       )
     )
 
-    res.render('pages/video', {
+    res.render('pages/advert', {
       ...partials,
       advert: advert.result[0]
     })
@@ -328,7 +325,7 @@ app.get('/film/:uid', async(req, res) =>
       )
     )
 
-    res.render('pages/video', {
+    res.render('pages/film', {
       ...partials,
       film: film.result[0]
     })
