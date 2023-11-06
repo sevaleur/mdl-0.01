@@ -16,10 +16,8 @@ export default class Showcase
     this.group = new Group()
 
     this.index = null
-    this.grid = null
 
     this.createElements()
-    this.createGrid()
     this.createMenu()
 
     this.onResize()
@@ -41,32 +39,7 @@ export default class Showcase
 
     this.images = document.querySelectorAll('img.home__gallery__image__figure__image')
     this.img_links = document.querySelectorAll('.home__gallery__image__link')
-
     this.img_length = this.images.length
-  }
-
-  createGrid()
-  {
-    switch(this.img_length)
-    {
-      case 5: 
-        this.grid = 'five__'
-        break 
-      case 4: 
-        this.grid = 'four__'
-        break 
-      case 3: 
-        this.grid = 'three__'
-        break 
-      case 2: 
-        this.grid = 'two__'
-        break 
-      case 1: 
-        this.grid = 'one__'
-        break 
-      default: 
-        break
-    }
   }
 
   createMenu()
@@ -77,7 +50,6 @@ export default class Showcase
       return new Element({
         element,
         index,
-        grid: this.grid,
         bgTMap: this.bgTMap, 
         link: this.img_links[index],
         geometry: this.geo,
@@ -137,7 +109,10 @@ export default class Showcase
   update()
   {
     this.elements.forEach(
-      element => { element.update() }
+      element => 
+      {
+        element.update() 
+      }
     )
   }
 

@@ -224,7 +224,8 @@
 
             span
             {
-              opacity: 0;
+              opacity: 0.0;
+              
 
               @include media('<tablet')
               {

@@ -8,11 +8,10 @@ import fragment from 'shaders/showcase/fragment.glsl'
 
 export default class Element
 {
-  constructor({ element, index, grid, bgTMap, link, geometry, length, scene, screen, viewport })
+  constructor({ element, index, bgTMap, link, geometry, length, scene, screen, viewport })
   {
     this.element = element
     this.index = index
-    this.grid = grid
     this.bgTMap = bgTMap
     this.link = link
     this.geo = geometry
@@ -24,7 +23,8 @@ export default class Element
     this.l_prefix = Prefix('transform')
 
     this.link_parent = this.link.parentElement
-    this.link_parent.classList.add(`${this.grid}${this.index}`)
+
+    this.active = this.link_parent.dataset.grid === 0
 
     this.createMesh()
     this.createBounds()
@@ -51,6 +51,7 @@ export default class Element
         u_alpha: { value: 0.0 },
         u_hover: { value : [ 0, 0 ] }, 
         u_state: { value: 0.0 },
+        u_scroll: { value: 0.0 },
         u_intensity: { value: 10. },
         u_viewportSize: { value: [this.viewport.width, this.viewport.height] },
       },
@@ -94,7 +95,7 @@ export default class Element
       },
       {
         value: 1.0,
-        delay: 0.8 * this.index, 
+        delay: 0.6 * this.index, 
         duration: 1.0,
       }
     )
@@ -107,7 +108,7 @@ export default class Element
       {
         value: 1.0,
         duration: 1.0,
-        delay: 0.8 * this.index, 
+        delay: 0.5 * this.index, 
       }
     )
   }
@@ -180,6 +181,11 @@ export default class Element
   update()
   {
     if(!this.bounds) return
+
+    this.active = this.link_parent.getAttribute('data-active')
+
+    if(this.active)
+      this.createBounds()
 
     this.updateScale()
     this.updateX()

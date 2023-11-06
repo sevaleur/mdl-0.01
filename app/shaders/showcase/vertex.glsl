@@ -1,6 +1,7 @@
 #define PI 3.1415926535897932384626433832795
 
 uniform float u_state;
+uniform float u_scroll; 
 
 uniform vec2 u_viewportSize;
 uniform vec2 u_planeSize;
@@ -12,6 +13,7 @@ varying float v_dist;
 
 void main()
 {
+  vec3 new_pos = position; 
   float dist = distance(uv, u_hover + vec2(0.5)); 
 
   float k = 0.0;  
@@ -20,7 +22,7 @@ void main()
     k = (1.0 - (dist / 0.2)) * (u_hover.x + u_hover.y);
   }
 
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(new_pos, 1.0);
 
   v_uv = uv;
   v_dist = k; 

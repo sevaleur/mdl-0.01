@@ -68,6 +68,17 @@ export default class Ray
         }
       )
 
+      gsap.to(
+        this.o.rotation,
+        {
+          x: -this.hits.y * 0.02, 
+          y: this.hits.x * 0.02, 
+          duration: 0.4, 
+          delay: 0.1, 
+          ease: 'linear',
+        }
+      )
+
       this.hits.pX = this.hits.x 
       this.hits.pY = this.hits.y
     }
