@@ -31,112 +31,105 @@ export default class Home extends Page
     super.create()
 
     this.elms = Array.from(document.querySelectorAll('.home__gallery__image'))
-    this.gl = this.elms.length
+    
+    const LEN = this.elms.length
 
-    this.createGrid()
+    if(LEN > 1)
+    {
+      const HALF = Math.floor( LEN / 2 ) 
+      const MID_EL = this.elms[HALF]
+  
+      this.active = MID_EL
+      this.active.dataset.active = true
+      this.active.firstChild.style.visibility = 'visible'
+  
+      this.onGridSelect(this.active)
+  
+      this.elms.forEach( 
+        (el, i) => 
+      { 
+        this.createGrid( el, i, LEN ) 
+  
+        el.addEventListener('mouseenter', () => 
+        {
+          const STATE = Flip.getState(this.elms)
+          this.createState( el, i, HALF, MID_EL )
+          Flip.from(STATE, { scale: true, duration: 0.5, ease: 'power1.inOut' })
+        } ) 
+      })
+    }
+    else 
+    {
+      this.active = this.elms[0]
+      this.active.dataset.active = true
+      this.active.firstChild.style.visibility = 'visible'
+
+      this.createGrid( this.elms[0], 0, LEN ) 
+    }
   }
 
-  createGrid()
+  createGrid(el, i, LEN )
   {
-    this.elms[1].classList.add('large__1')
+    el.classList.add(`grid__${i}`)
+    el.dataset.grid=LEN
 
-    this.elms.forEach(
-      (el, i) => 
-      {
-        if(el.classList.contains(`large__${i}`))
-        {
-          el.firstChild.style.visibility = 'visible'
-          el.dataset.active = true 
-          this.active = el
+    if(el !== this.active)
+    {
+      el.dataset.active = false
+      el.firstChild.style.visibility = 'hidden'
+    }
+  }
 
-          gsap.to(
-            this.active.firstChild, 
-            {
-              opacity: 1.0,
-              duration: 0.5
-            }
-          )
-        }
+  createState(el, i, HALF, MID_EL )
+  {
+    if(el === this.active) return
 
-        if(el != this.active)
-        {
-          el.dataset.active = false
-          el.classList.add(`small__${i}`)
-          el.firstChild.style.visibility = 'hidden'
-        }
+    let former = this.active
+    former.dataset.active = false
+    former.firstChild.style.visibility = 'hidden'
 
-        el.addEventListener('mouseover', () => 
-        {
-          if(el === this.active) return
-          
-          gsap.to(
-            this.active.firstChild,
-            {
-              opacity: 0.0,
-              duration: 1.0,
-            }
-          )
+    former === MID_EL
+      ? i < HALF
+        ? former.dataset.state = 'btm'
+        : former.dataset.state = 'top'
+      : MID_EL.dataset.state == 'btm'
+        ? MID_EL.dataset.state = 'top'
+        : MID_EL.dataset.state = 'btm'
 
-          let state = Flip.getState(this.elms)
-
-          let index = this.elms.indexOf(this.active)
-          this.active.firstChild.style.visibility = 'hidden'
-
-          if(index === 1)
-          {
-            this.active.classList.remove(`large__${index}`)
-
-            i < index
-              ? (this.active.classList.add(`small__${index}T`))
-              : this.active.classList.add(`small__${index}B`)
-          }
-          else 
-          {
-            this.active.classList.toggle(`small__${index}`)
-            this.active.classList.toggle(`large__${index}`)
-          }
-
-          if(i === 1)
-          {
-            el.classList.contains(`small__${i}T`) 
-              ? el.classList.remove(`small__${i}T`)
-              : el.classList.remove(`small__${i}B`)
-
-            el.classList.add(`large__${i}`)
-          }
-          else 
-          {
-            i === 0
-              ? (this.elms[1].classList.add(`small__1T`), this.elms[1].classList.remove(`small__1B`))
-              : (this.elms[1].classList.add(`small__1B`), this.elms[1].classList.remove(`small__1T`))
-            
-            el.classList.toggle(`small__${i}`)
-            el.classList.toggle(`large__${i}`)
-          }
-
-          el.firstChild.style.visibility = 'visible'
-          
-          Flip.from(state, { absolute: true, duration: 0.8, ease: 'power.inOut'})
-
-          gsap.to(
-            el.firstChild, 
-            {
-              opacity: 1.0,
-              duration: 0.5
-            }
-          )
-          
-          this.active.dataset.active = false
-          this.active = el 
-          this.active.dataset.active = false
-        })
-      }
-    )
+    this.active = el
+    this.onGridSelect(el, former)
+    this.active.dataset.active = true
+    this.active.firstChild.style.visibility = 'visible'
   }
 
   /*
     SHOW // HIDE - ANIMATIONS.
   */
+
+  onGridSelect(active, former = undefined)
+  {
+    if(former)
+    {
+      let formerInfo = former.querySelector('.home__gallery__image__info')
+      gsap.to(
+        formerInfo, 
+        {
+          opacity: 0.0, 
+          duration: .2,
+        }
+      )
+    }
+
+    let currentInfo = active.querySelector('.home__gallery__image__info')
+    gsap.to(
+      currentInfo, 
+      {
+        opacity: 1.0, 
+        duration: .5,
+        delay: 0.2
+      }
+    )
+  }
 
   show()
   {

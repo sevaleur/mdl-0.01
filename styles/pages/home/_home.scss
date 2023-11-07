@@ -23,16 +23,30 @@
 
     z-index: z('content');
 
-    display: grid; 
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    &__title 
+    {
+      position: absolute; 
+      top: 50%; 
+      left: 24%; 
+
+      transform: translateY(-50%);
+
+      &__text 
+      {
+        @extend %desc-16; 
+
+        writing-mode: vertical-lr;
+        transform: scale(-1, -1);
+      }
+    }
 
     &__showcase 
     {
-      grid-area: 1 / 1 / -1 / -1;
+      position: absolute;
+      top: 50%;
+      left: 50%;
 
-      align-self: center;
-      justify-self: center;
+      transform: translate(-50%, -50%);
 
       display: grid; 
       grid-template-columns: repeat(8, 10rem);
@@ -70,7 +84,7 @@
   
           &__text 
           {
-            @extend %desc-50; 
+            @extend %title-50; 
   
             text-transform: uppercase;
             letter-spacing: 1rem;
@@ -91,7 +105,7 @@
       &__link
       {
         display: block;
-        z-index: 100;
+        z-index: z('link');
 
         height: 100%; 
         width: 100%; 

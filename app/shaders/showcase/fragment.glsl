@@ -3,7 +3,7 @@
 uniform float u_alpha;
 uniform float u_state;
 uniform float u_intensity;
-uniform float u_offsetX;
+uniform float u_offset;
 
 uniform vec2 u_hover; 
 uniform vec2 u_imageSize;
@@ -31,7 +31,7 @@ void main()
 
   vec2 uv = vec2(
     v_uv.x * ratio.x + (1. - ratio.x) * .5,
-    v_uv.y * ratio.y + (1. - ratio.y) * .5
+    v_uv.y * ratio.y + (1. - ratio.y) * .5 + u_offset
   );
 
   float sqr = v_dist; 

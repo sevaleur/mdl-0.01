@@ -1,5 +1,7 @@
 import { Group } from 'three'
 
+import gsap from 'gsap'
+
 import Element from './Element'
 
 export default class Showcase
@@ -110,7 +112,7 @@ export default class Showcase
   {
     this.elements.forEach(
       element => 
-      {
+      { 
         element.update() 
       }
     )

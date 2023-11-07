@@ -52,6 +52,7 @@ export default class Element
         u_hover: { value : [ 0, 0 ] }, 
         u_state: { value: 0.0 },
         u_scroll: { value: 0.0 },
+        u_offset: { value: 0.0 },
         u_intensity: { value: 10. },
         u_viewportSize: { value: [this.viewport.width, this.viewport.height] },
       },
@@ -71,15 +72,24 @@ export default class Element
     this.scene.add(this.plane)
   }
 
-  createBounds()
+  createBounds(active)
   {
-    this.bounds = this.element.getBoundingClientRect()
+    if(active)
+    {
+      this.bounds = this.element.getBoundingClientRect()
 
-    this.updateScale()
-    this.updateX()
-    this.updateY()
-
-    this.plane.material.uniforms.u_planeSize.value = [this.plane.scale.x, this.plane.scale.y]
+      this.plane.material.uniforms.u_planeSize.value = [this.plane.scale.x, this.plane.scale.y]
+    }
+    else 
+    {
+      this.bounds = this.element.getBoundingClientRect()
+  
+      this.updateScale()
+      this.updateX()
+      this.updateY()
+  
+      this.plane.material.uniforms.u_planeSize.value = [this.plane.scale.x, this.plane.scale.y]
+    }
   }
 
   /*
@@ -176,16 +186,19 @@ export default class Element
 
     this.link_pos = (this.y / (-this.viewport.height / 2))
     this.link_parent.style[this.l_prefix] = `translateY(${-this.link_pos}px)`
+
+    this.pos_viewport_y = this.plane.position.y + this.y / 100
+    this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height, -1., 1., this.pos_viewport_y)
   }
 
   update()
   {
     if(!this.bounds) return
 
-    this.active = this.link_parent.getAttribute('data-active')
+    this.active = this.link_parent.dataset.active
 
     if(this.active)
-      this.createBounds()
+      this.createBounds(this.active)
 
     this.updateScale()
     this.updateX()

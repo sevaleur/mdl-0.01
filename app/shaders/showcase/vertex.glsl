@@ -1,7 +1,6 @@
 #define PI 3.1415926535897932384626433832795
 
 uniform float u_state;
-uniform float u_scroll; 
 
 uniform vec2 u_viewportSize;
 uniform vec2 u_planeSize;
@@ -21,6 +20,8 @@ void main()
   {
     k = (1.0 - (dist / 0.2)) * (u_hover.x + u_hover.y);
   }
+
+  new_pos.z += k * 0.05;
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(new_pos, 1.0);
 
