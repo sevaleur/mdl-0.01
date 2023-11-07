@@ -24,8 +24,6 @@ export default class Element
 
     this.link_parent = this.link.parentElement
 
-    this.active = this.link_parent.dataset.grid === 0
-
     this.createMesh()
     this.createBounds()
   }
@@ -72,7 +70,7 @@ export default class Element
     this.scene.add(this.plane)
   }
 
-  createBounds(active)
+  createBounds(active = false)
   {
     if(active)
     {

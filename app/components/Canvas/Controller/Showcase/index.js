@@ -1,7 +1,5 @@
 import { Group } from 'three'
 
-import gsap from 'gsap'
-
 import Element from './Element'
 
 export default class Showcase
