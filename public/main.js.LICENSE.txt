@@ -380,8 +380,6 @@
 
 /*! ./utils/stripAnsi.js */
 
-/*! animations/Hover */
-
 /*! animations/Observer/Label */
 
 /*! animations/Observer/Paragraph */
@@ -607,10 +605,6 @@
 /*!**************************************!*\
   !*** ./node_modules/prefix/index.js ***!
   \**************************************/
-
-/*!***************************************!*\
-  !*** ./app/animations/Hover/index.js ***!
-  \***************************************/
 
 /*!***************************************!*\
   !*** ./app/shaders/about/vertex.glsl ***!

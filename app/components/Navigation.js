@@ -1,6 +1,6 @@
 import Component from "classes/Component"
 
-import An_In from 'animations/Show'
+import Show from 'animations/Show'
 
 import gsap from 'gsap'
 
@@ -31,7 +31,7 @@ export default class Navigation extends Component
     this.nav_links = []
     this.elements.links.forEach(link =>
     {
-      this.nav_links.push(new An_In(link))
+      this.nav_links.push(new Show(link))
     })
   }
 
@@ -94,7 +94,7 @@ export default class Navigation extends Component
 
     this.nav_links.forEach(link =>
     {
-      link.init()
+      link.show()
     })
   }
 
@@ -102,7 +102,7 @@ export default class Navigation extends Component
   {
     this.nav_links.forEach(link =>
     {
-      link.reset()
+      link.hide()
     })
   }
 }

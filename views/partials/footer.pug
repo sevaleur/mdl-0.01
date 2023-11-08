@@ -11,8 +11,10 @@
             a.footer__icons__media__div__link(href=(icon.url))
             img.footer__icons__media__div__icon(data-src=Build.image(icon.asset._ref).url())
 
-  .footer__title.hidden.mid__grid
-    p.footer__title__title=footer.connect
+  .footer__title
+    p.footer__title__text.footer__interaction=footer.connect
+    p.footer__title__expand.footer__interaction=footer.expand
+    p.footer__title__close.footer__interaction=footer.close
 
   .footer__btm
     .footer__icons

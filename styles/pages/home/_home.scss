@@ -23,23 +23,6 @@
 
     z-index: z('content');
 
-    &__title 
-    {
-      position: absolute; 
-      top: 50%; 
-      left: 24%; 
-
-      transform: translateY(-50%);
-
-      &__text 
-      {
-        @extend %desc-16; 
-
-        writing-mode: vertical-lr;
-        transform: scale(-1, -1);
-      }
-    }
-
     &__showcase 
     {
       position: absolute;
@@ -49,10 +32,24 @@
       transform: translate(-50%, -50%);
 
       display: grid; 
-      grid-template-columns: repeat(8, 10rem);
+      grid-template-columns: repeat(10, 10rem);
       grid-template-rows: repeat(6, 10rem);
 
       gap: 2rem;
+
+      &__title 
+      {
+        align-self: center;
+        justify-self: flex-end;
+
+        &__text 
+        {
+          @extend %desc-16; 
+
+          writing-mode: vertical-lr;
+          transform: scale(-1, -1);
+        }
+      }
     }
 
     &__image
@@ -76,8 +73,6 @@
         justify-content: center;
         align-items: center;
 
-        opacity: 0.0;
-
         &__title 
         {
           text-align: center;
@@ -88,6 +83,17 @@
   
             text-transform: uppercase;
             letter-spacing: 1rem;
+
+            text-shadow:
+            -1px -1px 0 $color-night,
+            1px -1px 0 $color-night,
+            -1px 1px 0 $color-night,
+            1px 1px 0 $color-night;
+
+            .char 
+            {
+              opacity: 0.0;
+            }
           }
         }
 
@@ -96,7 +102,18 @@
   
           &__text 
           {
-            @extend %desc-16; 
+            @extend %desc-16;
+            
+            text-shadow:
+            -1px -1px 0 $color-night,
+            1px -1px 0 $color-night,
+            -1px 1px 0 $color-night,
+            1px 1px 0 $color-night;
+
+            .char 
+            {
+              opacity: 0.0;
+            }
           }
         }
       }

@@ -11,50 +11,55 @@ export default class Show
       target: this.element,
       by: 'chars'
     })
+
+    this.init()
+  }
+
+  wrap(elems, type, cl)
+  {
+    elems.forEach(
+      char => 
+    {
+        const wrapEl = document.createElement(type)
+        wrapEl.classList = cl
+        char.parentNode.appendChild(wrapEl)
+        wrapEl.appendChild(char)
+    })
   }
 
   init()
   {
     this.chars = this.element.querySelectorAll('.char')
-
-    this.animate_in()
+    this.wrap(this.chars, 'span', 'wrap')
   }
 
-  reset()
-  {
-    this.animate_out()
-  }
-
-  animate_in()
-  {
+  show()
+  { 
     gsap.set(this.chars,
     {
-      opacity: 0
+      xPercent: -250,
+      opacity: 0.0,
     })
 
-    gsap.fromTo(this.chars,
+    gsap.to(this.chars,
     {
-      x: '-50%',
-    },
-    {
-      x: '0%',
+      duration: 1,
       opacity: 1.0,
-      stagger: 0.02,
-      ease: 'power.inOut',
-      duration: 0.4,
-      delay: 0.4,
+      ease: 'power2',
+      xPercent: 0,
+      stagger: 0.06,
     })
   }
 
-  animate_out()
+  hide()
   {
     gsap.to(this.chars,
     {
-      z: '-50%',
+      duration: 1.0,
       opacity: 0.0,
-      stagger: 0.02,
-      ease: 'power.inOut',
-      duration: 0.4,
+      ease: 'power2',
+      xPercent: 250,
+      stagger: -0.06,
     })
   }
 }

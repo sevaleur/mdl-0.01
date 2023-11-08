@@ -21,7 +21,7 @@ export default class Showcase
     this.createMenu()
 
     this.onResize()
-    this.onGalleryClick()
+    this.onSelect()
 
     this.scene.add(this.group)
 
@@ -79,9 +79,10 @@ export default class Showcase
     EVENTS.
   */
 
-  onGalleryClick()
+  onSelect()
   {
-    this.img_links.forEach((link, index) =>
+    this.img_links.forEach(
+      (link, index) =>
     {
       link.onmouseover = () =>
       {

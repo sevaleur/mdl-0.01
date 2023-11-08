@@ -108,6 +108,7 @@ export default class App
     this.preloader.destroy()
 
     this.navigation.show()
+    this.footer.show()
     this.page.show()
   }
 

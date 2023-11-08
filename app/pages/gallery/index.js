@@ -11,7 +11,8 @@ export default class Gallery extends Page
       id: 'gallery',
       element: '.gallery',
       elements: {
-        title: '.gallery__info__title'
+        title: '.gallery__info__title',
+        desc: '.gallery__info__desc'
       }, 
       background: COLOR_NIGHT, 
       color: COLOR_CULTURED
@@ -22,14 +23,17 @@ export default class Gallery extends Page
   {
     super.show()
 
-    this.an_in = new Show(this.elements.title)
-    this.an_in.init()
+    this.title = new Show(this.elements.title)
+    this.desc = new Show(this.elements.desc)
+    this.title.show()
+    this.desc.show()
   }
 
   hide()
   {
     super.hide()
 
-    this.an_in.animate_out()
+    this.title.hide()
+    this.desc.hide()
   }
 }

@@ -1,8 +1,8 @@
 import gsap from 'gsap'
 
 import Page from 'classes/Page'
+import Show from 'animations/Show'
 
-import Hover from 'animations/Hover'
 import { COLOR_CULTURED, COLOR_NIGHT } from '../../utils/color_variables'
 
 export default class Menu extends Page
@@ -37,16 +37,32 @@ export default class Menu extends Page
   {
     this.td = document.querySelector('.menu__title')
     this.tdb = this.td.getBoundingClientRect()
-
     this.tt = document.querySelectorAll('.menu__title__text')
-
     this.image_link_elements = document.querySelectorAll('.menu__gallery__image__link')
-    const image_type_text = document.querySelectorAll('.menu__gallery__image__type__text')
-    const image_index_text = document.querySelectorAll('.menu__gallery__image__index__text')
-    const image_title_text = document.querySelectorAll('.menu__gallery__image__title__text')
 
+    const TYPE = document.querySelectorAll('.menu__gallery__image__type__text')
+    const INDEX = document.querySelectorAll('.menu__gallery__image__index__text')
+    const TITLE = document.querySelectorAll('.menu__gallery__image__title__text')
+
+    this.createText(TYPE, INDEX, TITLE)
     this.onLoadedLoop()
-    this.onHover(image_type_text, image_index_text, image_title_text)
+    this.onHover()
+  }
+
+  createText(TYPE, INDEX, TITLE)
+  {
+    this.type = []
+    this.index = []
+    this.title = []
+
+    TITLE.forEach(
+      (t, i) => 
+      {
+        this.title.push(new Show(t))
+        this.type.push(new Show(TYPE[i]))
+        this.index.push(new Show(INDEX[i]))
+      }
+    )
   }
 
   /*
@@ -74,13 +90,10 @@ export default class Menu extends Page
     })
   }
 
-  onHover(i_type, i_index, i_title)
+  onHover()
   {
-    this.hover_image_type = new Hover(i_type)
-    this.hover_image_index = new Hover(i_index)
-    this.hover_image_title = new Hover(i_title)
-
-    this.image_link_elements.forEach((link, index) =>
+    this.image_link_elements.forEach(
+      (link, index) =>
     {
       gsap.set(
         link,
@@ -105,29 +118,25 @@ export default class Menu extends Page
             }
           )
 
-          this.hover_image_type.init(index)
-          this.hover_image_index.init(index)
-          this.hover_image_title.init(index)
+          this.type[index].show()
+          this.index[index].show()
+          this.title[index].show()
         }
       }
 
       link.onmouseleave = () =>
       {
-        this.hover_image_type.reset()
-        this.hover_image_index.reset()
-        this.hover_image_title.reset()
+        this.type[index].hide()
+        this.index[index].hide()
+        this.title[index].hide()
       }
     })
   }
 
   onLeave()
   {
-    this.hover_image_type.reset()
-    this.hover_image_index.reset()
-    this.hover_image_title.reset()
-
     this.image_link_elements.forEach(
-      link =>
+      (link, index) =>
     {
       link.style.cursor = 'default'
 
@@ -140,11 +149,15 @@ export default class Menu extends Page
 
       link.onmouseover = null
       link.onmouseleave = null
+
+      this.type[index].hide()
+      this.index[index].hide()
+      this.title[index].hide()
     })
 
-    this.hover_image_type = null
-    this.hover_image_index = null
-    this.hover_image_title = null
+    this.type = null
+    this.index = null
+    this.title = null
   }
 
   /*
@@ -154,19 +167,6 @@ export default class Menu extends Page
   show()
   {
     super.show()
-
-    if(this.screen_size < 1080)
-    {
-      gsap.set([
-        this.image_index_text,
-        this.image_title_text,
-        this.image_type_text
-      ],
-      {
-        opacity: 0,
-        visibility: 'hidden',
-      })
-    }
 
     gsap.fromTo(
       this.td,

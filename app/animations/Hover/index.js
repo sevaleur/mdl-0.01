@@ -16,9 +16,8 @@ export default class Hover
   init(index)
   {
     this.target = this.elements[index]
-
     this.chars = this.target.querySelectorAll('.char')
-
+    
     this.animate_in()
   }
 

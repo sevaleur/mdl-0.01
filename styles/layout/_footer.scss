@@ -18,6 +18,27 @@
 
   z-index: z('footer');
 
+  &__interaction 
+  {
+    @extend %desc-16;
+    color: $color-cultured;
+
+    cursor: pointer;
+
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+
+    transform: translate(-50%, -50%);
+
+    width: 100%; 
+
+    .char 
+    {
+      opacity: 0.0;
+    }
+  }
+
   &__top
   {
     grid-area: 1 / 1 / 2 / -1;
@@ -31,11 +52,10 @@
     align-self: center;
     justify-self: center;
 
-    &__text
-    {
-      @extend %desc-20;
-      color: $color-cultured;
-    }
+    width: 100%;
+
+    position: relative;
+    text-align: center;
   }
 
   &__btm

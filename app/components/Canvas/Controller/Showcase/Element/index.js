@@ -22,6 +22,8 @@ export default class Element
 
     this.l_prefix = Prefix('transform')
 
+    this.active = false
+
     this.link_parent = this.link.parentElement
 
     this.createMesh()
@@ -185,8 +187,11 @@ export default class Element
     this.link_pos = (this.y / (-this.viewport.height / 2))
     this.link_parent.style[this.l_prefix] = `translateY(${-this.link_pos}px)`
 
-    this.pos_viewport_y = this.plane.position.y + this.y / 100
-    this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height, -1., 1., this.pos_viewport_y)
+    if(this.length > 2)
+    {
+      this.pos_viewport_y = this.plane.position.y + this.y / 100
+      this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height, -1., 1., this.pos_viewport_y)
+    }
   }
 
   update()

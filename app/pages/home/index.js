@@ -4,6 +4,7 @@ import { Flip } from 'gsap/all'
 gsap.registerPlugin(Flip)
 
 import Page from 'classes/Page'
+import Show from 'animations/Show'
 
 import { COLOR_NIGHT, COLOR_CULTURED } from 'utils/color_variables'
 
@@ -15,7 +16,8 @@ export default class Home extends Page
       id: 'home',
       element: '.home',
       elements: {
-        logo: '.home__logo'
+        title: '.home__title__text',
+        showcase: '.home__gallery__showcase__title__text'
       },
       background: COLOR_NIGHT,
       color: COLOR_CULTURED
@@ -31,29 +33,52 @@ export default class Home extends Page
     super.create()
 
     this.elms = Array.from(document.querySelectorAll('.home__gallery__image'))
-    
+    this.titles = Array.from(document.querySelectorAll('h3'))
+    this.types = Array.from(document.querySelectorAll('.home__gallery__image__info__type__text'))
+
+    const TITLE = document.querySelector('.home__gallery__showcase__title')
     const LEN = this.elms.length
 
+    this.createTitles()
+    this.createShowcase(TITLE, LEN)
+  }
+
+  createTitles()
+  {
+    this.main = new Show(this.elements.title)
+    this.st = new Show(this.elements.showcase)
+
+    this.title = []
+    this.type = []
+    this.titles.forEach(
+      (t, i) => 
+      {
+        this.title.push(new Show(t))
+        this.type.push(new Show(this.types[i]))
+      }
+    )
+  }
+
+  createShowcase(TITLE, LEN)
+  {
     if(LEN > 1)
     {
       const HALF = Math.floor( LEN / 2 ) 
       const MID_EL = this.elms[HALF]
+      const T = []
   
       this.active = MID_EL
-      this.active.dataset.active = true
-      this.active.firstChild.style.visibility = 'visible'
-  
-      this.onGridSelect(this.active)
+      this.onSelect(HALF)
   
       this.elms.forEach( 
         (el, i) => 
       { 
-        this.createGrid( el, i, LEN ) 
+        this.createGrid( el, i, LEN, TITLE ) 
   
         el.addEventListener('mouseenter', () => 
         {
           const STATE = Flip.getState(this.elms)
-          this.createState( el, i, HALF, MID_EL )
+          this.createState( el, i, HALF, MID_EL, LEN )
           Flip.from(STATE, { scale: true, duration: 0.5, ease: 'power1.inOut' })
         } ) 
       })
@@ -61,16 +86,17 @@ export default class Home extends Page
     else 
     {
       this.active = this.elms[0]
-      this.active.dataset.active = true
-      this.active.firstChild.style.visibility = 'visible'
-
-      this.createGrid( this.elms[0], 0, LEN ) 
+      this.createGrid( this.elms[0], 0, LEN, TITLE ) 
+      this.onSelect(0)
     }
   }
 
-  createGrid(el, i, LEN )
+  createGrid(el, i, LEN, TITLE )
   {
+    TITLE.classList.add('grid__title')
     el.classList.add(`grid__${i}`)
+
+    TITLE.dataset.grid=LEN
     el.dataset.grid=LEN
 
     if(el !== this.active)
@@ -78,26 +104,36 @@ export default class Home extends Page
       el.dataset.active = false
       el.firstChild.style.visibility = 'hidden'
     }
+    else 
+    {
+      el.dataset.active = true
+      el.firstChild.style.visibility = 'visible'
+    }
   }
 
-  createState(el, i, HALF, MID_EL )
+  createState(el, i, HALF, MID_EL, LEN )
   {
     if(el === this.active) return
 
     let former = this.active
+    let formerIdx = this.elms.indexOf(former)
     former.dataset.active = false
     former.firstChild.style.visibility = 'hidden'
 
-    former === MID_EL
-      ? i < HALF
-        ? former.dataset.state = 'btm'
-        : former.dataset.state = 'top'
-      : MID_EL.dataset.state == 'btm'
-        ? MID_EL.dataset.state = 'top'
-        : MID_EL.dataset.state = 'btm'
+    if(LEN > 2)
+    {
+      former === MID_EL
+        ? i < HALF
+          ? former.dataset.state = 'btm'
+          : former.dataset.state = 'top'
+        : MID_EL.dataset.state == 'btm'
+          ? MID_EL.dataset.state = 'top'
+          : MID_EL.dataset.state = 'btm'
+    }
 
     this.active = el
-    this.onGridSelect(el, former)
+    let activeIdx = this.elms.indexOf(el)
+    this.onSelect(activeIdx, formerIdx)
     this.active.dataset.active = true
     this.active.firstChild.style.visibility = 'visible'
   }
@@ -106,39 +142,40 @@ export default class Home extends Page
     SHOW // HIDE - ANIMATIONS.
   */
 
-  onGridSelect(active, former = undefined)
+  onSelect(aIdx, fIdx = null)
   {
-    if(former)
+    if(fIdx)
     {
-      let formerInfo = former.querySelector('.home__gallery__image__info')
-      gsap.to(
-        formerInfo, 
-        {
-          opacity: 0.0, 
-          duration: .2,
-        }
-      )
+      this.title[fIdx].hide()
+      this.type[fIdx].hide()
     }
 
-    let currentInfo = active.querySelector('.home__gallery__image__info')
-    gsap.to(
-      currentInfo, 
-      {
-        opacity: 1.0, 
-        duration: .5,
-        delay: 0.2
-      }
-    )
+    fIdx === null
+      ? gsap.delayedCall(1.5, () => { this.title[aIdx].show(), this.type[aIdx].show() } )
+      : (this.title[aIdx].show(), this.type[aIdx].show())
   }
 
   show()
   {
     super.show()
+
+    this.main.show()
+    this.st.show()
   }
 
   hide()
   {
     super.hide()
+
+    this.main.hide()
+    this.st.hide()
+
+    this.t.forEach(
+      title => 
+      {
+        title.hide()
+      }
+    )
   }
 
   /* 

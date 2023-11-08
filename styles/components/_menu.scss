@@ -99,38 +99,10 @@
           transform: scale(-1, -1);
           word-spacing: 2rem;
           overflow: hidden;
-          opacity: 0;
 
-          @include media('<tablet')
+          .char 
           {
-            font-size: 4rem;
-            opacity: 1;
-          }
-
-          @include media('<phone')
-          {
-            font-size: 2rem;
-            opacity: 1;
-          }
-
-          span
-          {
-            line-height: normal;
-
-            span
-            {
-              opacity: 0;
-
-              @include media('<tablet')
-              {
-                opacity: 1;
-              }
-
-              @include media('<phone')
-              {
-                opacity: 1;
-              }
-            }
+            opacity: 0.0;
           }
         }
       }
@@ -148,38 +120,10 @@
           transform: scale(1, 1);
           word-spacing: 2rem;
           overflow: hidden;
-          opacity: 0;
 
-          @include media('<tablet')
+          .char 
           {
-            font-size: 4rem;
-            opacity: 1;
-          }
-
-          @include media('<phone')
-          {
-            font-size: 2rem;
-            opacity: 1;
-          }
-
-          span
-          {
-            line-height: 1;
-
-            span
-            {
-              opacity: 0;
-
-              @include media('<tablet')
-              {
-                opacity: 1;
-              }
-
-              @include media('<phone')
-              {
-                opacity: 1;
-              }
-            }
+            opacity: 0.0;
           }
         }
       }
@@ -209,45 +153,10 @@
           padding: 0 1rem;
           overflow: hidden;
 
-          @include media('<tablet')
+          .char 
           {
-            font-size: 10rem;
+            opacity: 0.0;
           }
-
-          @include media('<phone')
-          {
-            font-size: 5rem;
-          }
-
-          span
-          {
-
-            span
-            {
-              opacity: 0.0;
-              
-
-              @include media('<tablet')
-              {
-                opacity: 1;
-              }
-
-              @include media('<phone')
-              {
-                opacity: 1;
-              }
-            }
-          }
-        }
-
-        &__phone__left
-        {
-          display: none;
-        }
-
-        &__phone__right
-        {
-          display: none;
         }
       }
     }

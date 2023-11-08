@@ -1,4 +1,5 @@
 import Component from "classes/Component"
+import Show from 'animations/Show'
 
 import gsap from 'gsap'
 
@@ -26,52 +27,87 @@ export default class Footer extends Component
 
   createElements()
   {
-    const footer = document.querySelector('.footer')
-    this.connect = document.querySelector('.footer__title')
-    this.tt = document.querySelector('.footer__title__text')
-    this.icons = document.querySelectorAll('.footer__icons')
-    this.icon = document.querySelectorAll('.footer__icons__media__div__icon')
+    const FOOTER = document.querySelector('.footer')
+    const TITLES = document.querySelector('.footer__title')
+    const CONNECT = document.querySelector('.footer__title__text')
+    const EXPAND = document.querySelector('.footer__title__expand')
+    const CLOSE = document.querySelector('.footer__title__close')
+    const FB = FOOTER.getBoundingClientRect()
+    
     this.media = document.querySelectorAll('.footer__icons__media')
 
-    this.top = document.querySelector('.footer__top')
-    this.btm = document.querySelector('.footer__btm')
+    this.con = new Show(CONNECT)
+    this.exp = new Show(EXPAND)
+    this.cls = new Show(CLOSE)
 
-    const fb = footer.getBoundingClientRect()
-
-    this.onInteraction(footer, fb)
+    this.onInteraction(TITLES, CLOSE, FB)
   }
-
 
   /*
     ANIMATIONS.
   */
 
-  onInteraction(footer, fb)
+  onInteraction(TITLES, CLOSE, FB)
   {
-    footer.onmouseover = () => { this.onInitalInteraction() }
-    this.connect.onclick = () => { this.onInteraction(footer, fb) }
+    TITLES.addEventListener('mouseenter', () => 
+    {
+      if(this.clicked) return 
+
+      this.onInitialInteraction()
+    })
+
+    TITLES.addEventListener('mouseleave', () => 
+    {
+      if(this.clicked) return 
+
+      this.onInteractionLeave()
+    })
+
+    TITLES.addEventListener('click', () => 
+    {
+      if(this.initial) return 
+
+      this.onInteractionClick(TITLES, FB)
+    })
+
+    CLOSE.addEventListener('click', () => 
+    {
+      if(!this.clicked) return 
+
+      this.onInteractionClose(TITLES, FB)
+    })
   }
 
-  onInitalInteraction()
+  onInitialInteraction()
   {
-
+    this.con.hide()
+    this.exp.show()
   }
 
-  onMouseClick(footer, fb)
+  onInteractionLeave()
+  {
+    this.exp.hide()
+    this.con.show()
+  }
+
+  onInteractionClick(TITLES, FB)
   {
     if(this.clicked)
       return 
 
-    this.clicked = true
+    this.initial = true
+    this.clicked = true 
+
+    this.exp.hide()
+    this.cls.show()
 
     const enter = gsap.timeline()
 
-    enter.to([
-      footer
-    ],
+    enter.to(
+      TITLES.parentElement,
     {
-      height: fb.height * 3.0,
-      width: fb.width * 3.0,
+      height: FB.height * 3.0,
+      width: FB.width * 3.0,
       duration: 0.5,
       ease: 'back.inOut'
     }, 'start')
@@ -115,36 +151,51 @@ export default class Footer extends Component
     })
   }
 
-  onMouseLeave(footer, fb)
+  onInteractionClose(TITLES, FB)
   {
-    gsap.set(
-      this.media,
-    {
-      opacity: 0.0
+    if(!this.clicked)
+      return 
+
+    this.cls.hide()
+    this.con.show()
+
+    const leave = gsap.timeline({
+      onComplete: () => { this.initial = false }
     })
 
-    gsap.to(
-      footer,
+    this.media.forEach(
+      (m, i) => 
+      {
+        leave.fromTo(
+          m, 
+          {
+            opacity: 1.0, 
+            scale: 1.0 
+          }, 
+          {
+            opacity: 0.0, 
+            scale: 0.0, 
+            duration: 0.2,
+          }, 'start'
+        )
+      }
+    )
+
+    leave.to(
+      TITLES.parentElement,
     {
-      height: fb.height,
-      width: fb.width,
-      duration: 0.5,
-      delay: 0.2,
-      ease: 'power2.inOut'
-    })
+      height: FB.height,
+      width: FB.width,
+      duration: 1.0,
+      ease: 'back.inOut'
+    }, 'end')
 
     this.clicked = false
   }
 
   show()
   {
-    gsap.to([
-      this.tt
-    ],
-    {
-      opacity: 1.0,
-      duration: 0.5,
-    })
+    this.con.show()
   }
 
   hide()

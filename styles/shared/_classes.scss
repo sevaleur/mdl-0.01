@@ -1,3 +1,10 @@
+.wrap 
+{
+  display: inline-block;
+	position: relative;
+  overflow: hidden;
+}
+
 .hidden
 {
   @extend %link__center--hidden;
