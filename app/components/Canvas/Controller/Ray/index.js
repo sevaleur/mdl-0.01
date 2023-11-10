@@ -10,18 +10,25 @@ export default class Ray
     this.screen = screen
     this.camera = camera
 
-    this.create(objs)
+    this.createObjects(objs)
   }
 
-  create(objs)
+  /* 
+    CREATE.
+  */
+
+  createObjects(objs)
   {
     this.os = []
+    this.constant = {}
+    this.temp = {}
     this.ray = new Raycaster()
     
     objs.forEach(
       o => 
       {
         this.os.push(o.plane)
+        this.constant[o.plane.userData.template] = o.plane
       }
     )
 
@@ -35,27 +42,70 @@ export default class Ray
     }
   }
 
-  destroy()
+  /* 
+    OBJECT HANDLING.
+  */
+
+  addObjects(objs)
   {
-    this.objects = null
-    this.ray = null 
+    objs.forEach(
+      o => 
+      {
+        if(!this.temp[o.plane.userData.uid])
+        {
+          this.temp[o.plane.userData.uid] = o.plane
+
+          this.os.push(o.plane)
+        }
+      }
+    )
   }
+
+  removeObjects(template)
+  {
+    this.os.forEach(
+      (o, index) => 
+      {
+        if(!this.constant[o.userData.template])
+        {
+          this.temp = {}
+          this.os.splice(index, 1)
+          this.checkObjects()
+        }
+      }
+    )
+  }
+
+  checkObjects()
+  {
+    if(!Object.keys(this.temp).length)
+    {
+      if(Object.keys(this.constant).length !== this.os.length)
+      {
+        this.removeObjects()
+      }
+    }
+  }
+
+  /* 
+    UPDATE.
+  */
 
   update(mouse)
   {
     this.ray.setFromCamera(mouse, this.camera)
 
-    const intersects = this.ray.intersectObjects( this.os )
+    const INTERSECTS = this.ray.intersectObjects( this.os )
 
-    if(intersects.length > 0)
+    if(INTERSECTS.length > 0)
     {
-      this.hits.x = intersects[0].uv.x * 2 - 1
-      this.hits.y = intersects[0].uv.y * 2 - 1
+      this.hits.x = INTERSECTS[0].uv.x * 2 - 1
+      this.hits.y = INTERSECTS[0].uv.y * 2 - 1
      
       this.hits.vX = this.hits.x - this.hits.pX 
       this.hits.vY = this.hits.y - this.hits.pY 
       
-      this.o = intersects[0].object
+      this.o = INTERSECTS[0].object
 
       gsap.to(
         this.o.material.uniforms.u_hover.value,
@@ -67,20 +117,35 @@ export default class Ray
           ease: 'linear',
         }
       )
-
-      gsap.to(
-        this.o.rotation,
-        {
-          x: -this.hits.y * 0.02, 
-          y: this.hits.x * 0.02, 
-          duration: 0.4, 
-          delay: 0.1, 
-          ease: 'linear',
-        }
-      )
+      
+      if(!this.constant[this.o.userData.template])
+      {
+        gsap.to(
+          this.o.rotation,
+          {
+            x: -this.hits.y * 0.02, 
+            y: this.hits.x * 0.02, 
+            duration: 0.4, 
+            delay: 0.1, 
+            ease: 'linear',
+          }
+        )
+      }
 
       this.hits.pX = this.hits.x 
       this.hits.pY = this.hits.y
     }
+  }
+
+  /* 
+    DESTROY.
+  */
+
+  destroy()
+  {
+    this.os = null
+    this.temp = null
+    this.constant = null
+    this.ray = null 
   }
 }

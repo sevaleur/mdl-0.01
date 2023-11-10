@@ -6,27 +6,27 @@ block variables
 block content
   .video
     .video__info
-      p.video__info__text!=advert.project_desc.replace(/\n/g, '<br>')
+      p.video__info__text!=advert.project.description.replace(/\n/g, '<br>')
 
     .video__desc
       .video__desc__client
-        p.video__desc__client__title.video__desc__title=advert.client_title
-        h1.video__desc__client__text.video__desc__text!=advert.client.replace(/\n/g, '<br>')
+        p.video__desc__client__title.video__desc__title client:
+        h1.video__desc__client__text.video__desc__text!=advert.project.client.replace(/\n/g, '<br>')
 
       .video__desc__name
-        p.video__desc__name__title.video__desc__title=advert.video_title_sm
-        p.video__desc__name__text.video__desc__text!=advert.video_title_sm_text.replace(/\n/g, '<br>')
+        p.video__desc__name__title.video__desc__title title:
+        p.video__desc__name__text.video__desc__text!=advert.title.replace(/\n/g, '<br>')
 
       .video__desc__role
-        p.video__desc__role__title.video__desc__title=advert.video_role
-        p.video__desc__role__text.video__desc__text!=advert.video_role_text.replace(/\n/g, '<br>')
+        p.video__desc__role__title.video__desc__title role:
+        p.video__desc__role__text.video__desc__text!=advert.project.role.replace(/\n/g, '<br>')
 
     .video__wrapper
       .video__media
         figure.video__preview
-          img.video__preview__image(data-src=advert.preview.url alt=advert.preview.alt)
+          img.video__preview__image(data-src=Build.image(advert.preview.asset._ref).url() alt=advert.preview.alt)
         figure.video__selected
-          video.video__selected__video(src=advert.selected_video.url paused controls playsinline)
+          video.video__selected__video(src=advert.selected_video paused controls playsinline)
 
-    .video__back
+    //.video__back
       a.video__back__button(href=Link='/')=advert.back_button

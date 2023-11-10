@@ -8,10 +8,11 @@ import fragment from 'shaders/showcase/fragment.glsl'
 
 export default class Element
 {
-  constructor({ element, index, bgTMap, link, geometry, length, scene, screen, viewport })
+  constructor({ element, index, template, bgTMap, link, geometry, length, scene, screen, viewport })
   {
     this.element = element
     this.index = index
+    this.template = template
     this.bgTMap = bgTMap
     this.link = link
     this.geo = geometry
@@ -51,8 +52,8 @@ export default class Element
         u_alpha: { value: 0.0 },
         u_hover: { value : [ 0, 0 ] }, 
         u_state: { value: 0.0 },
-        u_scroll: { value: 0.0 },
         u_offset: { value: 0.0 },
+        u_deformation: { value: [0, 0] },
         u_intensity: { value: 10. },
         u_viewportSize: { value: [this.viewport.width, this.viewport.height] },
       },
@@ -68,6 +69,9 @@ export default class Element
       this.geo, 
       this.material
     )
+
+    this.plane.userData.template = this.template
+    this.plane.userData.uid = `${this.template}${this.index}`
 
     this.scene.add(this.plane)
   }

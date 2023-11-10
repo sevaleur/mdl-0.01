@@ -5,10 +5,9 @@ import Media from './Media'
 
 export default class Logo
 {
-  constructor({ id, zIndex, bgTMap, scene, screen, viewport, geo })
+  constructor({ template, bgTMap, scene, screen, viewport, geo })
   {
-    this.id = id
-    this.zIndex = zIndex || 0.0
+    this.template = template
     this.bgTMap = bgTMap
     this.scene = scene
     this.screen = screen
@@ -43,7 +42,7 @@ export default class Logo
 
   createElements()
   {
-    this.images = document.querySelectorAll(`.${this.id}__logo__figure__image`)
+    this.images = document.querySelectorAll(`.${this.template}__logo__figure__image`)
   }
 
   createLogo()
@@ -54,7 +53,7 @@ export default class Logo
       return new Media({
         element,
         index,
-        zIndex: this.zIndex,
+        template: this.template,
         bgTMap: this.bgTMap,
         geometry: this.geo,
         scene: this.group,

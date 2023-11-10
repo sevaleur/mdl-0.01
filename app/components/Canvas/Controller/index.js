@@ -52,8 +52,17 @@ export default class Controller
     }
   }
   
-  createRay(objs)
+  createRay()
   {
+    let objs = []
+
+    this.navigation.elements.forEach(
+      el => 
+      {
+        objs.push(el)
+      }
+    )
+
     this.ray = new Ray({
       scene: this.scene, 
       screen: this.sizes.screen, 
@@ -62,16 +71,15 @@ export default class Controller
     })
   }
 
-  createNavigation()
+  createNavigation(template)
   {
-    this.navigation = this.createLogo('navigation')
+    this.navigation = this.createLogo(template)
   }
 
-  createLogo(id, zIndex)
+  createLogo(template)
   {
     return new Logo({
-      id,
-      zIndex,
+      template,
       bgTMap: this.bgTMap,
       scene: this.scene,
       screen: this.sizes.screen,
@@ -80,7 +88,7 @@ export default class Controller
     })
   }
 
-  createShowcase(transition = false)
+  createShowcase(template, transition = false)
   {
     if(this.showcase) this.destroyShowcase()
 
@@ -90,7 +98,8 @@ export default class Controller
       screen: this.sizes.screen,
       viewport: this.viewport,
       geo: this.geo,
-      transition,
+      template,
+      transition
     })
   }
 
@@ -258,16 +267,21 @@ export default class Controller
   onChange(template)
   {
     if(!this.navigation)
-      this.createNavigation()
+      this.createNavigation('navigation')
+
+    !this.ray
+      ? this.createRay()
+      : this.ray.removeObjects(template)
 
     switch(template)
     {
       case 'home':
         this.transition
-          ? (this.createShowcase(this.transition))
-          : (this.createShowcase())
+          ? (this.createShowcase('home', this.transition))
+          : (this.createShowcase('home'))
 
-        this.createRay(this.showcase.elements)
+        if(this.ray && this.showcase)
+          this.ray.addObjects(this.showcase.elements)
 
         this.destroyMenu()
         this.destroyGallery()
@@ -294,7 +308,6 @@ export default class Controller
         this.destroyGallery()
         this.destroyVideo()
         this.destroyAbout()
-        this.destroyRay()
 
         break
       case 'portraits':
@@ -305,7 +318,6 @@ export default class Controller
         this.destroyMenu()
         this.destroyVideo()
         this.destroyAbout()
-        this.destroyRay()
 
         break
       case 'gallery':
@@ -322,7 +334,6 @@ export default class Controller
         this.destroyMenu()
         this.destroyVideo()
         this.destroyAbout()
-        this.destroyRay()
 
         break
       case 'video':
@@ -337,7 +348,6 @@ export default class Controller
         this.destroyMenu()
         this.destroyGallery()
         this.destroyAbout()
-        this.destroyRay()
 
         break
       case 'about':
@@ -347,7 +357,6 @@ export default class Controller
         this.destroyMenu()
         this.destroyGallery()
         this.destroyVideo()
-        this.destroyRay()
 
         break
       default:

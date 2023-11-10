@@ -12,35 +12,29 @@ export default class Paragraph extends Animation
       elements
     })
 
-    this.element = element
-
     this.split = Splitting({
       target: this.element,
       by: 'lines'
     })
 
-    this.init()
-  }
-
-  init()
-  {
     this.lines = this.split[0].lines
   }
 
-  animateIn()
+  show()
   {
     this.tl_in = gsap.timeline({
       delay: 0.5
     })
 
-    this.tl_in.set(this.lines,
+    this.tl_in.set(
+      this.lines,
     {
-      'will-change': 'opacity',
       opacity: 0,
       y: '100%'
     })
 
-    this.tl_in.fromTo(this.lines,
+    this.tl_in.to(
+      this.lines,
     {
       opacity: 0,
     },
@@ -53,9 +47,10 @@ export default class Paragraph extends Animation
 
   }
 
-  animateOut()
+  hide()
   {
-    gsap.set(this.lines,
+    gsap.set(
+      this.lines,
       {
         opacity: 0
       })

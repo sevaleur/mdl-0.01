@@ -38,13 +38,13 @@ void main()
 
   vec2 uv_divided = fract(uv * vec2(u_intensity));
 
-  vec2 uv_displaced1 = uv + rotate(PI / 4.0) * uv_divided * (u_state + u_scroll) * 0.1;
-  vec2 uv_displaced2 = uv + rotate(PI / 4.0) * uv_divided * (1.0 - (u_state + u_scroll)) * 0.1;
+  vec2 uv_fDisp = uv + rotate(PI / 4.0) * uv_divided * (u_state + u_scroll) * 0.1;
+  vec2 uv_disp = uv + rotate(PI / 4.0) * uv_divided * (1.0 - (u_state + u_scroll)) * 0.1;
 
-  vec4 t1 = texture2D(u_bg, uv_displaced1);
+  vec4 t1 = texture2D(u_bg, uv_fDisp);
   t1.a = u_alpha;
 
-  vec4 t2 = texture2D(tMap, uv_displaced2);
+  vec4 t2 = texture2D(tMap, uv_disp);
   t2.a = u_alpha; 
 
   gl_FragColor = mix(t1, t2, u_state);

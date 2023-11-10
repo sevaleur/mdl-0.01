@@ -15,15 +15,15 @@ export default class Show
     this.init()
   }
 
-  wrap(elems, type, cl)
+  wrap(elms, type, cl)
   {
-    elems.forEach(
+    elms.forEach(
       char => 
     {
-        const wrapEl = document.createElement(type)
-        wrapEl.classList = cl
-        char.parentNode.appendChild(wrapEl)
-        wrapEl.appendChild(char)
+        const el = document.createElement(type)
+        el.classList = cl
+        char.parentNode.appendChild(el)
+        el.appendChild(char)
     })
   }
 
@@ -35,13 +35,15 @@ export default class Show
 
   show()
   { 
-    gsap.set(this.chars,
+    gsap.set(
+      this.chars,
     {
       xPercent: -250,
       opacity: 0.0,
     })
 
-    gsap.to(this.chars,
+    gsap.to(
+      this.chars,
     {
       duration: 1,
       opacity: 1.0,
@@ -51,15 +53,32 @@ export default class Show
     })
   }
 
-  hide()
+  hide(dir=false)
   {
-    gsap.to(this.chars,
+    if(dir)
     {
-      duration: 1.0,
-      opacity: 0.0,
-      ease: 'power2',
-      xPercent: 250,
-      stagger: -0.06,
-    })
+      gsap.to(
+        this.chars,
+        {
+          duration: 1.0,
+          opacity: 0.0,
+          ease: 'power2',
+          xPercent: 250,
+          stagger: 0.06,
+        }
+      )
+    }
+    else 
+    {
+      gsap.to(
+        this.chars,
+      {
+        duration: 1.0,
+        opacity: 0.0,
+        ease: 'power2',
+        xPercent: -250,
+        stagger: -0.06,
+      })
+    }
   }
 }

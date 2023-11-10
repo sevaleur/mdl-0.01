@@ -17,34 +17,27 @@ export default class Label extends Animation
       by: 'words'
     })
 
-    this.init()
-  }
-
-  init()
-  {
     this.words = this.element.querySelectorAll('.word')
   }
 
-  animateIn()
+  show()
   {
     this.tl_in = gsap.timeline({
       delay: 0.5
     })
 
-    this.tl_in.set(this.words,
+    this.tl_in.set(
+      this.words,
     {
-      'willChange': 'opacity, transform',
       opacity: 0,
       y: '100%'
     })
 
-    this.words.forEach(word =>
+    this.words.forEach(
+      word =>
     {
-      this.tl_in.fromTo(word,
-        {
-          opacity: 0,
-          y: '100%',
-        },
+      this.tl_in.to(
+        word,
         {
           opacity: 1,
           duration: 1.,
@@ -55,9 +48,10 @@ export default class Label extends Animation
     })
   }
 
-  animateOut()
+  hide()
   {
-    gsap.set(this.words,
+    gsap.set(
+      this.words,
       {
         opacity: 0
       })

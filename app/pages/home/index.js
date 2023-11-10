@@ -33,28 +33,28 @@ export default class Home extends Page
     super.create()
 
     this.elms = Array.from(document.querySelectorAll('.home__gallery__image'))
-    this.titles = Array.from(document.querySelectorAll('h3'))
-    this.types = Array.from(document.querySelectorAll('.home__gallery__image__info__type__text'))
 
+    const TITLES = Array.from(document.querySelectorAll('h3'))
+    const TYPES = Array.from(document.querySelectorAll('.home__gallery__image__info__type__text'))
     const TITLE = document.querySelector('.home__gallery__showcase__title')
     const LEN = this.elms.length
 
-    this.createTitles()
+    this.createTitles(TITLES, TYPES)
     this.createShowcase(TITLE, LEN)
   }
 
-  createTitles()
+  createTitles(TITLES, TYPES)
   {
     this.main = new Show(this.elements.title)
     this.st = new Show(this.elements.showcase)
 
     this.title = []
     this.type = []
-    this.titles.forEach(
+    TITLES.forEach(
       (t, i) => 
       {
         this.title.push(new Show(t))
-        this.type.push(new Show(this.types[i]))
+        this.type.push(new Show(TYPES[i]))
       }
     )
   }
@@ -170,10 +170,10 @@ export default class Home extends Page
     this.main.hide()
     this.st.hide()
 
-    this.t.forEach(
-      title => 
+    this.title.forEach(
+      t => 
       {
-        title.hide()
+        t.hide()
       }
     )
   }

@@ -49,21 +49,21 @@ export default class Footer extends Component
 
   onInteraction(TITLES, CLOSE, FB)
   {
-    TITLES.addEventListener('mouseenter', () => 
+    TITLES.parentElement.addEventListener('mouseenter', () => 
     {
       if(this.clicked) return 
 
       this.onInitialInteraction()
     })
 
-    TITLES.addEventListener('mouseleave', () => 
+    TITLES.parentElement.addEventListener('mouseleave', () => 
     {
       if(this.clicked) return 
 
       this.onInteractionLeave()
     })
 
-    TITLES.addEventListener('click', () => 
+    TITLES.parentElement.addEventListener('click', () => 
     {
       if(this.initial) return 
 
@@ -80,13 +80,13 @@ export default class Footer extends Component
 
   onInitialInteraction()
   {
-    this.con.hide()
+    this.con.hide(true)
     this.exp.show()
   }
 
   onInteractionLeave()
   {
-    this.exp.hide()
+    this.exp.hide(true)
     this.con.show()
   }
 
@@ -98,7 +98,7 @@ export default class Footer extends Component
     this.initial = true
     this.clicked = true 
 
-    this.exp.hide()
+    this.exp.hide(true)
     this.cls.show()
 
     const enter = gsap.timeline()
@@ -156,7 +156,7 @@ export default class Footer extends Component
     if(!this.clicked)
       return 
 
-    this.cls.hide()
+    this.cls.hide(true)
     this.con.show()
 
     const leave = gsap.timeline({

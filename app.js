@@ -271,11 +271,13 @@ app.get('/advert/:uid', async(req, res) =>
     const partials = await handleReq()
     const advert = await url(
       encodeURIComponent(
-        `*[_type == advert
+        `*[_type == "advert"
           && slug.current == "${req.params.uid}"
         ]`
       )
     )
+
+    console.log(advert.result[0])
 
     res.render('pages/advert', {
       ...partials,
@@ -319,7 +321,7 @@ app.get('/film/:uid', async(req, res) =>
     const partials = await handleReq()
     const film = await url(
       encodeURIComponent(
-        `*[_type == film
+        `*[_type == "film"
           && slug.current == "${req.params.uid}"
         ]`
       )

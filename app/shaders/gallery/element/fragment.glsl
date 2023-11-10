@@ -33,15 +33,15 @@ void main()
 
   vec2 uv_divided = fract(uv * vec2(u_intensity));
 
-  vec2 uv_displaced1 = uv + rotate(PI / 4.) * uv_divided * (u_state) * 0.1;
-  vec2 uv_displaced2 = uv + rotate(PI / 4.) * uv_divided * (1. - (u_state)) * 0.1;
+  vec2 uv_fDisp = uv + rotate(PI / 4.) * uv_divided * (u_state) * 0.1;
+  vec2 uv_disp = uv + rotate(PI / 4.) * uv_divided * (1. - (u_state)) * 0.1;
 
-  vec4 t1 = texture2D(u_bg, uv_displaced1);
+  vec4 t1 = texture2D(u_bg, uv_fDisp);
   t1.a = u_alpha;
 
-  float r = texture2D(tMap, uv_displaced2.xy -= u_scroll * (0.1 * .1)).x;
-  float g = texture2D(tMap, uv_displaced2.xy -= u_scroll * (0.1 * .12)).y;
-  float b = texture2D(tMap, uv_displaced2.xy -= u_scroll * (0.1 * .15)).z;
+  float r = texture2D(tMap, uv_disp.xy -= u_scroll * (0.1 * .1)).x;
+  float g = texture2D(tMap, uv_disp.xy -= u_scroll * (0.1 * .12)).y;
+  float b = texture2D(tMap, uv_disp.xy -= u_scroll * (0.1 * .15)).z;
 
   vec4 t2 = vec4(r, g, b, u_alpha);
 

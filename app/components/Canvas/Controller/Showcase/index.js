@@ -4,7 +4,7 @@ import Element from './Element'
 
 export default class Showcase
 {
-  constructor({ bgTMap, scene, screen, viewport, geo, transition })
+  constructor({ bgTMap, scene, screen, viewport, geo, transition, template })
   {
     this.bgTMap = bgTMap
     this.scene = scene
@@ -12,6 +12,7 @@ export default class Showcase
     this.viewport = viewport
     this.geo = geo
     this.transition = transition
+    this.template = template
 
     this.group = new Group()
 
@@ -50,6 +51,7 @@ export default class Showcase
       return new Element({
         element,
         index,
+        template: this.template,
         bgTMap: this.bgTMap, 
         link: this.img_links[index],
         geometry: this.geo,

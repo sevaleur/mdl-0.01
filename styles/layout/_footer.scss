@@ -42,7 +42,7 @@
   &__top
   {
     grid-area: 1 / 1 / 2 / -1;
-    align-self: center;
+    align-self: flex-end;
     justify-self: center;
   }
 
@@ -61,7 +61,7 @@
   &__btm
   {
     grid-area: 3 / 1 / -1 / -1;
-    align-self: center;
+    align-self: flex-start;
     justify-self: center;
   }
 
@@ -103,7 +103,15 @@
       {
         height: 100%;
         width: 100%;
+
         cursor: pointer;
+
+        transition: all 0.2s linear;
+
+        &:hover
+        {
+          opacity: 0.5;
+        }
 
         &__link
         {

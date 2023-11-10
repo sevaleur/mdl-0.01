@@ -26,7 +26,7 @@ export default class Video extends Page
     this.elements.text.forEach((p, index) =>
     {
       this.p_an.push(new Show(p))
-      this.p_an[index].init()
+      this.p_an[index].show()
     })
   }
 
@@ -36,7 +36,7 @@ export default class Video extends Page
 
     this.p_an.forEach(el =>
     {
-      el.reset()
+      el.hide()
     })
   }
 }

@@ -2,13 +2,20 @@
 
 uniform float u_state;
 
+uniform vec2 u_deformation;
 uniform vec2 u_viewportSize;
 uniform vec2 u_planeSize;
 uniform vec2 u_hover;
 
 varying vec2 v_uv;
-varying vec3 v_position;
 varying float v_dist; 
+
+vec3 deformationCurve(vec3 position, vec2 uv, vec2 offset)
+{
+  position.x = position.x + (sin(uv.y * PI) * offset.x);
+  position.y = position.y + (sin(uv.x * PI) * offset.y);
+  return position;
+}
 
 void main()
 {
@@ -23,7 +30,9 @@ void main()
 
   new_pos.z += k * 0.05;
 
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(new_pos, 1.0);
+  vec3 newPosition = deformationCurve(new_pos, uv, u_deformation);
+
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
 
   v_uv = uv;
   v_dist = k; 

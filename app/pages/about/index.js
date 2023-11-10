@@ -28,12 +28,6 @@ export default class About extends Page
   create()
   {
     super.create()
-    this.createElements()
-  }
-
-  createElements()
-  {
-    this.contact = document.querySelector('.about__contact__details')
   }
 
   /*

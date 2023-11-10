@@ -11,7 +11,7 @@ export default class Animation extends Component
 
     this.createObserver()
 
-    this.animateOut()
+    this.hide()
   }
 
   createObserver()
@@ -22,11 +22,11 @@ export default class Animation extends Component
       {
         if(entry.isIntersecting)
         {
-          this.animateIn()
+          this.show()
         }
         else
         {
-          this.animateOut()
+          this.hide()
         }
       })
     })
@@ -34,12 +34,12 @@ export default class Animation extends Component
     this.observer.observe(this.element)
   }
 
-  animateIn()
+  show()
   {
 
   }
 
-  animateOut()
+  hide()
   {
 
   }

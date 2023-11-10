@@ -24,7 +24,6 @@ export default class Page
       animationParagraphs: `[data-animation="paragraph"]`,
       animationLabel: `[data-animation="label"]`,
       animationVertical: `[data-animation="vertical"]`,
-
       images: `[data-src]`
     }
 
@@ -86,7 +85,7 @@ export default class Page
   }
 
   /*
-    Content animations.
+    ANIMATIONS.
   */
 
   createAnimations()
@@ -94,7 +93,7 @@ export default class Page
     this.animations = []
 
     /*
-      Titles.
+      TITLES.
     */
 
     this.animationTitles = map(this.elements.animationTitles, element =>
@@ -107,7 +106,7 @@ export default class Page
     this.animations.push(...this.animationTitles)
 
     /*
-      Paragraphs.
+      PARAGRAPHS.
     */
 
     this.animationParagraphs = map(this.elements.animationParagraphs, element =>
@@ -120,7 +119,7 @@ export default class Page
     this.animations.push(...this.animationParagraphs)
 
     /*
-      Labels.
+      LABELS.
     */
 
     this.animationLabel = map(this.elements.animationLabel, element =>
@@ -133,7 +132,7 @@ export default class Page
     this.animations.push(...this.animationLabel)
 
     /*
-      Vertical text.
+      VERT TEXT.
     */
 
     this.animationVertical = map(this.elements.animationVertical, element =>
@@ -148,7 +147,7 @@ export default class Page
   }
 
   /*
-    Page animation.
+    PAGE ANIMATION.
   */
 
   preloadImages()
@@ -161,7 +160,8 @@ export default class Page
 
   show()
   {
-    return new Promise(resolve =>
+    return new Promise(
+      resolve =>
     {
       ColorManager.change({
         backgroundColor: this.background,
@@ -170,7 +170,8 @@ export default class Page
 
       this.animateIn = gsap.timeline()
 
-      this.animateIn.fromTo(this.element,
+      this.animateIn.fromTo(
+        this.element,
       {
         autoAlpha: 0
       },
@@ -179,7 +180,8 @@ export default class Page
         onComplete: resolve
       })
 
-      this.animateIn.call(_ =>
+      this.animateIn.call(
+        () =>
       {
         this.addEventListeners()
 
@@ -192,7 +194,8 @@ export default class Page
   {
     if(!animation)
     {
-      return new Promise(resolve =>
+      return new Promise(
+        resolve =>
       {
         this.removeEventListeners()
 
@@ -208,7 +211,7 @@ export default class Page
   }
 
   /*
-    Events.
+    EVENTS.
   */
 
   onTouchDown(e)
@@ -251,7 +254,7 @@ export default class Page
   }
 
   /*
-    Loop.
+    UPDATE.
   */
 
   update()
@@ -267,7 +270,7 @@ export default class Page
   }
 
   /*
-    Listeners.
+    LISTENERS.
   */
 
   addEventListeners()

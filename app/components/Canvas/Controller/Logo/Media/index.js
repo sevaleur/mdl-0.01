@@ -6,11 +6,11 @@ import fragment from 'shaders/logo/fragment.glsl'
 
 export default class Media
 {
-  constructor({ element, index, zIndex, bgTMap, geometry, scene, screen, viewport })
+  constructor({ element, index, template, bgTMap, geometry, scene, screen, viewport })
   {
     this.element = element
     this.index = index
-    this.zIndex = zIndex
+    this.template = template
     this.bgTMap = bgTMap
     this.geo = geometry
     this.scene = scene
@@ -19,7 +19,6 @@ export default class Media
 
     this.createMesh()
     this.createBounds()
-    this.onHover()
   }
 
   /*
@@ -42,6 +41,8 @@ export default class Media
         u_state: { value: 0.0 },
         u_scroll: { value: 0.0 },
         u_intensity: { value: 10.0 },
+        u_mod: { value: 0.5 },
+        u_hover: { value: [ 0, 0 ] },
         u_imageSize: { value: [ 0, 0 ] },
         u_planeSize: { value: [ 0, 0 ] },
       }
@@ -53,7 +54,9 @@ export default class Media
     ]
 
     this.plane = new Mesh( this.geo, this.material )
-    this.plane.position.z = this.zIndex
+
+    this.plane.userData.template = this.template
+
     this.scene.add(this.plane)
   }
 
@@ -74,34 +77,6 @@ export default class Media
   /*
     ANIMATIONS.
   */
-
-  onHover()
-  {
-    const parent = this.element.parentElement
-    parent.parentElement.onmouseover = () =>
-    {
-      gsap.to(
-        this.material.uniforms.u_state,
-        {
-          value: 1.2,
-          duration: 0.5,
-          ease: 'power2.inOut'
-        }
-      )
-    }
-
-    parent.parentElement.onmouseleave = () =>
-    {
-      gsap.to(
-        this.material.uniforms.u_state,
-        {
-          value: 1.0,
-          duration: 0.5,
-          ease: 'power2.inOut'
-        }
-      )
-    }
-  }
 
   show()
   {

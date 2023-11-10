@@ -35,9 +35,7 @@ export default class Menu extends Page
 
   createElements()
   {
-    this.td = document.querySelector('.menu__title')
-    this.tdb = this.td.getBoundingClientRect()
-    this.tt = document.querySelectorAll('.menu__title__text')
+    this.infdiv = document.querySelector('.menu__title')
     this.image_link_elements = document.querySelectorAll('.menu__gallery__image__link')
 
     const TYPE = document.querySelectorAll('.menu__gallery__image__type__text')
@@ -71,23 +69,30 @@ export default class Menu extends Page
 
   onLoadedLoop()
   {
-    const total = this.tt.length
+    /* const NODES = this.infdiv.childNodes.length
+    const HEIGHT = this.infdiv.getBoundingClientRect().height
+    const TXTHEIGHT = this.infdiv.children[0].getBoundingClientRect().height
 
-    this.tt.forEach(
-      t =>
+    const VAL = TXTHEIGHT * NODES 
+    console.log(VAL)
+
+    this.infdiv.childNodes.forEach(
+      (child, idx) =>
     {
-      const length = t.innerHTML.length
-
+      console.log(VAL - (TXTHEIGHT * (idx + 1)))
       gsap.to(
-        t,
+        child,
         {
-          y: `-100%`,
-          duration: total * length,
+          y: -VAL + 'px',
+          duration: ( NODES * TXTHEIGHT ) * ( idx + 1 ),
           ease: 'linear',
-          repeat: -1
+          onComplete: () => 
+          {
+            this.infdiv.removeChild(child)
+          }
         }
       )
-    })
+    }) */
   }
 
   onHover()
@@ -102,7 +107,7 @@ export default class Menu extends Page
         }
       )
 
-      link.onmouseover = () =>
+      link.onmouseenter = () =>
       {
         if(!this.ready)
           link.style.cursor = 'default'
@@ -169,7 +174,7 @@ export default class Menu extends Page
     super.show()
 
     gsap.fromTo(
-      this.td,
+      this.infdiv,
       {
         x: '-100%',
       },
@@ -193,7 +198,7 @@ export default class Menu extends Page
     return new Promise(resolve =>
     {
       gsap.fromTo(
-        this.td,
+        this.infdiv,
         {
           x: '0'
         },

@@ -12,38 +12,29 @@ export default class Title extends Animation
       elements
     })
 
-    this.element = element
-
     Splitting({
       target: this.element,
       by: 'chars'
     })
 
-    this.init()
-  }
-
-  init()
-  {
     this.chars = this.element.querySelectorAll('.char')
   }
 
-  animateIn()
+  show()
   {
     this.tl_in = gsap.timeline({
       delay: 0.5
     })
 
-    this.tl_in.set(this.chars,
+    this.tl_in.set(
+      this.chars,
     {
-      'willChange': 'opacity, transform',
       opacity: 0,
       y: '100%'
     })
 
-    this.tl_in.fromTo(this.chars,
-    {
-      y: '100%'
-    },
+    this.tl_in.to(
+      this.chars,
     {
       opacity: 1,
       duration: 1.,
@@ -53,9 +44,10 @@ export default class Title extends Animation
     }, 0)
   }
 
-  animateOut()
+  hide()
   {
-    gsap.set(this.chars,
+    gsap.set(
+      this.chars,
     {
       opacity: 0,
       y: '100%'

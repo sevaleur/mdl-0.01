@@ -2,6 +2,7 @@
 
 uniform vec2 u_imageSize;
 uniform vec2 u_planeSize;
+uniform vec2 u_hover; 
 
 uniform float u_alpha;
 uniform float u_state;
@@ -13,6 +14,7 @@ uniform sampler2D u_bg;
 uniform sampler2D tMap;
 
 varying vec2 v_uv;
+varying float v_dist; 
 
 mat2 rotate(float a)
 {
@@ -34,16 +36,17 @@ void main()
   );
 
   float dist = distance(v_uv, vec2(0.5));
+  float sqr = v_dist; 
 
   vec2 uv_divided = fract(uv * vec2(u_intensity / dist));
 
-  vec2 uv_displaced1 = uv + rotate(PI / dist) * uv_divided * (u_state + u_scroll) * 0.1;
-  vec2 uv_displaced2 = uv + rotate(PI / dist) * uv_divided * (1. - (u_state + u_scroll)) * 0.1;
+  vec2 uv_fDisp = uv + rotate(PI / dist) * uv_divided * (u_state + u_scroll) * 0.1;
+  vec2 uv_disp = uv + rotate(PI / dist) * uv_divided * (1. - (u_state + sqr + u_scroll)) * 0.1;
 
-  vec4 t1 = texture2D(u_bg, uv_displaced1);
+  vec4 t1 = texture2D(u_bg, uv_fDisp);
   t1.a = u_alpha;
 
-  vec4 t2 = texture2D(tMap, uv_displaced2);
+  vec4 t2 = texture2D(tMap, uv_disp);
   t2.a = u_alpha;
 
   gl_FragColor = mix(t1, t2, u_state);
