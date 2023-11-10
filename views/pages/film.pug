@@ -5,28 +5,77 @@ block variables
 
 block content
   .video
-    .video__info
-      p.video__info__text!=film.project.description.replace(/\n/g, '<br>')
-
-    .video__desc
-      .video__desc__client
-        p.video__desc__client__title.video__desc__title client:
-        h1.video__desc__client__text.video__desc__text!=film.project.client.replace(/\n/g, '<br>')
-
-      .video__desc__name
-        p.video__desc__name__title.video__desc__title title:
-        p.video__desc__name__text.video__desc__text!=film.title.replace(/\n/g, '<br>')
-
-      .video__desc__role
-        p.video__desc__role__title.video__desc__title role:
-        p.video__desc__role__text.video__desc__text!=film.project.role.replace(/\n/g, '<br>')
-
-    .video__wrapper
+    .video__wrap
       .video__media
-        figure.video__preview
+        //figure.video__preview
           img.video__preview__image(data-src=Build.image(film.preview.asset._ref).url() alt=film.preview.alt)
-        figure.video__selected
-          video.video__selected__video(src=film.selected_video paused controls playsinline)
+        .video__selected#plyr
+          if film.selected_video
+            iframe.video__selected__video.plyr__video-embed(src=film.selected_video)
+          if film.uploaded_video 
+            video.video__selected__video(src=Build.image(film.uploaded_video.asset._ref).url())
+    .video__wrapper
+      .video__ghost 
+        .video__ghost__div
+        .video__title 
+          h1.video__title__text=film.title
 
-      //.video__back
-        a.video__back__button(href=Link='/')=film.back_button
+      section.video__grid
+        .video__info
+          .video__info__client.video__info__div
+            p.video__info__client__title.video__info__title=film.project.client_title
+            h2.video__info__client__text.video__info__text=film.project.client
+
+          .video__info__name.video__info__div
+            p.video__info__name__title.video__info__title title
+            p.video__info__name__text.video__info__text=film.title
+
+          .video__info__role.video__info__div
+            p.video__info__role__title.video__info__title role
+            p.video__info__role__text.video__info__text!=film.project.role.replace(/\n/g, '<br>')
+        
+        .video__year 
+          p.video__year__text=film.project.year
+
+        .video__desc
+          p.video__desc__text!=film.project.description.replace(/\n/g, '<br>')
+
+      if film.inDepth
+        section.video__depth 
+          .video__depth__one
+            if film.inDepth.photo
+              .video__depth__one__bts 
+                figure.video__depth__one__bts__media 
+                  img.video__depth__one__bts__media__image(data-src=Build.image(film.inDepth.photo.asset._ref).url() alt=film.inDepth.photo.alt)
+                  p.video__depth__one__bts__media__text=film.inDepth.photo.alt
+            if film.inDepth.description
+              .video__depth__one__desc 
+                p.video__depth__one__desc__text!=film.inDepth.description.replace(/\n/g, '<br>')
+          .video__depth__two 
+            if film.inDepth.photoTwo
+              .video__depth__two__bts 
+                figure.video__depth__two__bts__media 
+                  img.video__depth__two__bts__media__image(data-src=Build.image(film.inDepth.photoTwo.asset._ref).url() alt=film.inDepth.photoTwo.alt)
+                  p.video__depth__two__bts__media__text=film.inDepth.photoTwo.alt
+            if film.inDepth.descriptionTwo
+              .video__depth__two__desc 
+                p.video__depth__two__desc__text!=film.inDepth.descriptionTwo.replace(/\n/g, '<br>')
+
+        if film.footer
+          section.video__footer 
+            .video__footer__grid 
+              .video__footer__credits 
+                p.video__footer__credits__text!=film.footer.credits.replace(/\n/g, '<br>')
+              .video__footer__title 
+                h3.video__footer__title__text=film.footer.credits_title 
+              .video__footer__thanks 
+                .video__footer__thanks__title 
+                  h3.video__footer__thanks__title__text=film.footer.thanks_title
+                .video__footer__thanks__desc 
+                  p.video__footer__thanks__desc__text!=film.footer.thanks.replace(/\n/g, '<br>')
+
+
+
+
+    //.video__back
+      a.video__back__button(href=Link='/')=film.back_button

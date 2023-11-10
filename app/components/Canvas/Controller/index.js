@@ -336,7 +336,8 @@ export default class Controller
         this.destroyAbout()
 
         break
-      case 'video':
+      case 'advert':
+      case 'film': 
         this.createVideo()
 
         gsap.delayedCall(0.5, () =>
@@ -546,7 +547,7 @@ export default class Controller
 
     if(this.video)
     {
-      this.video.update()
+      this.video.update(scroll)
 
       if(this.transition)
         this.transition.update(this.video)

@@ -1,259 +1,456 @@
+.plyr 
+{
+  --plyr-color-main: $color-night;
+}
+
 .video
 {
-  @extend %cover;
+  @extend %page;
 
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 100px repeat(3, 1fr);
-
-  @include media('<tablet')
+  &__wrapper 
   {
-    display: grid;
-    grid-template-rows: 100px repeat(3, 1fr);
-    grid-template-columns: 1fr;
+    border-right: 1px solid $color-grey;
+    border-left: 1px solid $color-grey;
   }
 
-  &__desc
+  &__ghost 
   {
-    grid-area: 2 / 1 / 4 / 2;
+    height: 100%; 
+    width: 100%; 
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
+    display: grid; 
+    grid-template-rows: 91.6rem 15rem;
 
-    @include media('<tablet')
+    &__div 
     {
-      grid-area: 3 / 1 / 4 / -1;
+      grid-area: 1 / 1 / 2 / -1;
 
-      padding-top: 5rem;
-    }
+      background: transparent;
 
-    &__title
-    {
-      @extend %desc-20;
-
-      font-style: italic;
-
-      @include media('<tablet')
-      {
-        font-size: 4rem;
-      }
-
-      @include media('<phone')
-      {
-        font-size: 2rem;
-      }
-    }
-
-    &__text
-    {
-      @extend %title-40;
-
-      @include media('<tablet')
-      {
-        font-size: 6rem;
-      }
-
-      @include media('<phone')
-      {
-        font-size: 4rem;
-      }
-    }
-
-    &__client
-    {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    &__name
-    {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    &__role
-    {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      height: 100%; 
+      width: 100%; 
     }
   }
 
-  &__info
+  &__wrap
   {
-    grid-area: 4 / 1 / -1 / 3;
+    position: fixed; 
+    top: 0; 
+    left: 0; 
 
-    align-self: center;
-    justify-self: center;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    @include media('<tablet')
-    {
-      grid-area: 4 / 1 / -1 / -1;
-      padding: 2.5rem 5rem;
-      width: 60%;
-      align-self: flex-start;
-    }
-
-    @include media('<phone')
-    {
-      width: 100%;
-    }
-
-    &__text
-    {
-      @extend %desc-20;
-
-      @include media('<tablet')
-      {
-        font-size: 4rem;
-      }
-
-      @include media('<phone')
-      {
-        font-size: 2.5rem;
-      }
-    }
+    height: 100%; 
+    width: 100%; 
   }
 
-  &__wrapper
+  &__media 
   {
-    grid-area: 2 / 2 / 4 / -1;
-
-    height: 100%;
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-
-    @include media('<tablet')
-    {
-      grid-area: 2 / 1 / 3 / -1
-    }
+    height: 100%; 
+    width: 100%; 
   }
 
-  &__media
+  &__preview 
   {
-    width: 100%;
-    height: 100%;
+    height: 100%; 
+    width: 100%; 
 
     position: relative;
-  }
 
-  &__preview
-  {
-    z-index: z('canvas');
-
-    height: 100%;
-    width: 100%;
-
-    &__image
+    &__image 
     {
-      height: 100%;
-      width: 100%;
+      @extend %cover; 
 
       object-fit: cover;
     }
   }
 
-  &__selected
+  &__selected 
   {
-    @extend %cover;
+    height: 100%; 
+    width: 100%; 
 
-    width: 100%;
-    height: 100%;
+    position: relative; 
 
-    &__video
+    &__video 
     {
-      @extend %cover;
+      @extend %cover; 
 
-      z-index: z('content');
-
-      opacity: 0;
-      object-fit: contain;
+      object-fit: cover;
     }
   }
 
-  &__back
+  &__title 
   {
-    grid-area: 4 / 3 / -1 / -1;
+    grid-area: 2 / 1 / -1 / -1;
 
     align-self: center;
-    justify-self: flex-start;
+    justify-self: center;
 
-    z-index: z('content');
+    height: 100%; 
+    width: 100%;
 
-    @include media('<tablet')
+    padding: 2rem 1rem 1rem 1rem;
+
+    text-align: center;
+
+    border: 1px solid $color-grey;
+
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+
+    background: $color-night;
+
+    &__text 
     {
-      position: fixed;
-      bottom: 4rem;
-      left: 50%;
-      transform: translateX(-50%);
+      @extend %title-100; 
+
+      text-transform: uppercase;
+      letter-spacing: 1rem;
+    }
+  }
+
+  &__grid 
+  {
+    height: 100%; 
+    width: 100%; 
+
+    background: $color-night;
+
+    display: grid; 
+    grid-template-columns: 2fr 1fr 2fr;
+
+    border-bottom: 1px solid $color-grey;
+  }
+
+  &__info 
+  {
+    grid-area: 1 / 1 / -1 / 2;
+
+    width: 100%; 
+    height: 100%; 
+
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    border-right: 1px solid $color-grey; 
+
+    &__title 
+    {
+      @extend %desc-18;
+
+      font-style: italic;
     }
 
-    &__button
+    &__text 
     {
-      @extend %link__center--hidden;
-      @extend %title-30;
+      @extend %title-40;
+    }
 
-      font-weight: 300;
-      font-style: normal;
-      display: block;
-      line-height: 1;
-      padding: .5rem 0;
+    &__div
+    {
+      display: flex; 
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
 
-      text-shadow:
-            -1px -1px 0 #0D0D0D,
-            1px -1px 0 #0D0D0D,
-            -1px 1px 0 #0D0D0D,
-            1px 1px 0 #0D0D0D;
+      margin: 4rem 0;
+    }
+  }
 
-      transition: all 0.5s ease-in-out;
+  &__year 
+  {
+    grid-area: 1 / 2 / -1 / 3;
+    border-right: 1px solid $color-grey; 
 
-      color: $color-black-coral;
+    height: 100%; 
+    width: 100%; 
 
-      @include media('<tablet')
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+
+    &__text 
+    {
+      @extend %title-100; 
+
+      writing-mode: vertical-lr;
+      transform: scale(-1, -1);
+      letter-spacing: 1rem;
+    }
+  }
+
+  &__desc 
+  {
+    grid-area: 1 / 3 / -1 / -1;
+
+    height: 100%; 
+    width: 100%;
+
+    align-self: center;
+    justify-self: center;
+
+    padding: 15rem;
+
+    &__text 
+    {
+      @extend %desc-18;
+
+      letter-spacing: 0.2rem;
+      line-height: 3rem;
+    }
+  }
+
+  &__depth 
+  {
+    height: 100%; 
+    width: 100%; 
+
+    background: $color-night;
+
+    display: grid; 
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 20rem 1fr 20rem 1fr 20rem;
+
+    &__one 
+    {
+      grid-area: 2 / 2 / 3 / 5;
+
+      height: 70vh; 
+      width: 100%; 
+
+      display: grid; 
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+
+      &__bts 
       {
-        font-size: 10rem;
-        color: $color-cultured;
+        grid-area: 1 / 2 / 3 / -1;
+
+        height: 100%; 
+        width: 100%;
+
+        &__media 
+        {
+          height: 100%; 
+          width: 100%;  
+
+          position: relative; 
+
+          &__image 
+          {
+            @extend %cover; 
+
+            object-fit: cover;
+          }
+
+          &__text 
+          {
+            @extend %desc-14;
+            position: absolute; 
+            top: 0;
+            right: -2.5%; 
+
+            writing-mode: vertical-lr;          
+            font-style: italic;
+          }
+        }
+
       }
 
-      @include media('<phone')
+      &__desc 
       {
-        font-size: 3rem;
+        grid-area: 2 / 1 / -1 / 3;
+
+        align-self: center;
+        justify-self: center;
+
+        z-index: z('content');
+
+        &__text 
+        {
+          @extend %desc-18; 
+
+          letter-spacing: 0.1rem;
+        }
+      }
+    }
+
+    &__two 
+    {
+      grid-area: 4 / 1 / 5 / -1;
+
+      height: 70vh; 
+      width: 100%; 
+
+      display: grid; 
+      grid-template-columns: 20rem repeat(4, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+
+      &__bts 
+      {
+        grid-area: 1 / 2 / -1 / 4;
+
+        height: 100%; 
+        width: 100%; 
+
+        &__media 
+        {
+          height: 100%; 
+          width: 100%; 
+
+          position: relative; 
+
+          &__image 
+          {
+            @extend %cover; 
+
+            object-fit: cover;
+          }
+
+          &__text 
+          {
+            @extend %desc-14;
+            position: absolute; 
+            bottom: 0;
+            left: -2.5%; 
+
+            writing-mode: vertical-lr; 
+            transform: scale(-1, -1);         
+            font-style: italic;
+          }
+        }
       }
 
-      &::first-letter
+      &__desc 
       {
-        @extend %desc-50;
+        grid-area: 1 / 4 / -1 / -1;
 
-        font-style: italic;
+        align-self: center;
+        justify-self: center;
+
+        &__text 
+        {
+          @extend %desc-18; 
+
+          letter-spacing: 0.1rem;
+        }
+      }
+    }
+  }
+
+  &__footer 
+  {
+    height: 100%;
+    width: 100%;
+
+    background: $color-night;
+
+    border-top: 1px solid $color-grey;
+    border-bottom: 1px solid $color-grey;
+
+    &__grid 
+    {
+      height: 100%;
+      width: 100%; 
+
+      display: grid; 
+      grid-template-columns: 2fr 1fr 2fr;
+    }
+
+    &__credits 
+    {
+      grid-area: 1 / 1 / -1 / 2;
+
+      align-self: center;
+      justify-self: center;
+
+      padding: 5rem 0;
+
+  
+      &__text 
+      {
+        @extend %desc-18; 
+        
+        line-height: 3rem;
+        letter-spacing: 0.2rem;
+      }
+
+    }
+
+    &__title 
+    {
+      grid-area: 1 / 2 / -1 / 3;
+
+      height: 100%; 
+      width: 100%; 
+
+      border-left: 1px solid $color-grey;
+      border-right: 1px solid $color-grey;
+
+      overflow: hidden;
+
+      padding: 4rem 0;  
+
+      display: flex; 
+      justify-content: center;
+      align-items: center;
+
+      &__text 
+      {
+        @extend %title-100;
+
+        writing-mode: vertical-lr;
         text-transform: uppercase;
+      }
+    }
 
-        @include media('<tablet')
-        {
-          font-size: 15rem;
-        }
+    &__thanks 
+    {
+      grid-area: 1 / 3 / -1 / -1;
 
-        @include media('<phone')
+      height: 100%; 
+      width: 100%; 
+
+      display: grid; 
+      grid-template-rows: 10rem 1fr;
+
+      &__title 
+      {
+        grid-area: 1 / 1 / 2 / -1;
+
+        width: 100%; 
+        height: 100%; 
+
+        border-bottom: 1px solid $color-grey;
+        overflow: hidden;
+
+        text-align: center;
+
+        padding-top: 2rem;
+
+        &__text 
         {
-          font-size: 5rem;
+          @extend %title-70;
+
+          text-transform: uppercase;
         }
       }
 
-      &:hover
+      &__desc
       {
-        color: $color-cultured;
+        grid-area: 2 / 1 / -1 / -1;
+
+        align-self: center;
+        justify-self: center;
+
+        &__text 
+        {
+          @extend %desc-18;
+
+          line-height: 3rem;
+          letter-spacing: 0.2rem;
+        }
       }
     }
   }

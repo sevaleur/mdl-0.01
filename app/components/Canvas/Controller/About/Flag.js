@@ -127,7 +127,7 @@ export default class Flag
     this.plane.position.x = (-this.viewport.width / 2) + (this.plane.scale.x / 2) + this.x
   }
 
-  updateY(current)
+  updateY()
   {
     this.y = (this.bounds.top / this.screen.height) * this.viewport.height
     this.plane.position.y = (this.viewport.height / 2) - (this.plane.scale.y / 2) - this.y

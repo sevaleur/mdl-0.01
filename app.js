@@ -277,8 +277,6 @@ app.get('/advert/:uid', async(req, res) =>
       )
     )
 
-    console.log(advert.result[0])
-
     res.render('pages/advert', {
       ...partials,
       advert: advert.result[0]

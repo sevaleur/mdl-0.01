@@ -1,7 +1,4 @@
-import gsap from 'gsap'
-
 import Page from 'classes/Page'
-import Show from 'animations/Show'
 
 import { COLOR_CULTURED, COLOR_NIGHT } from '../../utils/color_variables'
 

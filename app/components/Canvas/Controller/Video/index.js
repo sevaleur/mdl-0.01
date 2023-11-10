@@ -17,12 +17,12 @@ export default class Video
 
     this.getElements()
 
-    this.createPlaceholder()
-    this.onResize()
+    //this.createPlaceholder()
+    //this.onResize()
 
     this.scene.add(this.group)
 
-    if(!this.transition) this.show()
+    //if(!this.transition) this.show()
   }
 
   getElements()
@@ -47,12 +47,12 @@ export default class Video
 
   show()
   {
-    this.placeholder.show()
+    //this.placeholder.show()
   }
 
   hide()
   {
-    this.placeholder.hide()
+    //this.placeholder.hide()
   }
 
   /*
@@ -61,10 +61,10 @@ export default class Video
 
   onResize()
   {
-    this.placeholder.onResize({
+    /* this.placeholder.onResize({
       screen: this.screen,
       viewport: this.viewport,
-    })
+    }) */
   }
 
   onTouchDown({ y })
@@ -91,9 +91,12 @@ export default class Video
     UPDATE.
   */
 
-  update()
+  update(scroll)
   {
-    this.placeholder.update()
+    const current = (scroll.current / this.screen.height) * this.viewport.height
+
+    this.group.position.y = current
+    //this.placeholder.update()
   }
 
   /*

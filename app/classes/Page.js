@@ -264,7 +264,7 @@ export default class Page
 
     if(this.scroll.current < 0.01)
       this.scroll.current = 0
-
+    
     if(this.elements.wrapper)
       this.elements.wrapper.style[this.transform_prefix] = `translateY(-${this.scroll.current}px)`
   }
