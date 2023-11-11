@@ -28,11 +28,11 @@ block content
             h2.video__info__client__text.video__info__text=film.project.client
 
           .video__info__name.video__info__div
-            p.video__info__name__title.video__info__title title
+            p.video__info__name__title.video__info__title Title
             p.video__info__name__text.video__info__text=film.title
 
           .video__info__role.video__info__div
-            p.video__info__role__title.video__info__title role
+            p.video__info__role__title.video__info__title Role
             p.video__info__role__text.video__info__text!=film.project.role.replace(/\n/g, '<br>')
         
         .video__year 
@@ -54,7 +54,7 @@ block content
                 .video__depth__one__desc 
                   p.video__depth__one__desc__text!=film.inDepth.description.replace(/\n/g, '<br>')
           if film.inDepth.photoTwo || film.inDepth.descriptionTwo
-            .video__depth__two( data-grid=advert.inDepth.photo || advert.inDepth.description ? 'full' : 'half' )
+            .video__depth__two( data-grid=film.inDepth.photo || film.inDepth.description ? 'full' : 'half' )
               if film.inDepth.photoTwo
                 .video__depth__two__bts 
                   figure.video__depth__two__bts__media 
@@ -66,10 +66,10 @@ block content
 
       if film.footer
         section.video__footer 
-          .video__footer__grid 
-            .video__footer__credits 
+          .video__footer__grid
+            .video__footer__credits
               p.video__footer__credits__text!=film.footer.credits.replace(/\n/g, '<br>')
-            .video__footer__title 
+            .video__footer__title
               h3.video__footer__title__text=film.footer.credits_title 
             .video__footer__thanks 
               .video__footer__thanks__title 

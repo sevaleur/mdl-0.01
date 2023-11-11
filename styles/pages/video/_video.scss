@@ -99,6 +99,9 @@
 
     background: $color-night;
 
+    white-space: nowrap;
+    overflow: hidden;
+
     &__text 
     {
       @extend %title-100; 
@@ -208,6 +211,8 @@
     width: 100%; 
 
     background: $color-night;
+
+    display: grid;
 
     &__one 
     {

@@ -27,11 +27,11 @@ block content
             h2.video__info__client__text.video__info__text=advert.project.client
 
           .video__info__name.video__info__div
-            p.video__info__name__title.video__info__title title
+            p.video__info__name__title.video__info__title Title
             p.video__info__name__text.video__info__text=advert.title
 
           .video__info__role.video__info__div
-            p.video__info__role__title.video__info__title role
+            p.video__info__role__title.video__info__title Role
             p.video__info__role__text.video__info__text!=advert.project.role.replace(/\n/g, '<br>')
         
         .video__year 
@@ -41,7 +41,7 @@ block content
           p.video__desc__text!=advert.project.description.replace(/\n/g, '<br>')
 
       if advert.inDepth
-        section.video__depth( data-grid=advert.inDepth.description && advert.inDepth.descriptionTwo || advert.inDepth.photo && advert.inDepth.photoTwo ? 'full' : 'half' )
+        section.video__depth( data-grid=advert.inDepth.description && advert.inDepth.descriptionTwo || advert.inDepth.photo && advert.inDepth.photoTwo || advert.inDepth.description && advert.inDepth.photoTwo || advert.inDepth.photo && advert.inDepth.descriptionTwo ? 'full' : 'half' )
           if advert.inDepth.photo || advert.inDepth.description 
             .video__depth__one
               if advert.inDepth.photo
@@ -65,12 +65,12 @@ block content
 
       if advert.footer
         section.video__footer 
-          .video__footer__grid 
-            .video__footer__credits 
+          .video__footer__grid
+            .video__footer__credits
               p.video__footer__credits__text!=advert.footer.credits.replace(/\n/g, '<br>')
-            .video__footer__title 
+            .video__footer__title
               h3.video__footer__title__text=advert.footer.credits_title 
-            .video__footer__thanks 
+            .video__footer__thanks
               .video__footer__thanks__title 
                 h3.video__footer__thanks__title__text=advert.footer.thanks_title
               .video__footer__thanks__desc 

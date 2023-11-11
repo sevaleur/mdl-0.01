@@ -6,14 +6,12 @@
 
 .video__depth[data-grid='full']
 {
-  display: grid; 
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: 20rem 1fr 20rem 1fr 20rem;
 }
 
 .video__depth[data-grid='half']
 {
-  display: grid; 
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: 20rem 1fr 10rem;
 }

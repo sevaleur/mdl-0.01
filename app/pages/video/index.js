@@ -13,12 +13,15 @@ export default class Video extends Page
       id: 'video',
       element: '.video',
       elements: {
-        title: '.video__title',
+        titleDiv: '.video__title',
+        title: '.video__title__text',
         wrapper: '.video__wrapper'
       }, 
       background: COLOR_NIGHT, 
       color: COLOR_CULTURED
     })
+
+    this.showAnimations = []
   }
 
   create()
@@ -31,6 +34,8 @@ export default class Video extends Page
   { 
     const GHOST = document.querySelector('.video__ghost__div')
 
+    this.titleBounds = this.elements.titleDiv.getBoundingClientRect()
+    this.showAnimations.push(new Show(this.elements.title))
 
     this.createVideo(GHOST)
   }
@@ -47,8 +52,6 @@ export default class Video extends Page
       hideControls: true, 
       loop: { active: true },
     })
-
-    console.log(this.vid)
 
     GHOST.addEventListener('click', () => 
     {
@@ -67,25 +70,32 @@ export default class Video extends Page
     })
   }
 
+  onWheel(e)
+  {
+    super.onWheel(e)
+
+    let location = (window.innerHeight - this.titleBounds.height) - this.scroll.current
+    let scrollPos = (this.scroll.current + this.titleBounds.height) - window.innerHeight
+
+    scrollPos >= location
+      ? this.vid.pause()
+      : this.vid.play()
+  }
+
   show()
   {
     super.show()
 
-    /* this.p_an = []
-    this.elements.text.forEach((p, index) =>
-    {
-      this.p_an.push(new Show(p))
-      this.p_an[index].show()
-    }) */
+    this.showAnimations.forEach(
+      el => 
+      {
+        el.show()
+      }
+    )
   }
 
   hide()
   {
     super.hide()
-
-    /* this.p_an.forEach(el =>
-    {
-      el.hide()
-    }) */
   }
 }
