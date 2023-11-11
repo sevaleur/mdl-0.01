@@ -170,12 +170,13 @@
     align-items: center;
     justify-content: center;
 
+    padding: 4rem 0; 
+
     &__text 
     {
       @extend %title-100; 
 
       writing-mode: vertical-lr;
-      transform: scale(-1, -1);
       letter-spacing: 1rem;
     }
   }
@@ -207,10 +208,6 @@
     width: 100%; 
 
     background: $color-night;
-
-    display: grid; 
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: 20rem 1fr 20rem 1fr 20rem;
 
     &__one 
     {
@@ -278,8 +275,6 @@
 
     &__two 
     {
-      grid-area: 4 / 1 / 5 / -1;
-
       height: 70vh; 
       width: 100%; 
 
@@ -390,11 +385,11 @@
 
       overflow: hidden;
 
-      padding: 4rem 0;  
-
       display: flex; 
       justify-content: center;
       align-items: center;
+
+      padding: 4rem 0; 
 
       &__text 
       {
@@ -413,7 +408,7 @@
       width: 100%; 
 
       display: grid; 
-      grid-template-rows: 10rem 1fr;
+      grid-template-rows: 15rem 1fr;
 
       &__title 
       {
@@ -425,13 +420,14 @@
         border-bottom: 1px solid $color-grey;
         overflow: hidden;
 
-        text-align: center;
-
         padding-top: 2rem;
+        padding-left: 4rem;
+
+        white-space: nowrap;
 
         &__text 
         {
-          @extend %title-70;
+          @extend %title-100;
 
           text-transform: uppercase;
         }

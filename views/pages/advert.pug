@@ -35,44 +35,46 @@ block content
             p.video__info__role__text.video__info__text!=advert.project.role.replace(/\n/g, '<br>')
         
         .video__year 
-          p.video__year__text=advert.project.year
+          p.video__year__text=`( ${advert.project.year} )`
 
         .video__desc
           p.video__desc__text!=advert.project.description.replace(/\n/g, '<br>')
 
       if advert.inDepth
-        section.video__depth 
-          .video__depth__one
-            if advert.inDepth.photo
-              .video__depth__one__bts 
-                figure.video__depth__one__bts__media 
-                  img.video__depth__one__bts__media__image(data-src=Build.image(advert.inDepth.photo.asset._ref).url() alt=advert.inDepth.photo.alt)
-                  p.video__depth__one__bts__media__text=advert.inDepth.photo.alt
-            if advert.inDepth.description
-              .video__depth__one__desc 
-                p.video__depth__one__desc__text!=advert.inDepth.description.replace(/\n/g, '<br>')
-          .video__depth__two 
-            if advert.inDepth.photoTwo
-              .video__depth__two__bts 
-                figure.video__depth__two__bts__media 
-                  img.video__depth__two__bts__media__image(data-src=Build.image(advert.inDepth.photoTwo.asset._ref).url() alt=advert.inDepth.photoTwo.alt)
-                  p.video__depth__two__bts__media__text=advert.inDepth.photoTwo.alt
-            if advert.inDepth.descriptionTwo
-              .video__depth__two__desc 
-                p.video__depth__two__desc__text!=advert.inDepth.descriptionTwo.replace(/\n/g, '<br>')
+        section.video__depth( data-grid=advert.inDepth.description && advert.inDepth.descriptionTwo || advert.inDepth.photo && advert.inDepth.photoTwo ? 'full' : 'half' )
+          if advert.inDepth.photo || advert.inDepth.description 
+            .video__depth__one
+              if advert.inDepth.photo
+                .video__depth__one__bts 
+                  figure.video__depth__one__bts__media 
+                    img.video__depth__one__bts__media__image(data-src=Build.image(advert.inDepth.photo.asset._ref).url() alt=advert.inDepth.photo.alt)
+                    p.video__depth__one__bts__media__text=advert.inDepth.photo.alt
+              if advert.inDepth.description
+                .video__depth__one__desc 
+                  p.video__depth__one__desc__text!=advert.inDepth.description.replace(/\n/g, '<br>')
+          if advert.inDepth.photoTwo || advert.inDepth.descriptionTwo
+            .video__depth__two( data-grid=advert.inDepth.photo || advert.inDepth.description ? 'full' : 'half' )
+              if advert.inDepth.photoTwo
+                .video__depth__two__bts 
+                  figure.video__depth__two__bts__media 
+                    img.video__depth__two__bts__media__image(data-src=Build.image(advert.inDepth.photoTwo.asset._ref).url() alt=advert.inDepth.photoTwo.alt)
+                    p.video__depth__two__bts__media__text=advert.inDepth.photoTwo.alt
+              if advert.inDepth.descriptionTwo
+                .video__depth__two__desc 
+                  p.video__depth__two__desc__text!=advert.inDepth.descriptionTwo.replace(/\n/g, '<br>')
 
-        if advert.footer
-          section.video__footer 
-            .video__footer__grid 
-              .video__footer__credits 
-                p.video__footer__credits__text!=advert.footer.credits.replace(/\n/g, '<br>')
-              .video__footer__title 
-                h3.video__footer__title__text=advert.footer.credits_title 
-              .video__footer__thanks 
-                .video__footer__thanks__title 
-                  h3.video__footer__thanks__title__text=advert.footer.thanks_title
-                .video__footer__thanks__desc 
-                  p.video__footer__thanks__desc__text!=advert.footer.thanks.replace(/\n/g, '<br>')
+      if advert.footer
+        section.video__footer 
+          .video__footer__grid 
+            .video__footer__credits 
+              p.video__footer__credits__text!=advert.footer.credits.replace(/\n/g, '<br>')
+            .video__footer__title 
+              h3.video__footer__title__text=advert.footer.credits_title 
+            .video__footer__thanks 
+              .video__footer__thanks__title 
+                h3.video__footer__thanks__title__text=advert.footer.thanks_title
+              .video__footer__thanks__desc 
+                p.video__footer__thanks__desc__text!=advert.footer.thanks.replace(/\n/g, '<br>')
 
 
 

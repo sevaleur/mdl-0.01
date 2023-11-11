@@ -13,7 +13,7 @@ export default class Video extends Page
       id: 'video',
       element: '.video',
       elements: {
-        text: '.video__desc__text',
+        title: '.video__title',
         wrapper: '.video__wrapper'
       }, 
       background: COLOR_NIGHT, 
@@ -29,13 +29,13 @@ export default class Video extends Page
 
   createElements()
   { 
-    this.ghost = document.querySelector('.video__ghost__div')
+    const GHOST = document.querySelector('.video__ghost__div')
 
 
-    this.createVideo()
+    this.createVideo(GHOST)
   }
 
-  createVideo()
+  createVideo(GHOST)
   {
     let isMuted = false 
     let isPlaying = false 
@@ -50,20 +50,17 @@ export default class Video extends Page
 
     console.log(this.vid)
 
-    this.vid.on('playing', () => isPlaying = true)
-
-
-    this.ghost.addEventListener('click', () => 
+    GHOST.addEventListener('click', () => 
     {
-      if(!this.isPlaying) 
+      if(!isPlaying) 
       {
-        this.isPlaying = true
+        isPlaying = true
         this.vid.muted = false
         this.vid.play()
       }
       else 
       {
-        this.isPlaying = false 
+        isPlaying = false 
         this.vid.muted = true 
         this.vid.pause()
       }
