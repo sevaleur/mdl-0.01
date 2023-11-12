@@ -8,9 +8,10 @@ block content
 
   .menu
     .menu__title
-      h1.menu__title__text=commercial.title
-      span.menu__title__text=commercial.title
-      span.menu__title__text=commercial.title
+      .menu__title__wrapper 
+        h1.menu__title__text=commercial.title
+        span.menu__title__text=commercial.title
+        span.menu__title__text=commercial.title
     .menu__wrapper
       .menu__gallery
         each obj, index in commercial.showcase

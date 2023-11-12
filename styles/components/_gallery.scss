@@ -211,6 +211,8 @@
     left: 6rem;
     transform: translateY(-50%);
 
+    opacity: 0.0;
+
     z-index: z('title');
     mix-blend-mode: difference;
 
@@ -239,6 +241,11 @@
       text-transform: uppercase;
       letter-spacing: 2rem;
 
+      .char 
+      {
+        opacity: 0.0;
+      }
+
       @include media('<tablet')
       {
         font-size: 10rem;
@@ -253,6 +260,11 @@
     &__desc
     {
       @extend %desc-16;
+
+      .char 
+      {
+        opacity: 0.0;
+      }
 
       @include media('<tablet')
       {

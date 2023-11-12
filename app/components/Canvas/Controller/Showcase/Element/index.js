@@ -194,7 +194,7 @@ export default class Element
     if(this.length > 2)
     {
       this.pos_viewport_y = this.plane.position.y + this.y / 100
-      this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height, -1., 1., this.pos_viewport_y)
+      this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height,  -0.35, 0.35, this.pos_viewport_y)
     }
   }
 

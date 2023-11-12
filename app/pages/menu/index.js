@@ -35,7 +35,9 @@ export default class Menu extends Page
 
   createElements()
   {
-    this.infdiv = document.querySelector('.menu__title')
+    this.titlediv = document.querySelector('.menu__title')
+    this.infdiv = document.querySelector('.menu__title__wrapper')
+    this.inftext = document.querySelectorAll('.menu__title__text')
     this.image_link_elements = document.querySelectorAll('.menu__gallery__image__link')
 
     const TYPE = document.querySelectorAll('.menu__gallery__image__type__text')
@@ -69,30 +71,33 @@ export default class Menu extends Page
 
   onLoadedLoop()
   {
-    /* const NODES = this.infdiv.childNodes.length
-    const HEIGHT = this.infdiv.getBoundingClientRect().height
+    const NODES = this.infdiv.childNodes.length
     const TXTHEIGHT = this.infdiv.children[0].getBoundingClientRect().height
-
     const VAL = TXTHEIGHT * NODES 
-    console.log(VAL)
 
-    this.infdiv.childNodes.forEach(
+    this.inftext.forEach(
       (child, idx) =>
     {
-      console.log(VAL - (TXTHEIGHT * (idx + 1)))
+      gsap.set(
+        child, 
+        {
+          y: idx * TXTHEIGHT + 'px'
+        }
+      )
+
       gsap.to(
         child,
         {
-          y: -VAL + 'px',
-          duration: ( NODES * TXTHEIGHT ) * ( idx + 1 ),
-          ease: 'linear',
-          onComplete: () => 
-          {
-            this.infdiv.removeChild(child)
-          }
+          y: -TXTHEIGHT * (idx + 1) + 'px',
+          duration: NODES * (idx + 1),
+          ease: 'none',
+          modifiers: {
+            y: y => parseFloat(y) % VAL + 'px' 
+          },
+          repeat: -1
         }
       )
-    }) */
+    })
   }
 
   onHover()
@@ -174,7 +179,7 @@ export default class Menu extends Page
     super.show()
 
     gsap.fromTo(
-      this.infdiv,
+      this.titlediv,
       {
         x: '-100%',
       },
@@ -198,7 +203,7 @@ export default class Menu extends Page
     return new Promise(resolve =>
     {
       gsap.fromTo(
-        this.infdiv,
+        this.titlediv,
         {
           x: '0'
         },

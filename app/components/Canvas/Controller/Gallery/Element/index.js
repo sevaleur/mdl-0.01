@@ -79,25 +79,50 @@ export default class Element
   *
   */
 
-  show(transition)
+  show(transition=false)
   {
-    gsap.fromTo(
-      this.material.uniforms.u_state,
+    if(transition)
     {
-      value: 0.0
-    },
+      gsap.fromTo(
+        this.material.uniforms.u_state,
+      {
+        value: 0.0
+      },
+      {
+        value: 1.0
+      })
+  
+      gsap.fromTo(
+        this.material.uniforms.u_alpha,
+      {
+        value: 0.0
+      },
+      {
+        value: 1.0
+      })
+    }
+    else 
     {
-      value: 1.0
-    })
-
-    gsap.fromTo(
-      this.material.uniforms.u_alpha,
-    {
-      value: 0.0
-    },
-    {
-      value: 1.0
-    })
+      gsap.fromTo(
+        this.material.uniforms.u_state,
+      {
+        value: 0.0
+      },
+      {
+        value: 1.0,
+        duration: 1.0
+      })
+  
+      gsap.fromTo(
+        this.material.uniforms.u_alpha,
+      {
+        value: 0.0
+      },
+      {
+        value: 1.0,
+        duration: 1.0
+      })
+    }
   }
 
   hide()

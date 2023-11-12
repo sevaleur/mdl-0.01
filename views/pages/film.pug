@@ -7,13 +7,11 @@ block content
   .video
     .video__wrap
       .video__media
-        //figure.video__preview
+        figure.video__preview
           img.video__preview__image(data-src=Build.image(film.preview.asset._ref).url() alt=film.preview.alt)
         .video__selected#plyr
           if film.selected_video
             iframe.video__selected__video.plyr__video-embed(src=film.selected_video)
-          if film.uploaded_video 
-            video.video__selected__video(src=Build.image(film.uploaded_video.asset._ref).url())
     .video__wrapper
       .video__ghost 
         .video__ghost__div
@@ -68,9 +66,10 @@ block content
         section.video__footer 
           .video__footer__grid
             .video__footer__credits
-              p.video__footer__credits__text!=film.footer.credits.replace(/\n/g, '<br>')
-            .video__footer__title
-              h3.video__footer__title__text=film.footer.credits_title 
+              .video__footer__credits__title
+                h3.video__footer__credits__title__text=film.footer.credits_title 
+              .video__footer__credits__desc
+                p.video__footer__credits__desc__text!=film.footer.credits.replace(/\n/g, '<br>')
             .video__footer__thanks 
               .video__footer__thanks__title 
                 h3.video__footer__thanks__title__text=film.footer.thanks_title

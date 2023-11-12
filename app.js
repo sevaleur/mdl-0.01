@@ -118,14 +118,22 @@ const handleReq = async() =>
     const all_adverts = await url(
       encodeURIComponent(
         `*[_type == "advert"]{
-          "image": preview
+          preview,
+          "photo": inDepth.photo, 
+          "photo2": inDepth.photoTwo
         }`
       )
     )
     all_adverts.result.forEach(
       ad => 
       {
-        this.assets.push(build.image(ad.image.asset._ref).url())
+        this.assets.push(build.image(ad.preview.asset._ref).url())
+        
+        if(ad.photo)
+          this.assets.push(build.image(ad.photo.asset._ref).url())
+
+        if(ad.photo2)
+          this.assets.push(build.image(ad.photo2.asset._ref).url())
       }
     )
     

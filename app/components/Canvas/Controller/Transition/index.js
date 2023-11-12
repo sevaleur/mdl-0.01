@@ -6,10 +6,10 @@ import fragment from 'shaders/transition/fragment.glsl'
 
 export default class Transition
 {
-  constructor({ index, image_elements, scene, viewport, screen, url, scroll })
+  constructor({ index, elements, scene, viewport, screen, url, scroll })
   {
     this.index = index
-    this.elements = image_elements
+    this.elements = elements
     this.scene = scene
     this.viewport = viewport
     this.screen = screen
@@ -49,9 +49,12 @@ export default class Transition
       transparent: true
     })
 
-    this.material.uniforms.u_imageSize.value = [this.element.texture.image.naturalWidth, this.element.texture.image.naturalHeight]
+    this.material.uniforms.u_imageSize.value = [
+      this.element.texture.image.naturalWidth, 
+      this.element.texture.image.naturalHeight
+    ]
 
-    this.plane = new Mesh( this.geo, this.program )
+    this.plane = new Mesh( this.geo, this.material )
 
     this.plane.scale.x = this.element.plane.scale.x
     this.plane.scale.y = this.element.plane.scale.y
@@ -84,15 +87,21 @@ export default class Transition
 
   }
 
-  animateGallery(gallery)
+  animateTransition(_elements)
   {
-    const { gallery_elements } = gallery
-    const element = gallery_elements[0]
+    let element 
 
+    if(_elements.id === 'gallery')
+    {
+      const { elements } = _elements
+      element = elements[0]
+    } 
+    
     let tl = gsap.timeline({
       onComplete: () =>
       {
-        gallery.show()
+        _elements.show(true)
+    
         this.hide()
       }
     })
@@ -116,37 +125,6 @@ export default class Transition
     }, 0)
   }
 
-  animateVideo(video)
-  {
-    const { placeholder } = video
-
-    let tl = gsap.timeline({
-      onComplete: () =>
-      {
-        placeholder.show()
-        this.hide()
-      }
-    })
-
-    tl.to(this.plane.position,
-    {
-      x: placeholder.plane.position.x,
-      y: placeholder.plane.position.y,
-      z: placeholder.plane.position.z + 0.01,
-      duration: 1.5,
-      ease: 'expo.inOut'
-    }, 0)
-
-    tl.to(this.plane.scale,
-    {
-      x: placeholder.plane.scale.x,
-      y: placeholder.plane.scale.y,
-      z: placeholder.plane.scale.z,
-      duration: 1.5,
-      ease: 'expo.inOut'
-    }, 0)
-  }
-
   hide()
   {
     gsap.delayedCall(0.5, () =>
@@ -165,16 +143,12 @@ export default class Transition
     this.plane.material.uniforms.u_planeSize.value = [this.plane.scale.x, this.plane.scale.y]
   }
 
-  updateX(elements)
+  updateX(_elements)
   {
-    if(elements.id === 'gallery')
+    if(_elements.id === 'gallery')
     {
-      const { gallery_elements } = elements
-      this.element = gallery_elements[0]
-    }
-    else
-    {
-      this.element = elements.placeholder
+      const { elements } = _elements
+      this.element = elements[0]
     }
 
     this.y = this.element.bounds.top / this.screen.height

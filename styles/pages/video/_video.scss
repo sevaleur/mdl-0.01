@@ -11,6 +11,8 @@
   {
     border-right: 1px solid $color-grey;
     border-left: 1px solid $color-grey;
+
+    z-index: z('content');
   }
 
   &__ghost 
@@ -46,6 +48,8 @@
   {
     height: 100%; 
     width: 100%; 
+
+    position: relative; 
   }
 
   &__preview 
@@ -53,12 +57,16 @@
     height: 100%; 
     width: 100%; 
 
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    visibility: hidden;
 
     &__image 
     {
-      @extend %cover; 
-
+      height: 100%; 
+      width: 100%; 
       object-fit: cover;
     }
   }
@@ -232,6 +240,8 @@
         height: 100%; 
         width: 100%;
 
+        position: relative; 
+
         &__media 
         {
           height: 100%; 
@@ -239,23 +249,26 @@
 
           position: relative; 
 
+          z-index: z('title');
+
           &__image 
           {
             @extend %cover; 
 
             object-fit: cover;
           }
+        }
 
-          &__text 
-          {
-            @extend %desc-14;
-            position: absolute; 
-            top: 0;
-            right: -2.5%; 
+        &__text 
+        {
+          @extend %desc-14;
 
-            writing-mode: vertical-lr;          
-            font-style: italic;
-          }
+          position: absolute; 
+          top: 0;
+          right: -2.5%; 
+
+          writing-mode: vertical-lr;          
+          font-style: italic;
         }
 
       }
@@ -294,6 +307,8 @@
         height: 100%; 
         width: 100%; 
 
+        position: relative;
+
         &__media 
         {
           height: 100%; 
@@ -307,18 +322,18 @@
 
             object-fit: cover;
           }
+        }
 
-          &__text 
-          {
-            @extend %desc-14;
-            position: absolute; 
-            bottom: 0;
-            left: -2.5%; 
+        &__text 
+        {
+          @extend %desc-14;
+          position: absolute; 
+          bottom: 0;
+          left: -2.5%; 
 
-            writing-mode: vertical-lr; 
-            transform: scale(-1, -1);         
-            font-style: italic;
-          }
+          writing-mode: vertical-lr; 
+          transform: scale(-1, -1);         
+          font-style: italic;
         }
       }
 
@@ -355,7 +370,7 @@
       width: 100%; 
 
       display: grid; 
-      grid-template-columns: 2fr 1fr 2fr;
+      grid-template-columns: 1fr 1fr;
     }
 
     &__credits 
@@ -365,49 +380,63 @@
       align-self: center;
       justify-self: center;
 
-      padding: 5rem 0;
-
-  
-      &__text 
-      {
-        @extend %desc-18; 
-        
-        line-height: 3rem;
-        letter-spacing: 0.2rem;
-      }
-
-    }
-
-    &__title 
-    {
-      grid-area: 1 / 2 / -1 / 3;
-
-      height: 100%; 
-      width: 100%; 
-
-      border-left: 1px solid $color-grey;
       border-right: 1px solid $color-grey;
 
-      overflow: hidden;
+      height: 100%; 
+      width: 100%;
 
-      display: flex; 
-      justify-content: center;
-      align-items: center;
-
-      padding: 4rem 0; 
-
-      &__text 
+      display: grid; 
+      grid-template-rows: 15rem 1fr;
+  
+      &__desc 
       {
-        @extend %title-100;
+        grid-area: 2 / 1 / -1 / -1;
+        align-self: center;
+        justify-self: center;
 
-        writing-mode: vertical-lr;
-        text-transform: uppercase;
+
+        padding: 10rem 0;
+
+        &__text 
+        {
+          @extend %desc-18; 
+          
+          line-height: 3rem;
+          letter-spacing: 0.2rem;
+        }
+      }
+
+      &__title 
+      {
+        grid-area: 1 / 1 / 2 / -1;
+  
+        height: 100%; 
+        width: 100%; 
+  
+        border-bottom: 1px solid $color-grey;
+  
+        overflow: hidden;
+  
+        position: relative;
+  
+        &__text 
+        {
+          @extend %title-100;
+
+          position: absolute; 
+          left: 50%;
+          top: 50%; 
+
+          transform: translate(-50%, -50%);
+
+          text-transform: uppercase;
+        }
       }
     }
 
     &__thanks 
     {
-      grid-area: 1 / 3 / -1 / -1;
+      grid-area: 1 / 2 / -1 / -1;
 
       height: 100%; 
       width: 100%; 
@@ -425,14 +454,19 @@
         border-bottom: 1px solid $color-grey;
         overflow: hidden;
 
-        padding-top: 2rem;
-        padding-left: 4rem;
+        position: relative; 
 
         white-space: nowrap;
 
         &__text 
         {
           @extend %title-100;
+
+          position: absolute; 
+          left: 50%;
+          top: 50%; 
+
+          transform: translate(-50%, -50%);
 
           text-transform: uppercase;
         }

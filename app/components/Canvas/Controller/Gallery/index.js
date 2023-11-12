@@ -106,9 +106,9 @@ export default class Gallery
     ANIMATIONS.
   */
 
-  show()
+  show(transition=false)
   {
-    this.elements.forEach( element => { element.show() })
+    this.elements.forEach( element => { element.show(transition) })
   }
 
   hide()

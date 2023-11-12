@@ -6,6 +6,8 @@ export default class Showcase
 {
   constructor({ bgTMap, scene, screen, viewport, geo, transition, template })
   {
+    this.id = 'showcase'
+
     this.bgTMap = bgTMap
     this.scene = scene
     this.screen = screen

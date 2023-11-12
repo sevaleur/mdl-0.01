@@ -48,10 +48,6 @@ export default class Menu
 
   createElements()
   {
-    this.image_title_text = document.querySelectorAll('.menu__gallery__image__title__text')
-    this.image_type_text = document.querySelectorAll('.menu__gallery__image__type__text')
-    this.image_index_text = document.querySelectorAll('.menu__gallery__image__index__text')
-
     this.menu_wrapper = document.querySelector('.menu__wrapper')
     this.menu_gallery = document.querySelector('.menu__gallery')
 
@@ -94,33 +90,6 @@ export default class Menu
   hide()
   {
     this.elements.forEach(element => { element.hide() })
-  }
-
-  animateText()
-  {
-    this.image_title_text.forEach(
-      (t, i) =>
-    {
-      gsap.set([
-        t,
-        this.image_index_text[i],
-        this.image_type_text[i]
-      ],
-      {
-        opacity: 0.0
-      })
-
-      gsap.to([
-        t,
-        this.image_index_text[i],
-        this.image_type_text[i]
-      ],
-      {
-        opacity: 1.0,
-        duration: 1.0,
-        delay: 0.5
-      })
-    })
   }
 
   /*

@@ -4,7 +4,6 @@ import gsap from 'gsap'
 import Showcase from './Showcase'
 import Menu from './Menu'
 import Gallery from './Gallery'
-import Video from './Video'
 import About from './About'
 import Logo from './Logo'
 import Transition from './Transition'
@@ -131,19 +130,6 @@ export default class Controller
     })
   }
 
-  createVideo()
-  {
-    if(this.video) this.destroyVideo()
-
-    this.video = new Video({
-      scene: this.scene,
-      screen: this.sizes.screen,
-      viewport: this.viewport,
-      geo: this.geo,
-      transition: this.transition
-    })
-  }
-
   createAbout()
   {
     if(this.about) this.destroyAbout()
@@ -194,14 +180,6 @@ export default class Controller
     this.gallery = null
   }
 
-  destroyVideo()
-  {
-    if(!this.video) return
-
-    this.video.destroy()
-    this.video = null
-  }
-
   destroyAbout()
   {
     if(!this.about) return
@@ -236,32 +214,24 @@ export default class Controller
     if(this.gallery)
       this.gallery.hide()
 
-    if(this.video)
-      this.video.hide()
-
-    /* this.menu_to_view = template === 'commercial' && url.indexOf('still_life') > -1 || template === 'commercial' && url.indexOf('portraits') > -1
     this.menu_to_gallery = template === 'commercial' && url.indexOf('gallery') > -1
-    this.gallery_to_menu = template === 'gallery' && url.indexOf('commercial') > -1
 
-    this.menu_to_video = template === 'advertising' && url.indexOf('video') > -1 || template === 'shortFilms' && url.indexOf('video') > -1
-    this.video_to_menu = template === 'video' && url.indexOf('advertising') > -1
-
-    if(this.menu_to_gallery && !this.menu_to_view || this.menu_to_video)
+    if(this.menu_to_gallery)
     {
       const scroll = { ...this.menu.scroll }
 
-      const { index, image_elements } = this.menu
+      const { index, elements } = this.menu
 
       this.transition = new Transition({
         index,
-        image_elements,
+        elements,
         scene: this.scene,
         viewport: this.viewport,
         screen: this.sizes.screen,
         url,
         scroll
       })
-    } */
+    }
   }
 
   onChange(template)
@@ -285,7 +255,6 @@ export default class Controller
 
         this.destroyMenu()
         this.destroyGallery()
-        this.destroyVideo()
         this.destroyAbout()
 
         break
@@ -306,7 +275,6 @@ export default class Controller
 
         this.destroyShowcase()
         this.destroyGallery()
-        this.destroyVideo()
         this.destroyAbout()
 
         break
@@ -316,7 +284,6 @@ export default class Controller
 
         this.destroyShowcase()
         this.destroyMenu()
-        this.destroyVideo()
         this.destroyAbout()
 
         break
@@ -327,27 +294,11 @@ export default class Controller
 
         gsap.delayedCall(0.5, () =>
         {
-          if(this.menu_to_gallery) this.transition.animateGallery(this.gallery)
+          if(this.menu_to_gallery || this.home_to_gallery) this.transition.animateTransition(this.gallery)
         })
 
         this.destroyShowcase()
         this.destroyMenu()
-        this.destroyVideo()
-        this.destroyAbout()
-
-        break
-      case 'advert':
-      case 'film': 
-        this.createVideo()
-
-        gsap.delayedCall(0.5, () =>
-        {
-          if(this.menu_to_video) this.transition.animateVideo(this.video)
-        })
-
-        this.destroyShowcase()
-        this.destroyMenu()
-        this.destroyGallery()
         this.destroyAbout()
 
         break
@@ -357,7 +308,6 @@ export default class Controller
         this.destroyShowcase()
         this.destroyMenu()
         this.destroyGallery()
-        this.destroyVideo()
 
         break
       default:
@@ -394,14 +344,6 @@ export default class Controller
     if(this.gallery)
     {
       this.gallery.onResize({
-        screen,
-        viewport
-      })
-    }
-
-    if(this.video)
-    {
-      this.video.onResize({
         screen,
         viewport
       })
@@ -543,14 +485,6 @@ export default class Controller
 
       if(this.transition)
         this.transition.update(this.gallery)
-    }
-
-    if(this.video)
-    {
-      this.video.update(scroll)
-
-      if(this.transition)
-        this.transition.update(this.video)
     }
 
     if(this.about)

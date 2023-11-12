@@ -46,7 +46,7 @@ export default class Video extends Page
     let isPlaying = false 
 
     this.vid = new Plyr('#plyr', {
-      autoplay: true, 
+      autoplay: false, 
       muted: false, 
       clickToPlay: false,
       hideControls: true, 
