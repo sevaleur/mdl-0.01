@@ -3,7 +3,8 @@ import gsap from 'gsap'
 import Page from 'classes/Page'
 import Show from 'animations/Show'
 
-import { COLOR_CULTURED, COLOR_NIGHT } from '../../utils/color_variables'
+import { COLOR_CULTURED, COLOR_NIGHT } from 'utils/color_variables'
+import { verticalLoop } from 'utils/HelperFunctions'
 
 export default class Menu extends Page
 {
@@ -35,9 +36,9 @@ export default class Menu extends Page
 
   createElements()
   {
-    this.titlediv = document.querySelector('.menu__title')
-    this.infdiv = document.querySelector('.menu__title__wrapper')
-    this.inftext = document.querySelectorAll('.menu__title__text')
+    this.marquee = document.querySelector('.menu__title')
+    this.marqueeContent = document.querySelectorAll('.menu__title__text')
+
     this.image_link_elements = document.querySelectorAll('.menu__gallery__image__link')
 
     const TYPE = document.querySelectorAll('.menu__gallery__image__type__text')
@@ -71,32 +72,15 @@ export default class Menu extends Page
 
   onLoadedLoop()
   {
-    const NODES = this.infdiv.childNodes.length
-    const TXTHEIGHT = this.infdiv.children[0].getBoundingClientRect().height
-    const VAL = TXTHEIGHT * NODES 
-
-    this.inftext.forEach(
-      (child, idx) =>
+    verticalLoop(
+      this.marqueeContent, 
     {
-      gsap.set(
-        child, 
-        {
-          y: idx * TXTHEIGHT + 'px'
-        }
-      )
-
-      gsap.to(
-        child,
-        {
-          y: -TXTHEIGHT * (idx + 1) + 'px',
-          duration: NODES * (idx + 1),
-          ease: 'none',
-          modifiers: {
-            y: y => parseFloat(y) % VAL + 'px' 
-          },
-          repeat: -1
-        }
-      )
+      repeat: -1, 
+      duration: 5.0,
+      paused: false, 
+      center: true, 
+      draggable: false,
+      inertia: true
     })
   }
 
@@ -179,7 +163,7 @@ export default class Menu extends Page
     super.show()
 
     gsap.fromTo(
-      this.titlediv,
+      this.marquee,
       {
         x: '-100%',
       },
@@ -203,7 +187,7 @@ export default class Menu extends Page
     return new Promise(resolve =>
     {
       gsap.fromTo(
-        this.titlediv,
+        this.marquee,
         {
           x: '0'
         },

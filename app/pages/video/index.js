@@ -3,7 +3,8 @@ import Plyr from 'plyr'
 import Page from 'classes/Page'
 import Show from 'animations/Show'
 
-import { COLOR_CULTURED, COLOR_NIGHT } from '../../utils/color_variables'
+import { COLOR_CULTURED, COLOR_NIGHT } from 'utils/color_variables'
+import { horizontalLoop } from 'utils/HelperFunctions'
 
 export default class Video extends Page
 {
@@ -33,11 +34,14 @@ export default class Video extends Page
   createElements()
   { 
     const GHOST = document.querySelector('.video__ghost__div')
+    const CREDITS = document.querySelectorAll('h3.video__footer__credits__title__text')
+    const THANKS = document.querySelectorAll('h3.video__footer__thanks__title__text')
 
     this.titleBounds = this.elements.titleDiv.getBoundingClientRect()
     this.showAnimations.push(new Show(this.elements.title))
 
     this.createVideo(GHOST)
+    this.createLoop(CREDITS, THANKS)
   }
 
   createVideo(GHOST)
@@ -68,6 +72,12 @@ export default class Video extends Page
         this.vid.pause()
       }
     })
+  }
+
+  createLoop(CREDITS, THANKS)
+  {
+    horizontalLoop(CREDITS, { paused: false, reversed: true, repeat: -1, speed: 0.5 })
+    horizontalLoop(THANKS, { paused: false, reversed: true, repeat: -1, speed: 0.5 })
   }
 
   onWheel(e)

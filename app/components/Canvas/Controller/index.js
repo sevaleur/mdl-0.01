@@ -215,6 +215,7 @@ export default class Controller
       this.gallery.hide()
 
     this.menu_to_gallery = template === 'commercial' && url.indexOf('gallery') > -1
+    this.gallery_to_menu = template === 'gallery' && url.indexOf('commercial') > -1
 
     if(this.menu_to_gallery)
     {

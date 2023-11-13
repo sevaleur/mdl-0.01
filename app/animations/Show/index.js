@@ -50,6 +50,10 @@ export default class Show
       ease: 'power2',
       xPercent: 0,
       stagger: 0.06,
+      onComplete: () => 
+      {
+        this.complete = true
+      }
     })
   }
 
@@ -72,13 +76,26 @@ export default class Show
     {
       gsap.to(
         this.chars,
-      {
-        duration: 1.0,
-        opacity: 0.0,
-        ease: 'power2',
-        xPercent: -250,
-        stagger: -0.06,
-      })
+        {
+          duration: 1.0,
+          opacity: 0.0,
+          ease: 'power2',
+          xPercent: -250,
+          stagger: -0.06,
+          onComplete: () => 
+          {
+            gsap.to(
+              this.chars, 
+              {
+                duration: 1.0,
+                opacity: 0.0,
+                ease: 'power2',
+                xPercent: -250,
+              }
+            )
+          }
+        }
+      )
     }
   }
 }

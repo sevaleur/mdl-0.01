@@ -38,8 +38,6 @@
  * @author: Jack Doyle, jack@greensock.com
 */
 
-/*! ../../utils/color_variables */
-
 /*! ../modules/logger/index.js */
 
 /*! ../utils/log.js */
@@ -464,6 +462,8 @@
 
 /*! three */
 
+/*! utils/HelperFunctions */
+
 /*! utils/color_variables */
 
 /*! webpack/hot/emitter.js */
@@ -578,6 +578,10 @@
 
 /*!**************************************!*\
   !*** ./app/shaders/menu/vertex.glsl ***!
+  \**************************************/
+
+/*!**************************************!*\
+  !*** ./app/utils/HelperFunctions.js ***!
   \**************************************/
 
 /*!**************************************!*\

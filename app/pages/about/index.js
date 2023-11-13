@@ -1,6 +1,6 @@
 import Page from 'classes/Page'
 
-import { COLOR_CULTURED, COLOR_NIGHT } from '../../utils/color_variables'
+import { COLOR_CULTURED, COLOR_NIGHT } from 'utils/color_variables'
 
 export default class About extends Page
 {
