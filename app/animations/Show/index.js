@@ -12,7 +12,9 @@ export default class Show
       by: 'chars'
     })
 
-    this.init()
+    this.chars = this.element.querySelectorAll('.char')
+    this.wrap(this.chars, 'span', 'wrap')
+    this.create()
   }
 
   wrap(elms, type, cl)
@@ -24,78 +26,50 @@ export default class Show
         el.classList = cl
         char.parentNode.appendChild(el)
         el.appendChild(char)
+
+        gsap.set(
+          char, 
+          {
+            opacity: 0.0, 
+            xPercent: -250
+          }
+        )
     })
   }
 
-  init()
+  create()
   {
-    this.chars = this.element.querySelectorAll('.char')
-    this.wrap(this.chars, 'span', 'wrap')
-  }
-
-  show()
-  { 
-    gsap.set(
+    this.onShow = gsap.to(
       this.chars,
     {
-      xPercent: -250,
-      opacity: 0.0,
-    })
-
-    gsap.to(
-      this.chars,
-    {
-      duration: 1,
+      duration: 0.5,
       opacity: 1.0,
       ease: 'power2',
       xPercent: 0,
       stagger: 0.06,
-      onComplete: () => 
-      {
-        this.complete = true
-      }
+      paused: true
     })
+
+    this.onHide = gsap.to(
+      this.chars,
+      {
+        duration: 1.0,
+        opacity: 0.0,
+        ease: 'power2',
+        xPercent: 250,
+        stagger: 0.06,
+        paused: true,
+      }
+    )
   }
 
-  hide(dir=false)
+  show()
+  { 
+    this.onShow.play()
+  }
+
+  hide(flag=false)
   {
-    if(dir)
-    {
-      gsap.to(
-        this.chars,
-        {
-          duration: 1.0,
-          opacity: 0.0,
-          ease: 'power2',
-          xPercent: 250,
-          stagger: 0.06,
-        }
-      )
-    }
-    else 
-    {
-      gsap.to(
-        this.chars,
-        {
-          duration: 1.0,
-          opacity: 0.0,
-          ease: 'power2',
-          xPercent: -250,
-          stagger: -0.06,
-          onComplete: () => 
-          {
-            gsap.to(
-              this.chars, 
-              {
-                duration: 1.0,
-                opacity: 0.0,
-                ease: 'power2',
-                xPercent: -250,
-              }
-            )
-          }
-        }
-      )
-    }
+    this.onShow.reverse()
   }
 }

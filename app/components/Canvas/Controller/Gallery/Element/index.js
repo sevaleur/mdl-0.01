@@ -194,7 +194,7 @@ export default class Element
 
     this.y = this.plane.position.y * this.screen.height
 
-    this.link_pos = (this.y / (-this.viewport.height / 2))
+    this.link_pos = (this.y / this.viewport.height) + (-this.viewport.height / 2)
     this.link.style[this.l_prefix] = `translateY(${-this.link_pos}px)`
   }
 

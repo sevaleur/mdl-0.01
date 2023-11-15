@@ -6,9 +6,12 @@ block variables
 block content
   .video
     .video__wrap
-      .video__media
-        figure.video__preview
-          img.video__preview__image(data-src=Build.image(advert.preview.asset._ref).url() alt=advert.preview.alt)
+      .video__btn
+        .video__btn__icon
+          .part.part__left
+          .part.part__right
+      .video__media 
+        .video__media__cover
         .video__selected#plyr
           iframe.video__selected__video.plyr__video-embed(src=advert.selected_video)
     .video__wrapper

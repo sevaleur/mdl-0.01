@@ -7,8 +7,11 @@ block content
   .video
     .video__wrap
       .video__media
-        figure.video__preview
-          img.video__preview__image(data-src=Build.image(film.preview.asset._ref).url() alt=film.preview.alt)
+        .video__btn
+          .video__btn__icon
+            .part.part__left
+            .part.part__right
+        .video__media__cover
         .video__selected#plyr
           if film.selected_video
             iframe.video__selected__video.plyr__video-embed(src=film.selected_video)

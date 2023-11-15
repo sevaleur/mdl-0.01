@@ -65,7 +65,7 @@ export default class Footer extends Component
 
     TITLES.parentElement.addEventListener('click', () => 
     {
-      if(this.initial) return 
+      if(this.initial || this.clicked) return 
 
       this.onInteractionClick(TITLES, FB)
     })
@@ -92,9 +92,6 @@ export default class Footer extends Component
 
   onInteractionClick(TITLES, FB)
   {
-    if(this.clicked)
-      return 
-
     this.initial = true
     this.clicked = true 
 
@@ -153,9 +150,6 @@ export default class Footer extends Component
 
   onInteractionClose(TITLES, FB)
   {
-    if(!this.clicked)
-      return 
-
     this.cls.hide(true)
     this.con.show()
 

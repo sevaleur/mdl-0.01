@@ -44,12 +44,6 @@
     @extend %link__line__through__lr;
     @extend %link__line__through__lr--visible;
   }
-
-  /* &:hover {
-    &:after {
-      @extend %link__line__through__lr--hidden;
-    }
-  } */
 }
 
 %link__through__lr--hidden {
@@ -102,12 +96,6 @@
     @extend %link__line__through__rl;
     @extend %link__line__through__rl--visible;
   }
-
-  /* &:hover {
-    &:after {
-      @extend %link__line__through__rl--hidden;
-    }
-  } */
 }
 
 %link__through__rl--hidden {
@@ -443,21 +431,12 @@
     @extend %link__dot;
     @extend %link__dot--visible;
   }
-/*
-  &:after {
-    @extend %link__line__btm__menu;
-    @extend %link__line__btm__menu--visible;
-  } */
 
   &:hover {
     &:before
     {
       @extend %link__dot--hidden;
     }
-
-    /* &:after {
-      @extend %link__line__btm__menu--hidden;
-    } */
   }
 }
 
@@ -472,20 +451,11 @@
     @extend %link__dot--hidden;
   }
 
-  /* &:after {
-    @extend %link__line__btm__menu;
-    @extend %link__line__btm__menu--hidden;
-  } */
-
   &:hover {
     &:before
     {
       @extend %link__dot--visible;
     }
-
-   /*  &:after {
-      @extend %link__line__btm__menu--visible;
-    } */
   }
 }
 

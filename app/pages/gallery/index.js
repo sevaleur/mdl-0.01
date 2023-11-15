@@ -21,6 +21,11 @@ export default class Gallery extends Page
     })
   }
 
+  create()
+  {
+    super.create()
+  }
+
   show()
   {
     super.show()

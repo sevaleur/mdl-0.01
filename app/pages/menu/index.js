@@ -129,6 +129,8 @@ export default class Menu extends Page
 
   onLeave()
   {
+    this.ready = false
+    
     this.image_link_elements.forEach(
       (link, index) =>
     {
