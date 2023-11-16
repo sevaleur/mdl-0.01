@@ -167,6 +167,9 @@ export default class Menu
 
     this.menu_wrapper.style[this.t_prefix] = `translateY(${this.scroll.current}px)`
 
+    if(this.scroll.current > -0.01)
+      this.scroll.current = 0
+
     this.elements.forEach(element => { element.update(this.scroll) })
 
     this.scroll.last = this.scroll.current

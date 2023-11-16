@@ -195,6 +195,9 @@ export default class App
   {
     if(this.canvas && this.canvas.onMove)
       this.canvas.onMove(e)
+
+    if(this.page && this.page.onMove)
+      this.page.onMove(e)
   }
 
   onWheel(e)

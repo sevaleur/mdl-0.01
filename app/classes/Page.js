@@ -59,6 +59,15 @@ export default class Page
       }
     }
 
+    this.coord = {
+      x: window.innerWidth / 2, 
+      y: window.innerHeight / 2,
+      vX: 0, 
+      vY: 0,
+      pX: 0, 
+      pY: 0,
+    }
+
     each(this.selectorChildren, (entry, key) =>
     {
       if(entry instanceof window.HTMLElement || entry instanceof window.NodeList || Array.isArray(entry))
@@ -243,6 +252,18 @@ export default class Page
   onWheel({ pixelY })
   {
     this.scroll.target += pixelY
+  }
+
+  onMove({ clientX, clientY })
+  {
+    this.coord.x = clientX
+    this.coord.y = clientY
+
+    this.coord.vX = this.coord.x - this.coord.pX
+    this.coord.vY = this.coord.y - this.coord.pY
+
+    this.coord.pX = this.coord.x 
+    this.coord.pY = this.coord.y 
   }
 
   onResize()

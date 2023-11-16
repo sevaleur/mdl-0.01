@@ -2,6 +2,7 @@ import gsap from 'gsap'
 
 import Page from 'classes/Page'
 import Show from 'animations/Show'
+import Line from 'animations/Line'
 
 import { COLOR_CULTURED, COLOR_NIGHT } from 'utils/color_variables'
 import { verticalLoop } from 'utils/HelperFunctions'
@@ -39,15 +40,36 @@ export default class Menu extends Page
     this.marquee = document.querySelector('.menu__title')
     this.marqueeContent = document.querySelectorAll('.menu__title__text')
 
+    this.images = document.querySelectorAll('.menu__gallery__image')
     this.image_link_elements = document.querySelectorAll('.menu__gallery__image__link')
 
     const TYPE = document.querySelectorAll('.menu__gallery__image__type__text')
     const INDEX = document.querySelectorAll('.menu__gallery__image__index__text')
     const TITLE = document.querySelectorAll('.menu__gallery__image__title__text')
 
+    this.createMotion()
     this.createText(TYPE, INDEX, TITLE)
     this.onLoadedLoop()
     this.onHover()
+  }
+
+  createMotion()
+  {
+    this.showMarquee = gsap.fromTo(
+      this.marquee,
+      {
+        x: '-100%',
+      },
+      {
+        x: '0',
+        duration: 1.0,
+        ease: 'power2.inOut',
+        onComplete: () =>
+        {
+          this.ready = true
+        }
+      }
+    )
   }
 
   createText(TYPE, INDEX, TITLE)
@@ -55,6 +77,8 @@ export default class Menu extends Page
     this.type = []
     this.index = []
     this.title = []
+    this.leftLines = []
+    this.rightLines = []
 
     TITLE.forEach(
       (t, i) => 
@@ -80,7 +104,7 @@ export default class Menu extends Page
       paused: false, 
       center: true, 
       draggable: false,
-      inertia: true
+      inertia: false
     })
   }
 
@@ -94,6 +118,14 @@ export default class Menu extends Page
         {
           opacity: 0.0
         }
+      )
+
+      this.leftLines.push(new Line(
+        this.images[index].querySelector('span.menu__gallery__image__left'))
+      )
+
+      this.rightLines.push(new Line(
+        this.images[index].querySelector('span.menu__gallery__image__right'))
       )
 
       link.onmouseenter = () =>
@@ -111,7 +143,9 @@ export default class Menu extends Page
               opacity: 1.0
             }
           )
-
+          
+          this.leftLines[index].show()
+          this.rightLines[index].show()
           this.type[index].show()
           this.index[index].show()
           this.title[index].show()
@@ -120,6 +154,8 @@ export default class Menu extends Page
 
       link.onmouseleave = () =>
       {
+        this.leftLines[index].hide()
+        this.rightLines[index].hide()
         this.type[index].hide()
         this.index[index].hide()
         this.title[index].hide()
@@ -146,11 +182,15 @@ export default class Menu extends Page
       link.onmouseover = null
       link.onmouseleave = null
 
+      this.leftLines[index].hide()
+      this.rightLines[index].hide()
       this.type[index].hide()
       this.index[index].hide()
       this.title[index].hide()
     })
 
+    this.leftLines = null 
+    this.rightLines = null
     this.type = null
     this.index = null
     this.title = null
@@ -163,43 +203,17 @@ export default class Menu extends Page
   show()
   {
     super.show()
-
-    gsap.fromTo(
-      this.marquee,
-      {
-        x: '-100%',
-      },
-      {
-        x: '0',
-        duration: 1.0,
-        ease: 'power2.inOut',
-        onComplete: () =>
-        {
-          this.ready = true
-        }
-      }
-    )
+    this.showMarquee.play()
   }
 
   hide()
   {
     super.hide(true)
-    this.onLeave()
 
     return new Promise(resolve =>
     {
-      gsap.fromTo(
-        this.marquee,
-        {
-          x: '0'
-        },
-        {
-          x: '-100%',
-          duration: 1.0,
-          ease: 'power2.inOut',
-          onComplete: resolve
-        }
-      )
+      this.onLeave()
+      this.showMarquee.reverse().eventCallback('onReverseComplete', () => { gsap.delayedCall(0.2, () => { resolve() } ) } )
     })
   }
 }

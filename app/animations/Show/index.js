@@ -31,7 +31,7 @@ export default class Show
           char, 
           {
             opacity: 0.0, 
-            xPercent: -250
+            xPercent: -150
           }
         )
     })
@@ -47,20 +47,8 @@ export default class Show
       ease: 'power2',
       xPercent: 0,
       stagger: 0.06,
-      paused: true
+      paused: true,
     })
-
-    this.onHide = gsap.to(
-      this.chars,
-      {
-        duration: 1.0,
-        opacity: 0.0,
-        ease: 'power2',
-        xPercent: 250,
-        stagger: 0.06,
-        paused: true,
-      }
-    )
   }
 
   show()
@@ -68,7 +56,7 @@ export default class Show
     this.onShow.play()
   }
 
-  hide(flag=false)
+  hide()
   {
     this.onShow.reverse()
   }

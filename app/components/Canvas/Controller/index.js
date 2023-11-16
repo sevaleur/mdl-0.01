@@ -427,10 +427,10 @@ export default class Controller
     }
   }
 
-  onMove(e)
+  onMove({ clientX, clientY })
   {
-    this.mouse.x = e.clientX / this.sizes.screen.width * 2 - 1
-    this.mouse.y = -(e.clientY / this.sizes.screen.height * 2 - 1)
+    this.mouse.x = clientX / this.sizes.screen.width * 2 - 1
+    this.mouse.y = -(clientY / this.sizes.screen.height * 2 - 1)
 
     this.mouse.vX = this.mouse.x - this.mouse.pX 
     this.mouse.vY = this.mouse.y - this.mouse.pY 

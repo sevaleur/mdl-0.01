@@ -36,16 +36,9 @@ export default class Video extends Page
 
     this.video = {
       isPlaying: false, 
-      isMuted: false, 
       isClicked: false,
-      isCovered: false
-    }
-
-    this.coord = {
-      x: window.innerWidth / 2, 
-      y: window.innerHeight / 2,
-      pX: 0, 
-      pY: 0
+      isCovered: false,
+      isInactive: false
     }
 
     this.createElements()
@@ -58,11 +51,13 @@ export default class Video extends Page
     const THANKS = document.querySelectorAll('h3.video__footer__thanks__title__text')
 
     this.cover = document.querySelector('.video__media__cover')
-    this.controls = document.querySelector('.video__btn')
+
     this.titleBounds = this.elements.titleDiv.getBoundingClientRect()
+
     this.showAnimations.push(new Show(this.elements.title))
 
     this.createVideo(GHOST)
+    this.createMotion()
 
     if(CREDITS.length && THANKS.length)
       this.createLoop(CREDITS, THANKS)
@@ -79,48 +74,25 @@ export default class Video extends Page
       loadSprite: false,
     })
 
+    this.controls = {
+      element: document.querySelector('.video__btn'),  
+      rotation: 0
+    }
+
     this.createInteraction(GHOST)
   }
 
   createInteraction(GHOST)
   {
-    this.element.addEventListener('mousemove', (e) => 
-    {
-      this.coord.x = e.clientX
-      this.coord.y = e.clientY
-    })
-
-    GHOST.addEventListener('mouseenter', (e) => 
-    {
-      gsap.to(
-        this.controls, 
-        {
-          scale: 1.0, 
-          duration: 0.5, 
-          ease: 'power2.inOut'
-        }
-      )
-    })
-
-    GHOST.addEventListener('mouseleave', (e) => 
-    {
-      gsap.to(
-        this.controls, 
-        {
-          scale: 0.0, 
-          duration: 0.5, 
-          ease: 'power2.inOut'
-        }
-      )
-    })
-
+    GHOST.addEventListener('mouseenter', (e) => { this.enlarge.play() })
+    GHOST.addEventListener('mouseleave', (e) => { this.enlarge.reverse() })
     GHOST.addEventListener('click', (e) => 
     {
-      this.controls.classList.toggle('active')
+      this.controls.element.classList.toggle('active')
 
-      this.controls.classList.contains('active') 
-        ? (this.onPlay(), this.video.isClicked = false)
-        : (this.onPause(), this.video.isClicked = true)
+      this.controls.element.classList.contains('active') 
+        ? (this.onPlay(), this.video.isClicked = true)
+        : (this.onPause(), this.video.isClicked = false)
     })
   }
 
@@ -128,6 +100,20 @@ export default class Video extends Page
   {
     horizontalLoop(CREDITS, { paused: false, reversed: true, repeat: -1, speed: 0.5 })
     horizontalLoop(THANKS, { paused: false, reversed: true, repeat: -1, speed: 0.5 })
+  }
+
+  createMotion()
+  {
+    this.enlarge = gsap.to(
+      this.controls.element, 
+      {
+        height: '50rem',
+        width: '50rem', 
+        duration: 0.5, 
+        ease: 'power2.inOut',
+        paused: true
+      }
+    )
   }
 
   /* 
@@ -141,19 +127,31 @@ export default class Video extends Page
     let location = (window.innerHeight - this.titleBounds.height) - this.scroll.current
     let scrollPos = (this.scroll.current + this.titleBounds.height) - window.innerHeight
     
-    if(this.video.isPlaying && scrollPos >= location)
+    if(scrollPos >= location)
     {
-      this.onPause()
       this.video.isCovered = true 
       gsap.to(this.cover, {background: this.background})
-    }
 
-    if(this.video.isCovered && scrollPos <= 0)
-    {
-      this.onPlay()
-      this.video.isCovered = false
-      gsap.to(this.cover, {background: 'transparent'})
+      if(this.video.isPlaying)
+        this.onPause()
     }
+    
+    if(scrollPos <= 0)
+    {
+      if(this.video.isCovered)
+      {
+        this.video.isCovered = false
+        gsap.to(this.cover, {background: 'transparent'})
+
+        if(this.video.isClicked)
+          this.onPlay()  
+      }
+    }
+  }
+
+  onMove(e)
+  {
+    super.onMove(e)
   }
 
   onPlay()
@@ -168,6 +166,11 @@ export default class Video extends Page
     this.vid.pause()
   }
 
+
+/* 
+  SHOW // HIDE ANIMATIONS.
+*/
+
   show()
   {
     super.show()
@@ -179,43 +182,30 @@ export default class Video extends Page
       }
     )
 
-    gsap.to(
-      this.controls, 
-      {
-        height: '50rem',
-        width: '50rem', 
-        duration: 0.5, 
-        ease: 'power2.inOut'
-      }
-    )
+    this.enlarge.play()
   }
 
   hide()
   {
     super.hide()
-
-    gsap.to(
-      this.controls, 
-      {
-        height: '0rem',
-        width: '0rem', 
-        duration: 0.5, 
-        ease: 'power2.inOut'
-      }
-    )
+    this.enlarge.reverse()
   }
+
+  /* 
+    UPDATE.
+  */
 
   update()
   {
     super.update()
 
     gsap.to(
-      this.controls,
+      this.controls.element,
       {
         top: this.coord.y,
         left: this.coord.x,
         duration: 0.5, 
-        ease: 'linear'
+        ease: 'linear',
       }
     )
   }

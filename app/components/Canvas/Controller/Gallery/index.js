@@ -260,6 +260,9 @@ export default class Gallery
 
     this.gallery_element.style[this.t_prefix] = `translateX(${this.scroll.current}px)`
 
+    if(this.scroll.current > -0.01)
+      this.scroll.current = 0
+
     this.elements.forEach( element => { element.update(this.scroll.current, this.scroll.last) })
 
     this.scroll.last = this.scroll.current

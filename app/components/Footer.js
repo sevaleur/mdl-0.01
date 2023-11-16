@@ -1,5 +1,5 @@
 import Component from "classes/Component"
-import Show from 'animations/Show'
+import Direction from 'animations/Direction'
 
 import gsap from 'gsap'
 
@@ -36,9 +36,9 @@ export default class Footer extends Component
     
     this.media = document.querySelectorAll('.footer__icons__media')
 
-    this.con = new Show(CONNECT)
-    this.exp = new Show(EXPAND)
-    this.cls = new Show(CLOSE)
+    this.con = new Direction(CONNECT)
+    this.exp = new Direction(EXPAND)
+    this.cls = new Direction(CLOSE)
 
     this.onInteraction(TITLES, CLOSE, FB)
   }
@@ -80,13 +80,13 @@ export default class Footer extends Component
 
   onInitialInteraction()
   {
-    this.con.hide(true)
+    this.con.hide()
     this.exp.show()
   }
 
   onInteractionLeave()
   {
-    this.exp.hide(true)
+    this.exp.hide()
     this.con.show()
   }
 
@@ -95,7 +95,7 @@ export default class Footer extends Component
     this.initial = true
     this.clicked = true 
 
-    this.exp.hide(true)
+    this.exp.hide()
     this.cls.show()
 
     const enter = gsap.timeline()
@@ -150,7 +150,7 @@ export default class Footer extends Component
 
   onInteractionClose(TITLES, FB)
   {
-    this.cls.hide(true)
+    this.cls.hide()
     this.con.show()
 
     const leave = gsap.timeline({
