@@ -27,6 +27,12 @@ block content
       .gallery__modal__selected
         figure.gallery__modal__selected__figure
           img.gallery__modal__selected__figure__image(src='' alt='')
-
-      .gallery__modal__close
-        p.gallery__modal__close__button=portraits.close
+      .gallery__modal__images
+        .gallery__modal__images__wrapper
+          each img in portraits.images
+            .gallery__modal__images__div
+              span.gallery__modal__images__div__top 
+              span.gallery__modal__images__div__bottom 
+              .gallery__modal__images__div__media
+                figure.gallery__modal__images__div__media__figure 
+                  img.gallery__modal__images__div__media__figure__image(data-src=Build.image(img.asset._ref).url() alt=img.alt)

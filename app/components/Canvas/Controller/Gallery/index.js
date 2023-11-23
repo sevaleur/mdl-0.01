@@ -23,6 +23,7 @@ export default class Gallery
     this.t_prefix = Prefix('transform')
 
     this.createElements()
+    this.createAnimations()
     this.createConfig()
     this.createGallery()
     this.onResize()
@@ -45,12 +46,13 @@ export default class Gallery
 
     this.images = document.querySelectorAll('img.gallery__media__div__figure__image')
     this.links = document.querySelectorAll('.gallery__media__div')
+    this.title = document.querySelector('.gallery__info__title')
+    this.desc = document.querySelector('.gallery__info__desc')
 
     this.back_button = document.querySelector('.gallery__back__button')
 
     this.modal = document.querySelector('.gallery__modal')
     this.modal_image = document.querySelector('.gallery__modal__selected__figure__image')
-    this.modal_close = document.querySelector('.gallery__modal__close__button')
 
     this.length = this.images.length
   }
@@ -66,7 +68,7 @@ export default class Gallery
       target: 0,
       last: 0,
       speed: 0.1,
-      ease: 0.05
+      ease: 0.05,
     }
   }
 
@@ -102,6 +104,29 @@ export default class Gallery
     })
   }
 
+  createAnimations()
+  {
+    this.text = gsap.to([
+      this.title,
+      this.desc
+    ],
+    {
+      opacity: 0.1,
+      duration: 1.0,
+      paused: true
+    })
+
+    this.onModal = gsap.to([
+      this.modal,
+      this.modal_image
+    ],
+    {
+      opacity: 1.0,
+      duration: .5,
+      paused: true,
+    })
+  }
+
   /*
     ANIMATIONS.
   */
@@ -125,43 +150,15 @@ export default class Gallery
 
     this.modal.style.display = 'block'
 
-    gsap.to(this.back_button,
-    {
-      opacity: 0.0
-    })
+    this.onModal.play()
 
-    gsap.to([
-      this.modal,
-      this.modal_image
-    ],
+    this.modal_image.onclick = () =>
     {
-      opacity: 1.0,
-      duration: .5,
-    })
-
-    this.modal_close.onclick = () =>
-    {
-      gsap.to([
-        this.modal,
-        this.modal_image
-      ],
+      this.onModal.reverse().eventCallback('onReverseComplete', () => 
       {
-        opacity: 0.0,
-        duration: .5,
-        onComplete: () =>
-        {
-          this.modal.style.display = 'none'
-          this.show()
-
-          gsap.to(
-            this.back_button,
-          {
-            opacity: 1.0,
-            duration: 0.5
-          })
-
-          this.enlarged = false
-        }
+        this.modal.style.display = 'none'
+        this.show()
+        this.enlarged = false
       })
     }
   }
@@ -169,29 +166,13 @@ export default class Gallery
   fadeIn()
   {
     this.faded = false
-
-    gsap.to([
-      '.gallery__info__title',
-      '.gallery__info__desc'
-    ],
-    {
-      opacity: 1.0,
-      duration: 1.0,
-    })
+    this.text.reverse()
   }
 
   fadeOut()
   {
     this.faded = true
-
-    gsap.to([
-      '.gallery__info__title',
-      '.gallery__info__desc'
-    ],
-    {
-      opacity: 0.1,
-      duration: 1.0,
-    })
+    this.text.play()
   }
 
   /*
@@ -219,7 +200,7 @@ export default class Gallery
     if(this.enlarged) return
     if(this.transition && !this.transition.finished) return
 
-    this.scroll.position = this.scroll.current
+    this.scroll.position = this.scroll.current 
   }
 
   onTouchMove({ y, x })
@@ -231,7 +212,7 @@ export default class Gallery
     const y_dist = y.start - y.end
 
     const dist = x_dist + y_dist
-
+    
     this.scroll.target = this.scroll.position - dist
   }
 

@@ -123,8 +123,8 @@ export default class Ray
         gsap.to(
           this.o.rotation,
           {
-            x: -this.hits.y * 0.02, 
-            y: this.hits.x * 0.02, 
+            x: -this.hits.y * 0.01, 
+            y: this.hits.x * 0.01, 
             duration: 0.4, 
             delay: 0.1, 
             ease: 'linear',

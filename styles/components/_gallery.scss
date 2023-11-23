@@ -27,6 +27,124 @@
       padding: 2rem;
     }
 
+    &__images::-webkit-scrollbar 
+    {
+      display: none;
+    } 
+
+    &__images 
+    {
+      position: absolute; 
+      bottom: 0;
+      left: 50%;
+      
+      transform: translateX(-50%);
+
+      height: 10rem;
+      width: 50%;
+
+      border: 1px solid $color-grey;
+      border-bottom: none;
+
+      background: $color-night;
+
+      overflow-x: scroll;
+
+      display: flex;
+
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+
+      &__wrapper 
+      {
+        position: absolute; 
+        top: 0; 
+        left: 0; 
+
+        height: 100%; 
+        
+        display: flex; 
+        gap: 1rem;
+
+        padding: 1rem; 
+      }
+
+      &__div 
+      {
+        height: 100%; 
+        width: 10rem; 
+
+        overflow: hidden;
+
+        position: relative; 
+
+        padding: 1rem 0;
+
+        &__media 
+        {
+          height: 100%; 
+          width: 100%; 
+
+          overflow: hidden;
+
+          position: relative; 
+
+          &__figure 
+          {
+            position: relative; 
+  
+            height: 100%; 
+            width: 100%; 
+  
+            transition: all 0.5s ease-in-out;
+  
+            &:hover
+            {
+              cursor: pointer;
+              transform: scale(1.2);
+            }
+  
+            &__image 
+            {
+              @extend %cover; 
+  
+              object-fit: cover;
+            }
+          }
+        }
+
+        &__top 
+        {
+          position: absolute; 
+          top: 0; 
+          left: 0; 
+
+          transform-origin: left;
+          transform: scaleX(0.0);
+
+          height: 0.3rem; 
+          width: 100%; 
+          
+          background: $color-cultured;
+        }
+
+        &__bottom 
+        {
+          position: absolute; 
+          bottom: 0; 
+          right: 0; 
+
+          transform-origin: right;
+          transform: scaleX(0.0); 
+
+          height: 0.3rem; 
+          width: 100%; 
+          
+          background: $color-cultured;
+        }
+      }
+    }
+
     &__selected
     {
       height: 100%;
@@ -42,77 +160,6 @@
           height: 100%;
           width: 100%;
           object-fit: contain;
-        }
-      }
-    }
-
-    &__close
-    {
-      position: absolute;
-      bottom: 5.2rem;
-      left: 50%;
-
-      transform: translateX(-50%);
-
-      @include media('<phone')
-      {
-
-      }
-
-      &__button
-      {
-        @extend %link__center--hidden;
-        @extend %title-30;
-
-        font-weight: 300;
-        font-style: normal;
-        display: block;
-        line-height: 1;
-        padding: .5rem 0;
-
-        text-shadow:
-              -1px -1px 0 $color-night,
-              1px -1px 0 $color-night,
-              -1px 1px 0 $color-night,
-              1px 1px 0 $color-night;
-
-        transition: all 0.5s ease-in-out;
-
-        color: $color-black-coral;
-
-        @include media('<tablet')
-        {
-          font-size: 10rem;
-          color: $color-cultured;
-        }
-
-        @include media('<phone')
-        {
-          font-size: 3rem;
-        }
-
-        &::first-letter
-        {
-          @extend %desc-50;
-
-          font-style: italic;
-          text-transform: uppercase;
-
-          @include media('<tablet')
-          {
-            font-size: 15rem;
-          }
-
-          @include media('<phone')
-          {
-            font-size: 5rem;
-          }
-        }
-
-        &:hover
-        {
-          color: $color-cultured;
-          cursor: pointer;
         }
       }
     }
@@ -283,11 +330,10 @@
     }
   }
 
-
   &__back
   {
     position: fixed;
-    bottom: 5.2rem;
+    bottom: 3rem;
     right: 50%;
     transform: translateX(50%);
 

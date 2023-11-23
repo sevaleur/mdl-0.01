@@ -2,33 +2,52 @@ import gsap from 'gsap'
 
 export default class Line
 {
-  constructor(element)
+  constructor(element, vector=false)
   {
     this.element = element 
 
-    this.createAnimation()
+    this.createAnimation(vector)
   }
 
-  createAnimation()
+  createAnimation(vector)
   {
-    this.scaleY = gsap.to(
-      this.element, 
-      {
-        scaleY: 0.5, 
-        duration: 1.0, 
-        ease: 'power2', 
-        paused: true
-      }
-    )
+    if(!vector)
+    {
+      this.scaleY = gsap.to(
+        this.element, 
+        {
+          scaleY: 0.5, 
+          duration: 1.0, 
+          ease: 'power2', 
+          paused: true
+        }
+      )
+    }
+    else 
+    {
+      this.scaleX = gsap.to(
+        this.element, 
+        {
+          scaleX: 1.0, 
+          duration: 1.0, 
+          ease: 'power2', 
+          paused: true
+        }
+      )
+    }
   }
 
-  show()
+  show(x=false)
   {
-    this.scaleY.play()
+    x 
+      ? this.scaleX.play() 
+      : this.scaleY.play()
   }
 
-  hide()
+  hide(x=false)
   {
-    this.scaleY.reverse()
+    x
+      ? this.scaleX.reverse()
+      : this.scaleY.reverse()
   }
 }

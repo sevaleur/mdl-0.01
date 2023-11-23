@@ -65,7 +65,6 @@ export default class Home extends Page
     {
       const HALF = Math.floor( LEN / 2 ) 
       const MID_EL = this.elms[HALF]
-      const T = []
   
       this.active = MID_EL
       this.onSelect(HALF)
@@ -79,7 +78,7 @@ export default class Home extends Page
         {
           const STATE = Flip.getState(this.elms)
           this.createState( el, i, HALF, MID_EL, LEN )
-          Flip.from(STATE, { scale: true, duration: 0.5, ease: 'power1.inOut' })
+          Flip.from(STATE, { scale: true, duration: 0.5, ease: 'linear' })
         } ) 
       })
     }

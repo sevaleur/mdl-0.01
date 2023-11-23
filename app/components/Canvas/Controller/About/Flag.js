@@ -18,6 +18,7 @@ export default class Flag
     this.time = 0
 
     this.createMesh()
+    this.createAnimations()
     this.createBounds()
   }
 
@@ -45,7 +46,10 @@ export default class Flag
       transparent: true
     })
 
-    this.material.uniforms.u_imageSize.value = [this.texture.image.naturalWidth, this.texture.image.naturalHeight]
+    this.material.uniforms.u_imageSize.value = [
+      this.texture.image.naturalWidth, 
+      this.texture.image.naturalHeight
+    ]
 
     this.plane = new THREE.Mesh( this.geo, this.material )
     this.scene.add(this.plane)
@@ -62,30 +66,30 @@ export default class Flag
     this.plane.material.uniforms.u_planeSize.value = [this.plane.scale.x, this.plane.scale.y]
   }
 
+  createAnimations()
+  {
+    this.alpha = gsap.to(
+      this.material.uniforms.u_alpha,
+      {
+        value: 1.0,
+        duration: 1,
+        paused: true
+      }
+    )
+  }
+
   /*
     Animations.
   */
 
   show()
   {
-    gsap.fromTo(this.material.uniforms.u_alpha,
-    {
-      value: 0.0,
-      duration: 1
-    },
-    {
-      value: 1.0,
-      duration: 1
-    })
+    this.alpha.play()
   }
 
   hide()
   {
-    gsap.to(this.material.uniforms.u_alpha,
-    {
-      value: 0.0,
-      duration: 1
-    })
+    this.alpha.reverse()
   }
 
   /*

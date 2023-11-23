@@ -55,6 +55,7 @@ export default class Media
 
     this.plane = new Mesh( this.geo, this.material )
 
+    this.plane.position.z = 0.001
     this.plane.userData.template = this.template
 
     this.scene.add(this.plane)

@@ -25,6 +25,7 @@ export default class Element
     this.link_parent = this.link.parentElement
 
     this.createMesh()
+    this.createAnimations()
     this.createBounds()
   }
 
@@ -58,12 +59,13 @@ export default class Element
       transparent: true
     })
 
-    this.material.uniforms.u_imageSize.value = [this.texture.image.naturalWidth, this.texture.image.naturalHeight]
+    this.material.uniforms.u_imageSize.value = [
+      this.texture.image.naturalWidth, 
+      this.texture.image.naturalHeight
+    ]
 
     this.plane = new Mesh( this.geo, this.material )
     this.scene.add(this.plane)
-
-    this.pos_y = 0
   }
 
   createBounds()
@@ -77,50 +79,45 @@ export default class Element
     this.plane.material.uniforms.u_planeSize.value = [this.plane.scale.x, this.plane.scale.y]
   }
 
+  createAnimations()
+  {
+    this.state = gsap.to(
+      this.material.uniforms.u_state,
+      {
+        value: 1.0,
+        delay: 1.0,
+        duration: 1.0,
+        ease: 'linear',
+        paused: true
+      }
+    )
+
+    this.alpha = gsap.to(
+      this.material.uniforms.u_alpha,
+      {
+        value: 1.0,
+        delay: 1.0,
+        duration: 1.0,
+        ease: 'linear', 
+        paused: true
+      }
+    )
+  }
+
   /*
     ANIMATIONS.
   */
 
   show()
   {
-    gsap.fromTo(
-      this.material.uniforms.u_state,
-      {
-        value: 0.0
-      },
-      {
-        value: 1.0,
-        delay: 1.0,
-        duration: 1.0,
-      })
-
-    gsap.fromTo(
-      this.material.uniforms.u_alpha,
-      {
-        value: 0.0
-      },
-      {
-        value: 1.0,
-        delay: 1.0,
-        duration: 1.0,
-      })
+    this.state.play()
+    this.alpha.play()
   }
 
   hide()
   {
-    gsap.to(
-      this.material.uniforms.u_state,
-      {
-        value: 0.0,
-        duration: 1,
-      })
-
-    gsap.to(
-      this.material.uniforms.u_alpha,
-      {
-        value: 0.0,
-        duration: 1
-      })
+    this.state.reverse()
+    this.alpha.reverse()
   }
 
   /*
@@ -158,7 +155,8 @@ export default class Element
 
   updateX()
   {
-    this.plane.position.x = gsap.utils.mapRange(-this.viewport.height, this.viewport.height, -this.pos_y, this.pos_y, this.plane.position.y)
+    this.x = (this.bounds.left / this.screen.width) * this.viewport.width
+    this.plane.position.x = (-this.viewport.width / 2) + (this.plane.scale.x / 2) + this.x
   }
 
   updateY(current = 0)
