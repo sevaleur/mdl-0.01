@@ -72,7 +72,7 @@ export default class Flag
       this.material.uniforms.u_alpha,
       {
         value: 1.0,
-        duration: 1,
+        duration: 1.0,
         paused: true
       }
     )

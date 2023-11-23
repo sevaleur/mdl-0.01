@@ -49,11 +49,10 @@
       background: $color-night;
 
       overflow-x: scroll;
-
-      display: flex;
-
       -ms-overflow-style: none;
       scrollbar-width: none;
+
+      display: flex;
 
       &__wrapper 
       {
@@ -80,6 +79,11 @@
 
         padding: 1rem 0;
 
+        &:hover
+        {
+          cursor: pointer;
+        }
+
         &__media 
         {
           height: 100%; 
@@ -96,19 +100,33 @@
             height: 100%; 
             width: 100%; 
   
-            transition: all 0.5s ease-in-out;
-  
-            &:hover
-            {
-              cursor: pointer;
-              transform: scale(1.2);
-            }
-  
             &__image 
             {
               @extend %cover; 
   
               object-fit: cover;
+            }
+          }
+
+          &__cover 
+          {
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+
+            height: 100%; 
+            width: 100%; 
+
+            background: #0D0D0D94;
+
+            display: grid; 
+            place-content: center;
+
+            opacity: 0.0;
+
+            &__text 
+            {
+              @extend %desc-16; 
             }
           }
         }

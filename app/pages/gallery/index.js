@@ -22,6 +22,10 @@ export default class Gallery extends Page
     })
   }
 
+  /* 
+    CREATE.
+  */
+
   create()
   {
     super.create()
@@ -33,15 +37,20 @@ export default class Gallery extends Page
     this.modalImage = document.querySelector('img.gallery__modal__selected__figure__image')
     this.modalDivs = document.querySelectorAll('.gallery__modal__images__div')
     this.modalImages = document.querySelectorAll('img.gallery__modal__images__div__media__figure__image')
-    this.modalFigures = document.querySelectorAll('img.gallery__modal__images__div__media__figure')
+    this.modalFigures = document.querySelectorAll('.gallery__modal__images__div__media__figure')
+    this.modalCovers = document.querySelectorAll('img.gallery__modal__images__div__media__cover')
 
     this.top_lines = []
     this.bottom_lines = []
 
-    this.onModalSelect()
+    this.onModalInteraction()
   }
 
-  onModalSelect()
+  /* 
+    EVENTS.
+  */
+
+  onModalInteraction()
   {
     this.modalDivs.forEach(
       (div, idx) => 
@@ -64,12 +73,30 @@ export default class Gallery extends Page
         {
           this.top_lines[idx].show(true)
           this.bottom_lines[idx].show(true)
+
+          gsap.to(
+            this.modalFigures[idx], 
+            {
+              scale: 1.2, 
+              duration: 0.5, 
+              ease: 'power2.inOut'
+            }
+          )
         })
 
         div.addEventListener('mouseleave', () => 
         {
           this.top_lines[idx].hide(true)
           this.bottom_lines[idx].hide(true)
+
+          gsap.to(
+            this.modalFigures[idx], 
+            {
+              scale: 1.0, 
+              duration: 0.5, 
+              ease: 'power2.inOut'
+            }
+          )
         })
 
         div.addEventListener('click', () => 
