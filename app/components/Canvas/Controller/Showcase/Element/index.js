@@ -121,7 +121,6 @@ export default class Element
       },
       {
         value: 1.0,
-        duration: 1.0,
         delay: 0.5 * this.index, 
       }
     )
@@ -139,8 +138,7 @@ export default class Element
     gsap.to(
       this.material.uniforms.u_alpha,
       {
-        value: 0.0,
-        duration: 1
+        value: 0.0
       })
   }
 

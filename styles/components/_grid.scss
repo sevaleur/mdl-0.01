@@ -38,6 +38,11 @@
 *
 */
 
+.home__gallery__showcase[data-grid='1']
+{
+  top: 50%; 
+}
+
 .grid__0[data-active=true][data-grid='1']
 {
   grid-area: 1 / 4 / -1 / 9;
@@ -53,6 +58,11 @@
 ** GRID 2
 *
 */
+
+.home__gallery__showcase[data-grid='2']
+{
+  top: 50%; 
+}
 
 .grid__0[data-active=false][data-grid='2']
 {
@@ -85,6 +95,12 @@
 ** GRID 3 
 *
 */
+
+.home__gallery__showcase[data-grid='3']
+{
+  top: 55%; 
+}
+
 
 .grid__0[data-active=false][data-grid='3']
 {

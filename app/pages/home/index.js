@@ -34,13 +34,14 @@ export default class Home extends Page
 
     this.elms = Array.from(document.querySelectorAll('.home__gallery__image'))
 
+    const GRID = document.querySelector('.home__gallery__showcase')
     const TITLES = Array.from(document.querySelectorAll('h3'))
     const TYPES = Array.from(document.querySelectorAll('.home__gallery__image__info__type__text'))
     const TITLE = document.querySelector('.home__gallery__showcase__title')
     const LEN = this.elms.length
 
     this.createTitles(TITLES, TYPES)
-    this.createShowcase(TITLE, LEN)
+    this.createShowcase(TITLE, LEN, GRID)
   }
 
   createTitles(TITLES, TYPES)
@@ -59,7 +60,7 @@ export default class Home extends Page
     )
   }
 
-  createShowcase(TITLE, LEN)
+  createShowcase(TITLE, LEN, GRID)
   {
     if(LEN > 1)
     {
@@ -72,13 +73,13 @@ export default class Home extends Page
       this.elms.forEach( 
         (el, i) => 
       { 
-        this.createGrid( el, i, LEN, TITLE ) 
+        this.createGrid( el, i, LEN, TITLE, GRID ) 
   
         el.addEventListener('mouseenter', () => 
         {
           const STATE = Flip.getState(this.elms)
           this.createState( el, i, HALF, MID_EL, LEN )
-          Flip.from(STATE, { scale: true, duration: 0.5, ease: 'linear' })
+          Flip.from(STATE, { scale: true, duration: 0.5, ease: 'power2.inOut' })
         } ) 
       })
     }
@@ -90,13 +91,16 @@ export default class Home extends Page
     }
   }
 
-  createGrid(el, i, LEN, TITLE )
+  createGrid(el, i, LEN, TITLE, GRID )
   {
     TITLE.classList.add('grid__title')
     el.classList.add(`grid__${i}`)
 
     TITLE.dataset.grid=LEN
     el.dataset.grid=LEN
+
+    if(LEN > 2)
+      GRID.dataset.grid=LEN
 
     if(el !== this.active)
     {
@@ -151,7 +155,7 @@ export default class Home extends Page
 
     fIdx === null
       ? gsap.delayedCall(1.5, () => { this.title[aIdx].show(), this.type[aIdx].show() } )
-      : (this.title[aIdx].show(), this.type[aIdx].show())
+      : gsap.delayedCall(0.5, () => { this.title[aIdx].show(), this.type[aIdx].show() } )
   }
 
   show()

@@ -18,7 +18,6 @@ export default class Flag
     this.time = 0
 
     this.createMesh()
-    this.createAnimations()
     this.createBounds()
   }
 
@@ -66,30 +65,29 @@ export default class Flag
     this.plane.material.uniforms.u_planeSize.value = [this.plane.scale.x, this.plane.scale.y]
   }
 
-  createAnimations()
-  {
-    this.alpha = gsap.to(
-      this.material.uniforms.u_alpha,
-      {
-        value: 1.0,
-        duration: 1.0,
-        paused: true
-      }
-    )
-  }
-
   /*
     Animations.
   */
 
   show()
   {
-    this.alpha.play()
+    gsap.to(
+      this.material.uniforms.u_alpha,
+      {
+        value: 1.0,
+        duration: 1.0
+      }
+    )
   }
 
   hide()
   {
-    this.alpha.reverse()
+    gsap.to(
+      this.material.uniforms.u_alpha,
+      {
+        value: 0.0
+      }
+    )
   }
 
   /*

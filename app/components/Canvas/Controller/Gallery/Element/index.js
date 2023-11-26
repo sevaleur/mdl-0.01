@@ -91,15 +91,6 @@ export default class Element
       {
         value: 1.0
       })
-  
-      gsap.fromTo(
-        this.material.uniforms.u_alpha,
-      {
-        value: 0.0
-      },
-      {
-        value: 1.0
-      })
     }
     else 
     {
@@ -112,17 +103,16 @@ export default class Element
         value: 1.0,
         duration: 1.0
       })
-  
-      gsap.fromTo(
-        this.material.uniforms.u_alpha,
-      {
-        value: 0.0
-      },
-      {
-        value: 1.0,
-        duration: 1.0
-      })
     }
+
+    gsap.fromTo(
+      this.material.uniforms.u_alpha,
+    {
+      value: 0.0
+    },
+    {
+      value: 1.0,
+    })
   }
 
   hide()
@@ -136,8 +126,7 @@ export default class Element
 
     gsap.to(this.material.uniforms.u_alpha,
     {
-      value: 0.0,
-      duration: 1.0
+      value: 0.0
     })
   }
 

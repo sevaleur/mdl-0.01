@@ -1,4 +1,5 @@
 import Page from 'classes/Page'
+
 import Show from 'animations/Show'
 import Line from 'animations/Line'
 
@@ -29,53 +30,120 @@ export default class Gallery extends Page
   create()
   {
     super.create()
+
+    this.modal = {
+      active: '', 
+      former: '', 
+      fIdx: '', 
+      top_lines: [], 
+      btm_lines: []
+    }
+
     this.createElements()
+    this.createMotion()
   }
 
   createElements()
   {
-    this.modalImage = document.querySelector('img.gallery__modal__selected__figure__image')
-    this.modalDivs = document.querySelectorAll('.gallery__modal__images__div')
-    this.modalImages = document.querySelectorAll('img.gallery__modal__images__div__media__figure__image')
-    this.modalFigures = document.querySelectorAll('.gallery__modal__images__div__media__figure')
-    this.modalCovers = document.querySelectorAll('img.gallery__modal__images__div__media__cover')
+    this.modal_image = document.querySelector('img.gallery__modal__selected__figure__image')
+    this.modal_divs = document.querySelectorAll('.gallery__modal__images__div')
+    this.modal_images = document.querySelectorAll('img.gallery__modal__images__div__media__figure__image')
+    this.modal_figures = document.querySelectorAll('.gallery__modal__images__div__media__figure')
+    this.modal_covers = document.querySelectorAll('img.gallery__modal__images__div__media__cover')
+    this.modal_close = document.querySelector('p.gallery__modal__selected__figure__close')
+    
+    this.top_lines = document.querySelectorAll('span.gallery__modal__images__div__top') 
+    this.btm_lines = document.querySelectorAll('span.gallery__modal__images__div__bottom')
 
-    this.top_lines = []
-    this.bottom_lines = []
+    this.top_lines.forEach(
+      (line, idx) => 
+      {
+        this.modal.top_lines.push(
+          new Line(
+            line, 
+            true
+          )
+        )
 
+        this.modal.btm_lines.push(
+          new Line(
+            this.btm_lines[idx], 
+            true
+          )
+        )
+      }
+    )
+
+    this.onModalSelect()
     this.onModalInteraction()
+  }
+
+  createMotion()
+  {
+    this.onClose = gsap.to(
+      this.modal_close, 
+      {
+        scale: 1.0, 
+        duration: 0.5, 
+        ease: 'power2.inOut', 
+        paused: true
+      }
+    )
   }
 
   /* 
     EVENTS.
   */
 
+  onModalSelect()
+  {
+    let observer = new MutationObserver((changes) => {
+      changes.forEach(change => 
+      {
+        if(change.attributeName.includes('src'))
+        {
+          this.modal.active = change.target.src
+
+          this.modal_images.forEach(
+            (img, idx) => 
+            {
+              if(img.src === this.modal.active)
+              {
+                this.modal.top_lines[idx].show(true)
+                this.modal.btm_lines[idx].show(true)
+              }
+              else 
+              {
+                this.modal.top_lines[idx].hide(true)
+                this.modal.btm_lines[idx].hide(true)
+              }
+            }
+          )
+        }
+      })
+    })
+    observer.observe(this.modal_image, { attributes : true })
+  }
+
   onModalInteraction()
   {
-    this.modalDivs.forEach(
+    this.modal_image.addEventListener('mouseenter', () => 
+    {
+      this.onClose.play()
+    })
+
+    this.modal_image.addEventListener('mouseleave', () => 
+    {
+      this.onClose.reversed()
+    })
+
+    this.modal_divs.forEach(
       (div, idx) => 
       {
-        this.top_lines.push(
-          new Line(
-            div.querySelector('span.gallery__modal__images__div__top'), 
-            true
-          )
-        )
-
-        this.bottom_lines.push(
-          new Line(
-            div.querySelector('span.gallery__modal__images__div__bottom'), 
-            true
-          )
-        )
-
         div.addEventListener('mouseenter', () => 
         {
-          this.top_lines[idx].show(true)
-          this.bottom_lines[idx].show(true)
-
           gsap.to(
-            this.modalFigures[idx], 
+            this.modal_figures[idx], 
             {
               scale: 1.2, 
               duration: 0.5, 
@@ -86,11 +154,8 @@ export default class Gallery extends Page
 
         div.addEventListener('mouseleave', () => 
         {
-          this.top_lines[idx].hide(true)
-          this.bottom_lines[idx].hide(true)
-
           gsap.to(
-            this.modalFigures[idx], 
+            this.modal_figures[idx], 
             {
               scale: 1.0, 
               duration: 0.5, 
@@ -101,8 +166,7 @@ export default class Gallery extends Page
 
         div.addEventListener('click', () => 
         {
-          let src = this.modalImages[idx].getAttribute('data-src')
-          this.modalImage.src = src
+          this.modal_image.src = this.modal_images[idx].src
         })
       }
     )

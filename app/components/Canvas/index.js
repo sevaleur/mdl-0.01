@@ -95,8 +95,8 @@ export default class Canvas
 
     let _ctx = dummy_canvas.getContext('2d')
 
-    _ctx.fillStyle = '#0D0D0D'
     _ctx.fillRect(0, 0, dummy_canvas.width, dummy_canvas.height)
+    _ctx.fillStyle = 0x0D0D0D
 
     const png = dummy_canvas.toDataURL('image/png')
 
