@@ -53,6 +53,8 @@ export default class Gallery
 
     this.modal = document.querySelector('.gallery__modal')
     this.modal_image = document.querySelector('.gallery__modal__selected__figure__image')
+    this.modal_selected = document.querySelector('.gallery__modal__selected')
+    this.modal_images = document.querySelectorAll('.gallery__modal__images')
 
     this.length = this.images.length
   }
@@ -116,15 +118,41 @@ export default class Gallery
       paused: true
     })
 
-    this.onModal = gsap.to([
+    this.onModal = gsap.to(
       this.modal,
-      this.modal_image
-    ],
     {
       opacity: 1.0,
       duration: .5,
       paused: true,
     })
+
+    this.onModalSelect = gsap.fromTo(
+      this.modal_image, 
+      {
+        scale: 0.0,
+        opacity: 0.0
+      },
+      {
+        scale: 1.0, 
+        opacity: 1.0,
+        duration: 1.0, 
+        ease: 'power2.inOut', 
+        paused: true
+      }
+    )
+
+    this.onModalShow = gsap.fromTo(
+      this.modal_images, 
+      {
+        yPercent: 100
+      },
+      {
+        yPercent: 0, 
+        duration: 0.8, 
+        ease: 'power2.inOut', 
+        paused: true
+      }
+    )
   }
 
   /*
@@ -148,12 +176,17 @@ export default class Gallery
     this.modal_image.src = this.elements[index].texture.image.src
     this.modal_image.alt = this.elements[index].texture.image.alt
 
-    this.modal.style.display = 'block'
+    this.modal.style.display = 'grid'
 
     this.onModal.play()
+    this.onModalSelect.play()
+    this.onModalShow.play()
 
-    this.modal_image.onclick = () =>
+    this.modal_selected.onclick = () =>
     {
+      this.onModalSelect.reverse()
+      this.onModalShow.reverse()
+
       this.onModal.reverse().eventCallback('onReverseComplete', () => 
       {
         this.modal.style.display = 'none'

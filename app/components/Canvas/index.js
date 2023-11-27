@@ -1,4 +1,4 @@
-import { Scene, Texture } from 'three'
+import { Scene, Texture, TextureLoader } from 'three'
 
 import Sizes from './utils/Sizes'
 
@@ -90,23 +90,23 @@ export default class Canvas
   createImage()
   {
     let dummy_canvas = document.createElement("canvas")
-    dummy_canvas.width = 10
-    dummy_canvas.height = 10
+    dummy_canvas.width = 100
+    dummy_canvas.height = 100
 
     let _ctx = dummy_canvas.getContext('2d')
 
+    _ctx.fillStyle = '#0d0d0d'
     _ctx.fillRect(0, 0, dummy_canvas.width, dummy_canvas.height)
-    _ctx.fillStyle = 0x0D0D0D
 
     const png = dummy_canvas.toDataURL('image/png')
-
-    this.bgTMap = new Texture()
-    this.bgTMap.generateMipmaps = false
 
     let image = new Image()
     image.src = png
 
-    this.bgTMap.image = image
+    this.bgTMap = image
+
+    let textureLoad = new TextureLoader()
+    textureLoad.load( png, (data) => window.IMAGE_TEXTURES[png] = data )
   }
 
   createController()

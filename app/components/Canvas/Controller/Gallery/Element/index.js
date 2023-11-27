@@ -33,6 +33,7 @@ export default class Element
   createMesh()
   {
     this.texture = window.IMAGE_TEXTURES[this.element.getAttribute('data-src')]
+    this.textureBG = window.IMAGE_TEXTURES[this.bgTMap.src]
     
     this.material = new ShaderMaterial(
     {
@@ -41,7 +42,7 @@ export default class Element
       uniforms:
       {
         tMap: { value: this.texture },
-        u_bg: { value: this.bgTMap },
+        u_bg: { value: this.textureBG },
         u_imageSize: { value: [0, 0] },
         u_planeSize: { value: [0, 0] },
         u_alpha: { value: 0.0 },

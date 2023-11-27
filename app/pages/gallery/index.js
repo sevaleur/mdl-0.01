@@ -46,11 +46,14 @@ export default class Gallery extends Page
   createElements()
   {
     this.modal_image = document.querySelector('img.gallery__modal__selected__figure__image')
+    this.modal_selected = document.querySelector('.gallery__modal__selected')
+
     this.modal_divs = document.querySelectorAll('.gallery__modal__images__div')
     this.modal_images = document.querySelectorAll('img.gallery__modal__images__div__media__figure__image')
     this.modal_figures = document.querySelectorAll('.gallery__modal__images__div__media__figure')
-    this.modal_covers = document.querySelectorAll('img.gallery__modal__images__div__media__cover')
-    this.modal_close = document.querySelector('p.gallery__modal__selected__figure__close')
+
+    this.modal_close = document.querySelector('.gallery__modal__selected__text')
+    this.close = document.querySelector('.gallery__modal__selected__text__close')
     
     this.top_lines = document.querySelectorAll('span.gallery__modal__images__div__top') 
     this.btm_lines = document.querySelectorAll('span.gallery__modal__images__div__bottom')
@@ -80,11 +83,13 @@ export default class Gallery extends Page
 
   createMotion()
   {
-    this.onClose = gsap.to(
-      this.modal_close, 
+    this.show_close = gsap.fromTo(
+      this.close, 
       {
-        scale: 1.0, 
-        duration: 0.5, 
+        scale: 0,
+      }, 
+      {
+        scale: 1.0,
         ease: 'power2.inOut', 
         paused: true
       }
@@ -127,49 +132,71 @@ export default class Gallery extends Page
 
   onModalInteraction()
   {
-    this.modal_image.addEventListener('mouseenter', () => 
-    {
-      this.onClose.play()
-    })
+    this.modal_selected.addEventListener(
+      'mouseenter', () => 
+      {
+        this.close.style.display = 'block'
+        this.show_close.play()
+      }
+    )
 
-    this.modal_image.addEventListener('mouseleave', () => 
-    {
-      this.onClose.reversed()
-    })
+    this.modal_selected.addEventListener(
+      'mouseleave', () => 
+      {
+        this.show_close.reverse()
+          .eventCallback(
+            'onReverseComplete', 
+            () => 
+          { 
+            this.close.style.display = 'none' 
+          } 
+        )
+      }
+    ) 
 
     this.modal_divs.forEach(
       (div, idx) => 
       {
-        div.addEventListener('mouseenter', () => 
-        {
-          gsap.to(
-            this.modal_figures[idx], 
-            {
-              scale: 1.2, 
-              duration: 0.5, 
-              ease: 'power2.inOut'
-            }
-          )
-        })
+        div.addEventListener(
+          'mouseenter', () => 
+          {
+            gsap.to(
+              this.modal_figures[idx], 
+              {
+                scale: 1.2, 
+                duration: 0.5, 
+                ease: 'power2.inOut'
+              }
+            )
+          }
+        )
 
-        div.addEventListener('mouseleave', () => 
-        {
-          gsap.to(
-            this.modal_figures[idx], 
-            {
-              scale: 1.0, 
-              duration: 0.5, 
-              ease: 'power2.inOut'
-            }
-          )
-        })
-
-        div.addEventListener('click', () => 
-        {
-          this.modal_image.src = this.modal_images[idx].src
-        })
+        div.addEventListener(
+          'mouseleave', () => 
+          {
+            gsap.to(
+              this.modal_figures[idx], 
+              {
+                scale: 1.0, 
+                duration: 0.5, 
+                ease: 'power2.inOut'
+              }
+            )
+          }
+        )
+        div.addEventListener(
+          'click', () => 
+          {
+            this.modal_image.src = this.modal_images[idx].src
+          }
+        )
       }
     )
+  }
+
+  onMove(e)
+  {
+    super.onMove(e)
   }
 
   show()
@@ -196,5 +223,20 @@ export default class Gallery extends Page
 
     this.title.hide()
     this.desc.hide()
+  }
+
+  update()
+  {
+    super.update()
+
+    gsap.to(
+      this.modal_close, 
+      {
+        top: this.coord.y, 
+        left: this.coord.x,
+        duration: 0.5, 
+        ease: 'linear'
+      }
+    )
   }
 }

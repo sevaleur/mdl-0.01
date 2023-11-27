@@ -28,6 +28,7 @@ export default class Media
   createMesh()
   {
     this.texture = window.IMAGE_TEXTURES[this.element.getAttribute('data-src')]
+    this.textureBG = window.IMAGE_TEXTURES[this.bgTMap.src]
 
     this.material = new ShaderMaterial(
     {
@@ -36,8 +37,8 @@ export default class Media
       uniforms:
       {
         tMap: { value: this.texture },
-        u_bg: { value: this.bgTMap },
-        u_alpha: { value: 0.0 },
+        u_bg: { value: this.textureBG },
+        u_alpha: { value: 1.0 },
         u_state: { value: 0.0 },
         u_scroll: { value: 0.0 },
         u_intensity: { value: 10.0 },
@@ -81,10 +82,8 @@ export default class Media
 
   show()
   {
-    gsap.fromTo([
-      this.material.uniforms.u_alpha,
-      this.material.uniforms.u_state
-    ],
+    gsap.fromTo(
+      this.material.uniforms.u_state,
     {
       value: 0.0
     },

@@ -27,6 +27,8 @@ block content
       .gallery__modal__selected
         figure.gallery__modal__selected__figure
           img.gallery__modal__selected__figure__image(src='' alt='')
+        .gallery__modal__selected__text
+          p.gallery__modal__selected__text__close.modal__text=portraits.close
       .gallery__modal__images
         .gallery__modal__images__wrapper
           each img in portraits.images

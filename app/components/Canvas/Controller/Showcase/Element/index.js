@@ -38,6 +38,7 @@ export default class Element
   createMesh()
   {
     this.texture = window.IMAGE_TEXTURES[this.element.getAttribute('data-src')]
+    this.textureBG = window.IMAGE_TEXTURES[this.bgTMap.src]
 
     this.material = new ShaderMaterial(
     {
@@ -46,10 +47,10 @@ export default class Element
       uniforms:
       {
         tMap: { value: this.texture },
-        u_bg: { value: this.bgTMap },
+        u_bg: { value: this.textureBG },
         u_imageSize: { value: [0, 0] },
         u_planeSize: { value: [0, 0] },
-        u_alpha: { value: 0.0 },
+        u_alpha: { value: 1.0 },
         u_hover: { value : [ 0, 0 ] }, 
         u_state: { value: 0.0 },
         u_offset: { value: 0.0 },
@@ -111,17 +112,6 @@ export default class Element
         value: 1.0,
         delay: 0.6 * this.index, 
         duration: 1.0,
-      }
-    )
-
-    gsap.fromTo(
-      this.material.uniforms.u_alpha,
-      {
-        value: 0.0
-      },
-      {
-        value: 1.0,
-        delay: 0.5 * this.index, 
       }
     )
   }
