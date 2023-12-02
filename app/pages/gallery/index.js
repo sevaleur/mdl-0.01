@@ -9,7 +9,7 @@ import { COLOR_CULTURED, COLOR_NIGHT } from 'utils/color_variables'
 
 export default class Gallery extends Page
 {
-  constructor()
+  constructor({ device })
   {
     super({
       id: 'gallery',
@@ -21,6 +21,8 @@ export default class Gallery extends Page
       background: COLOR_NIGHT, 
       color: COLOR_CULTURED
     })
+
+    this.device = device
   }
 
   /* 
@@ -54,9 +56,13 @@ export default class Gallery extends Page
 
     this.modal_close = document.querySelector('.gallery__modal__selected__text')
     this.close = document.querySelector('.gallery__modal__selected__text__close')
+
+    this.back = document.querySelector('.gallery__back')
     
     this.top_lines = document.querySelectorAll('span.gallery__modal__images__div__top') 
     this.btm_lines = document.querySelectorAll('span.gallery__modal__images__div__bottom')
+
+    this.gallery_title = document.querySelector('h1.gallery__info__title')
 
     this.top_lines.forEach(
       (line, idx) => 
@@ -94,6 +100,23 @@ export default class Gallery extends Page
         paused: true
       }
     )
+
+    if(this.device.tablet || this.device.mobile)
+    {
+      this.onBackShow = gsap.fromTo(
+        this.back, 
+        {
+          scale: 0, 
+        }, 
+        {
+          scale: 1.0, 
+          transformOrigin: 'bottom left',
+          duration: 0.8,
+          ease: 'back.inOut', 
+          paused: true
+        }
+      )
+    }
   }
 
   /* 
@@ -132,27 +155,30 @@ export default class Gallery extends Page
 
   onModalInteraction()
   {
-    this.modal_selected.addEventListener(
-      'mouseenter', () => 
-      {
-        this.close.style.display = 'block'
-        this.show_close.play()
-      }
-    )
-
-    this.modal_selected.addEventListener(
-      'mouseleave', () => 
-      {
-        this.show_close.reverse()
-          .eventCallback(
-            'onReverseComplete', 
-            () => 
-          { 
-            this.close.style.display = 'none' 
-          } 
-        )
-      }
-    ) 
+    if(this.device.desktop)
+    {
+      this.modal_selected.addEventListener(
+        'mouseenter', () => 
+        {
+          this.close.style.display = 'block'
+          this.show_close.play()
+        }
+      )
+  
+      this.modal_selected.addEventListener(
+        'mouseleave', () => 
+        {
+          this.show_close.reverse()
+            .eventCallback(
+              'onReverseComplete', 
+              () => 
+            { 
+              this.close.style.display = 'none' 
+            } 
+          )
+        }
+      ) 
+    }
 
     this.modal_divs.forEach(
       (div, idx) => 
@@ -204,15 +230,18 @@ export default class Gallery extends Page
     super.show()
 
     gsap.to(
-    ['.gallery__info', 
-    '.gallery__back__button'],
+    '.gallery__info',
       {
         opacity: 1.0
       }
     )
 
+    if(this.device.tablet || this.device.mobile)
+      this.onBackShow.play()
+
     this.title = new Show(this.elements.title)
     this.desc = new Show(this.elements.desc)
+
     this.title.show()
     this.desc.show()
   }
@@ -220,6 +249,9 @@ export default class Gallery extends Page
   hide()
   {
     super.hide()
+
+    if(this.device.tablet || this.device.mobile)
+      this.onBackShow.reverse()
 
     this.title.hide()
     this.desc.hide()
@@ -229,14 +261,17 @@ export default class Gallery extends Page
   {
     super.update()
 
-    gsap.to(
-      this.modal_close, 
-      {
-        top: this.coord.y, 
-        left: this.coord.x,
-        duration: 0.5, 
-        ease: 'linear'
-      }
-    )
+    if(this.device.desktop)
+    {
+      gsap.to(
+        this.modal_close, 
+        {
+          top: this.coord.y, 
+          left: this.coord.x,
+          duration: 0.5, 
+          ease: 'linear'
+        }
+      )
+    }
   }
 }

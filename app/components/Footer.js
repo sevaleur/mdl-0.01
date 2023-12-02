@@ -17,6 +17,7 @@ export default class Footer extends Component
 
     this.template = template
     this.clicked = false
+    this.mouseOver = false
 
     this.createElements()
   }
@@ -40,7 +41,25 @@ export default class Footer extends Component
     this.exp = new Direction(EXPAND)
     this.cls = new Direction(CLOSE)
 
+    this.createMotion(FOOTER)
     this.onInteraction(TITLES, CLOSE, FB)
+  }
+
+  createMotion(FOOTER)
+  {
+    this.footerShow = gsap.fromTo(
+      FOOTER, 
+      {
+        scale: 0, 
+      }, 
+      {
+        scale: 1.0, 
+        transformOrigin: 'bottom right', 
+        duration: 0.8, 
+        ease: 'back.inOut', 
+        paused: true
+      }
+    )
   }
 
   /*
@@ -80,12 +99,16 @@ export default class Footer extends Component
 
   onInitialInteraction()
   {
+    this.mouseOver = true 
+
     this.con.hide()
     this.exp.show()
   }
 
   onInteractionLeave()
   {
+    this.mouseOver = false
+
     this.exp.hide()
     this.con.show()
   }
@@ -95,8 +118,16 @@ export default class Footer extends Component
     this.initial = true
     this.clicked = true 
 
-    this.exp.hide()
-    this.cls.show()
+    if(!this.mouseOver)
+    {
+      this.con.hide()
+      this.cls.show()
+    }
+    else 
+    {
+      this.exp.hide()
+      this.cls.show()
+    }
 
     const enter = gsap.timeline()
 
@@ -146,6 +177,8 @@ export default class Footer extends Component
             delay: 0.05 * i
           }, 'mid'))
     })
+
+    this.mouseOver = false
   }
 
   onInteractionClose(TITLES, FB)
@@ -189,11 +222,12 @@ export default class Footer extends Component
 
   show()
   {
+    this.footerShow.play()
     this.con.show()
   }
 
   hide()
   {
-
+  
   }
 }

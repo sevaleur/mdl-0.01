@@ -82,6 +82,11 @@
         transform: scaleY(0.0);
 
         margin: 2rem 0;
+
+        @include media('<=tablet')
+        {
+          width: 0.25rem; 
+        }
       }
 
       &__right
@@ -99,6 +104,11 @@
         transform: scaleY(0.0);
 
         margin: 2rem 0;
+
+        @include media('<=tablet')
+        {
+          width: 0.25rem; 
+        }
       }
 
       &__link
@@ -117,6 +127,18 @@
 
         visibility: hidden;
 
+        @include media('<=tablet')
+        {
+          height: 15rem; 
+          width: 70rem; 
+        }
+
+        @include media('<=phone')
+        {
+          height: 10rem; 
+          width: 60rem; 
+        }
+
         &__image
         {
           @extend %cover;
@@ -130,6 +152,11 @@
         align-self: flex-start;
         padding: 2rem 0.5rem;
 
+        @include media('<=tablet')
+        {
+          padding: 1rem;
+        }
+
         &__text
         {
           @extend %desc-20;
@@ -138,6 +165,11 @@
           transform: scale(-1, -1);
           word-spacing: 2rem;
           overflow: hidden;
+
+          @include media('<=tablet')
+          {
+            font-size: 1.6rem;
+          }
 
           .char 
           {
@@ -151,6 +183,11 @@
         align-self: flex-end;
         padding: 2rem 0.5rem;
 
+        @include media('<=tablet')
+        {
+          padding: 1rem;
+        }
+
         &__text
         {
           @extend %desc-20;
@@ -159,6 +196,11 @@
           transform: scale(1, 1);
           word-spacing: 2rem;
           overflow: hidden;
+
+          @include media('<=tablet')
+          {
+            font-size: 1.6rem;
+          }
 
           .char 
           {
@@ -191,6 +233,11 @@
 
           padding: 0 1rem;
           overflow: hidden;
+
+          @include media('<=tablet')
+          {
+            font-size: 5rem;
+          }
 
           .char 
           {

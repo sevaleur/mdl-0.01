@@ -215,7 +215,6 @@ export default class Controller
       this.gallery.hide()
 
     this.menu_to_gallery = template === 'commercial' && url.indexOf('gallery') > -1
-    this.gallery_to_menu = template === 'gallery' && url.indexOf('commercial') > -1
 
     if(this.menu_to_gallery)
     {
@@ -232,6 +231,10 @@ export default class Controller
         url,
         scroll
       })
+    }
+    else 
+    {
+      this.transition = null 
     }
   }
 
@@ -295,7 +298,7 @@ export default class Controller
 
         gsap.delayedCall(0.5, () =>
         {
-          if(this.menu_to_gallery || this.home_to_gallery) this.transition.animateTransition(this.gallery)
+          if(this.menu_to_gallery) this.transition.animateTransition(this.gallery)
         })
 
         this.destroyShowcase()

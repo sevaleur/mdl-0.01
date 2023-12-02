@@ -17,11 +17,6 @@
 
     place-content: center;
 
-    @include media('<tablet')
-    {
-      padding: 10rem;
-    }
-
     @include media('<phone')
     {
       padding: 2rem;
@@ -53,6 +48,14 @@
       scrollbar-width: none;
 
       display: flex;
+
+      @include media('<=tablet')
+      {
+        height: 20rem;
+        width: 0px;
+        left: -0.1rem; 
+        transform: none;
+      }
 
       &__wrapper 
       {
@@ -141,6 +144,44 @@
       }
     }
 
+    &__text 
+    {
+      visibility: hidden;
+
+      @include media('<=tablet')
+      {
+        visibility: visible;
+
+        position: absolute;
+        bottom: 10rem;
+        right: -0.1rem;
+
+        height: 10rem;
+        width: 12rem;
+
+        background: $color-night;
+        border: 1px solid $color-grey;
+        border-right: none;
+        border-bottom: none;
+
+        display: grid; 
+        place-content: center;
+      }
+
+      &__close 
+      {
+        @extend %desc-16;
+        color: $color-cultured;
+
+        cursor: pointer;
+
+        .char 
+        {
+          opacity: 0.0;
+        }
+      }
+    }
+
     &__selected
     {
       height: 60rem;
@@ -157,6 +198,11 @@
         transform: translate(-50%, -50%);
 
         mix-blend-mode: difference;
+
+        @include media('<=tablet')
+        {
+          visibility: hidden;
+        }
 
         &__close
         {
@@ -215,19 +261,13 @@
 
         visibility: hidden;
 
-        @include media('<tablet')
-        {
-          width: 80rem;
-          height: 100rem;
-        }
-
-        @include media('<phone')
+        @include media('<=phone')
         {
           width: 48rem;
           height: 60rem;
         }
 
-        @include media('<400px')
+        @include media('<=400px')
         {
           width: 38rem;
           height: 50rem;
@@ -254,17 +294,17 @@
 
     transform: translate(-48rem * 0.5, -50%);
 
-    @include media('<tablet')
+    @include media('<=tablet')
     {
-      transform: translate(-80rem * 0.5, -50%);
+      transform: translate(-50rem * 0.5, -50%);
     }
 
-    @include media('<phone')
+    @include media('<=phone')
     {
       transform: translate(-48rem * 0.5, -50%);
     }
 
-    @include media('<400px')
+    @include media('<=400px')
     {
       transform: translate(-38rem * 0.5, -50%);
     }
@@ -282,22 +322,17 @@
     z-index: z('title');
     mix-blend-mode: difference;
 
-    @include media('<tablet')
+    @include media('<=tablet')
     {
-      padding: 40rem 0;
-      height: 100%;
+      top: 20%; 
+      left: 0; 
+
       width: 100%;
 
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    @include media('<phone')
-    {
-      left: 0;
-      padding: 20rem 5rem;
+      display: flex; 
+      justify-content: center;
+      align-content: center;
+      gap: 2rem;
     }
 
     &__title
@@ -312,39 +347,31 @@
         opacity: 0.0;
       }
 
-      @include media('<tablet')
+      @include media('<=tablet')
       {
-        font-size: 10rem;
-      }
+        display: flex; 
+        flex-direction: column;
+        justify-content: space-evenly;
 
-      @include media('<phone')
-      {
-        font-size: 5rem;
+        text-align: right;
+
+        border-right: 1px solid $color-grey;
+
+        letter-spacing: 1rem;
+
+        padding-right: 1.5rem;
       }
     }
 
     &__desc
     {
+      align-self: center;
+
       @extend %desc-16;
 
       .char 
       {
         opacity: 0.0;
-      }
-
-      @include media('<tablet')
-      {
-        align-self: flex-start;
-
-        width: 70%;
-        font-size: 4rem;
-        padding-left: 10rem;
-      }
-
-      @include media('<phone')
-      {
-        width: 80%;
-        font-size: 2rem;
       }
     }
   }
@@ -357,6 +384,23 @@
     transform: translateX(50%);
 
     z-index: z('link');
+
+    @include media('<=tablet')
+    {
+      position: absolute;
+      bottom: -0.1rem;
+      left: -0.1rem;
+
+      transform: none;
+
+      height: 10rem;
+      width: 12rem;
+
+      background: $color-night;
+      border: 1px solid $color-grey;
+      border-left: none;
+      border-bottom: none;
+    }
 
     &__button
     {
@@ -379,15 +423,20 @@
 
       color: $color-black-coral;
 
-      @include media('<tablet')
+      @include media('<=tablet')
       {
-        font-size: 10rem;
+        font-size: 1.6rem;
         color: $color-cultured;
-      }
 
-      @include media('<phone')
-      {
-        font-size: 3rem;
+        cursor: pointer;
+
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+
+        transform: translate(-20%, -50%);
+
+        width: 100%; 
       }
 
       &::first-letter
@@ -397,14 +446,9 @@
         font-style: italic;
         text-transform: uppercase;
 
-        @include media('<tablet')
+        @include media('<=tablet')
         {
-          font-size: 15rem;
-        }
-
-        @include media('<phone')
-        {
-          font-size: 5rem;
+          font-size: 3rem;
         }
       }
 

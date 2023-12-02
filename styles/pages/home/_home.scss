@@ -36,6 +36,11 @@
 
       gap: 2rem;
 
+      @include media('<=tablet')
+      {
+        
+      }
+
       &__title 
       {
         align-self: center;

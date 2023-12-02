@@ -16,12 +16,14 @@ const app = express()
 this.assets = []
 
 const path = require('path')
-const device = require('device')
+const device = require('express-device')
 
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
+
+app.use(device.capture())
 
 const endpoint = process.env.ENDPOINT
 const projectId = process.env.PROJECT_ID 
@@ -92,7 +94,7 @@ app.use((req, res, next) => {
   next()
 })
 
-const handleReq = async() =>
+const handleReq = async(req) =>
 {
   if(this.assets.length === 0)
   { 
@@ -211,6 +213,7 @@ const handleReq = async() =>
     meta: meta.result[0],
     navigation: navigation.result[0],
     footer: footer.result[0],
+    device: req.device.type,
     assets: this.assets
   }
 }
@@ -225,7 +228,7 @@ const handleReq = async() =>
 
 app.get('/', async(req, res) =>
 {
-  const partials = await handleReq()
+  const partials = await handleReq(req)
   const home = await url(
     encodeURIComponent(
       `*[_type == "home"]{
@@ -244,13 +247,13 @@ app.get('/', async(req, res) =>
   res.render('pages/home',
   {
     ...partials,
-    home: home.result[0]
+    home: home.result[0],
   })
 })
 
 app.get('/advertising', async(req, res) =>
 {
-  const partials = await handleReq()
+  const partials = await handleReq(req)
   const adverts = await url(
     encodeURIComponent(
       `*[_type == "advertising"]{
@@ -276,7 +279,7 @@ app.get('/advert/:uid', async(req, res) =>
 {
   try
   {
-    const partials = await handleReq()
+    const partials = await handleReq(req)
     const advert = await url(
       encodeURIComponent(
         `*[_type == "advert"
@@ -298,7 +301,7 @@ app.get('/advert/:uid', async(req, res) =>
 
 app.get('/shortFilms', async(req, res) =>
 {
-  const partials = await handleReq()
+  const partials = await handleReq(req)
   const films = await url(
     encodeURIComponent(
       `*[_type == "shortFilms"]{
@@ -324,7 +327,7 @@ app.get('/film/:uid', async(req, res) =>
 {
   try
   {
-    const partials = await handleReq()
+    const partials = await handleReq(req)
     const film = await url(
       encodeURIComponent(
         `*[_type == "film"
@@ -346,7 +349,7 @@ app.get('/film/:uid', async(req, res) =>
 
 app.get('/commercial', async(req, res) =>
 {
-  const partials = await handleReq()
+  const partials = await handleReq(req)
   const commercial = await url(
     encodeURIComponent(
       `*[_type == "commercial"]{
@@ -373,7 +376,7 @@ app.get('/gallery/:uid', async(req, res) =>
 {
   try
   {
-    const partials = await handleReq()
+    const partials = await handleReq(req)
     const gallery = await url(
       encodeURIComponent(
         `*[_type == "gallery" 
@@ -395,7 +398,7 @@ app.get('/gallery/:uid', async(req, res) =>
 
 app.get('/portraits', async(req, res) =>
 {
-    const partials = await handleReq()
+    const partials = await handleReq(req)
     const portraits = await url(
       encodeURIComponent(
         `*[_type == "portraits"]`
@@ -410,7 +413,7 @@ app.get('/portraits', async(req, res) =>
 
 app.get('/stillLife', async(req, res) =>
 {
-    const partials = await handleReq()
+    const partials = await handleReq(req)
     const stillLife = await url(
       encodeURIComponent(
         `*[_type == "stillLife"]`
@@ -426,7 +429,7 @@ app.get('/stillLife', async(req, res) =>
 
 app.get('/about', async(req, res) =>
 {
-    const partials = await handleReq()
+    const partials = await handleReq(req)
     const about = await url(
       encodeURIComponent(
         '*[_type == "about"]'

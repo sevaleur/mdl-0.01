@@ -54,7 +54,17 @@ export default class Gallery
     this.modal = document.querySelector('.gallery__modal')
     this.modal_image = document.querySelector('.gallery__modal__selected__figure__image')
     this.modal_selected = document.querySelector('.gallery__modal__selected')
-    this.modal_images = document.querySelectorAll('.gallery__modal__images')
+    this.modal_images = document.querySelector('.gallery__modal__images')
+    this.modal_close_mobile = document.querySelector('.gallery__modal__text')
+
+    if(this.screen.tablet || this.screen.mobile)
+    {
+      let connect_box = document.querySelector('.footer')
+      let bounds = connect_box.getBoundingClientRect()
+      let width = this.screen.width - bounds.width
+
+      this.modal_images.style.width = `${width}px`  
+    }
 
     this.length = this.images.length
   }
@@ -153,6 +163,22 @@ export default class Gallery
         paused: true
       }
     )
+
+    if(this.screen.tablet || this.screen.mobile)
+    {
+      this.onModalMobile = gsap.fromTo(
+        this.modal_close_mobile, 
+        {
+          xPercent: 100
+        }, 
+        {
+          xPercent: 0, 
+          duration: 0.4, 
+          ease: 'power2.inOut', 
+          paused: true
+        }
+      )
+    }
   }
 
   /*
@@ -180,11 +206,19 @@ export default class Gallery
 
     this.onModal.play()
     this.onModalSelect.play()
+    
+    if(this.screen.tablet || this.screen.mobile)
+      this.onModalMobile.play()
+
     this.onModalShow.play()
 
     this.modal_selected.onclick = () =>
     {
       this.onModalSelect.reverse()
+
+      if(this.screen.tablet || this.screen.mobile)
+        this.onModalMobile.reverse()
+
       this.onModalShow.reverse()
 
       this.onModal.reverse().eventCallback('onReverseComplete', () => 
@@ -193,6 +227,26 @@ export default class Gallery
         this.show()
         this.enlarged = false
       })
+    }
+
+    if(this.screen.tablet || this.screen.mobile)
+    {
+      this.modal_close_mobile.onclick = () =>
+      {
+        this.onModalSelect.reverse()
+  
+        if(this.screen.tablet || this.screen.mobile)
+          this.onModalMobile.reverse()
+  
+        this.onModalShow.reverse()
+  
+        this.onModal.reverse().eventCallback('onReverseComplete', () => 
+        {
+          this.modal.style.display = 'none'
+          this.show()
+          this.enlarged = false
+        })
+      }
     }
   }
 
@@ -215,6 +269,15 @@ export default class Gallery
   onResize()
   {
     this.full_bounds = this.gallery_wrapper.getBoundingClientRect()
+
+    if(this.screen.tablet || this.screen.mobile)
+    {
+      let connect_box = document.querySelector('.footer')
+      let bounds = connect_box.getBoundingClientRect()
+      let width = this.screen.width - bounds.width
+
+      this.modal_images.style.width = `${width}px`  
+    }
 
     this.elements.forEach( element => 
     {

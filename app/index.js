@@ -16,6 +16,7 @@ export default class App
 {
   constructor()
   {
+    this.createDevice()
     this.createContent()
     this.createPages()
     this.createCanvas()
@@ -37,6 +38,35 @@ export default class App
   *
   */
 
+  createDevice()
+  {
+    this.device = {
+      desktop: false, 
+      tablet: false, 
+      phone: false
+    }
+
+    this.device.desktop = window.innerWidth > 1024 ? true : false
+    this.device.tablet = window.innerWidth <= 1024 ? true : false
+    this.device.mobile = window.innerWidth <= 768 ? true : false
+
+    if(this.device.desktop)
+    {
+      this.device.tablet = false
+      this.device.mobile = false
+    }
+    else if(this.device.tablet)
+    {
+      this.device.desktop = false 
+      this.device.mobile = false 
+    }
+    else 
+    {
+      this.device.desktop = false 
+      this.device.tablet = false
+    }
+  }
+
   createContent()
   {
     this.content = document.querySelector('.content')
@@ -46,16 +76,16 @@ export default class App
   createPages()
   {
     this.pages = {
-      home: new Home(),
-      advertising: new Menu(),
-      shortFilms: new Menu(),
-      commercial: new Menu(),
-      portraits: new Gallery(),
-      stillLife: new Gallery(),
-      gallery: new Gallery(),
-      advert: new Video(),
-      film: new Video(),
-      about: new About(),
+      home: new Home({ device: this.device }),
+      advertising: new Menu({ device: this.device }),
+      shortFilms: new Menu({ device: this.device }),
+      commercial: new Menu({ device: this.device }),
+      portraits: new Gallery({ device: this.device }),
+      stillLife: new Gallery({ device: this.device }),
+      gallery: new Gallery({ device: this.device }),
+      advert: new Video({ device: this.device }),
+      film: new Video({ device: this.device }),
+      about: new About({ device: this.device }),
     }
 
     this.page = this.pages[this.template]
@@ -154,6 +184,26 @@ export default class App
 
   onResize()
   {
+    this.device.desktop = window.innerWidth > 1024 ? true : false
+    this.device.tablet = window.innerWidth <= 1024 ? true : false
+    this.device.mobile = window.innerWidth <= 768 ? true : false
+
+    if(this.device.desktop)
+    {
+      this.device.tablet = false
+      this.device.mobile = false
+    }
+    else if(this.device.tablet)
+    {
+      this.device.desktop = false 
+      this.device.mobile = false 
+    }
+    else 
+    {
+      this.device.desktop = false 
+      this.device.tablet = false
+    }
+
     if(this.page && this.page.onResize)
       this.page.onResize()
 

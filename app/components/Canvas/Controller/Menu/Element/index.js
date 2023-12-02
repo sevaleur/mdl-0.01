@@ -111,7 +111,6 @@ export default class Element
   show()
   {
     this.state.play()
-    //this.alpha.play()
   }
 
   hide()

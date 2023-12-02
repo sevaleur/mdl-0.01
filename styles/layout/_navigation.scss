@@ -59,6 +59,24 @@
     
     margin: 0 1.5rem 0 0;
 
+    @include media('<=tablet')
+    {
+      top: 0; 
+      left: 0;
+
+      width: 100%;
+
+      flex-direction: column;
+      gap: 2rem;
+
+      background: $color-night;
+
+      padding: 10rem; 
+      margin: 0;
+
+      display: none;
+    }
+
     &__item
     {
       pointer-events: auto;
@@ -68,6 +86,7 @@
 
       &__link
       {
+        mix-blend-mode: difference;
 
         &__text 
         {
@@ -76,7 +95,11 @@
           font-weight: 300;
           display: block;
           padding: .5rem 0;
-          mix-blend-mode: difference;
+
+          @include media('<=tablet')
+          {
+            font-size: 6rem;
+          }
         }
       }
     }

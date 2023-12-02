@@ -92,8 +92,7 @@ export default class Preloader extends Component
   {
     gsap.to([
       '.bottom',
-      '.lbb',
-      '.fbt'
+      '.pretop'
     ],
     {
       scaleX: this.percent,
@@ -102,9 +101,7 @@ export default class Preloader extends Component
 
     gsap.to([
       '.left',
-      '.lbr',
       '.right',
-      '.fbl'
     ],
     {
       scaleY: this.percent,

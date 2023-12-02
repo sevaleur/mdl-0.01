@@ -18,6 +18,7 @@ export default class Navigation extends Component
       }
     })
 
+    this.createMotion()
     this.createNavElements()
     this.createNavLocation(template)
   }
@@ -25,6 +26,23 @@ export default class Navigation extends Component
   /*
     CREATE.
   */
+
+  createMotion()
+  {
+    this.showLogo = gsap.fromTo(
+      this.elements.logo, 
+      {
+        scale: 0.0, 
+      }, 
+      {
+        scale: 1.0, 
+        transformOrigin: 'top left', 
+        duration: 0.8, 
+        ease: 'back.inOut', 
+        paused: true
+      }
+    )
+  }
 
   createNavElements()
   {
@@ -83,6 +101,8 @@ export default class Navigation extends Component
 
   show()
   {
+    this.showLogo.play()
+    
     gsap.to([
       '.navigation__logo__image',
       '.navigation__list'

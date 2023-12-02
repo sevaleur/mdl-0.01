@@ -9,7 +9,7 @@ import { verticalLoop } from 'utils/HelperFunctions'
 
 export default class Menu extends Page
 {
-  constructor()
+  constructor({ device })
   {
     super({
       id: 'menu',
@@ -21,7 +21,7 @@ export default class Menu extends Page
       color: COLOR_CULTURED
     })
 
-    this.screen_size = window.innerWidth
+    this.device = device 
     this.ready = false
   }
 
@@ -204,6 +204,20 @@ export default class Menu extends Page
   {
     super.show()
     this.showMarquee.play()
+
+    if(this.device.tablet || this.device.mobile)
+    {
+      this.title.forEach(
+        (t, index) => 
+        {
+          this.leftLines[index].show()
+          this.rightLines[index].show()
+          this.type[index].show()
+          this.index[index].show()
+          this.title[index].show()
+        }
+      )
+    }
   }
 
   hide()

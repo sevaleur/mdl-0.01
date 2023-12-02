@@ -154,6 +154,8 @@ export default class Media
 
     this.plane.material.uniforms.u_scroll.value = ((scroll.current - scroll.last) / this.screen.height) * 5
 
+    this.createBounds()
+
     this.updateScale()
     this.updateX()
     this.updateY()
