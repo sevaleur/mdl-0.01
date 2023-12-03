@@ -261,16 +261,16 @@
 
         visibility: hidden;
 
-        @include media('<=phone')
+        @include media('<=tablet')
         {
-          width: 48rem;
+          width: 45rem;
           height: 60rem;
         }
 
-        @include media('<=400px')
+        @include media('<=phone')
         {
-          width: 38rem;
-          height: 50rem;
+          width: 50rem;
+          height: 65rem;
         }
 
         &__image
@@ -296,17 +296,12 @@
 
     @include media('<=tablet')
     {
-      transform: translate(-50rem * 0.5, -50%);
+      transform: translate(-45rem * 0.5, -50%);
     }
 
     @include media('<=phone')
     {
       transform: translate(-48rem * 0.5, -50%);
-    }
-
-    @include media('<=400px')
-    {
-      transform: translate(-38rem * 0.5, -50%);
     }
   }
 
@@ -324,7 +319,7 @@
 
     @include media('<=tablet')
     {
-      top: 20%; 
+      top: 18%; 
       left: 0; 
 
       width: 100%;

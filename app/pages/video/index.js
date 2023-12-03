@@ -9,7 +9,7 @@ import { horizontalLoop } from 'utils/HelperFunctions'
 
 export default class Video extends Page
 {
-  constructor()
+  constructor({ device })
   {
     super({
       id: 'video',
@@ -22,6 +22,8 @@ export default class Video extends Page
       background: COLOR_NIGHT, 
       color: COLOR_CULTURED
     })
+
+    this.device = device
   }
 
   /* 

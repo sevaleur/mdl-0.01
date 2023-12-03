@@ -56,7 +56,7 @@ export default class Footer extends Component
         scale: 1.0, 
         transformOrigin: 'bottom right', 
         duration: 0.8, 
-        ease: 'back.inOut', 
+        ease: 'power2.inOut', 
         paused: true
       }
     )
@@ -68,28 +68,32 @@ export default class Footer extends Component
 
   onInteraction(TITLES, CLOSE, FB)
   {
-    TITLES.parentElement.addEventListener('mouseenter', () => 
+    TITLES.parentElement.addEventListener(
+      'mouseenter', () => 
     {
       if(this.clicked) return 
 
       this.onInitialInteraction()
     })
 
-    TITLES.parentElement.addEventListener('mouseleave', () => 
+    TITLES.parentElement.addEventListener(
+      'mouseleave', () => 
     {
       if(this.clicked) return 
 
       this.onInteractionLeave()
     })
 
-    TITLES.parentElement.addEventListener('click', () => 
+    TITLES.parentElement.addEventListener(
+      'click', () => 
     {
       if(this.initial || this.clicked) return 
 
       this.onInteractionClick(TITLES, FB)
     })
 
-    CLOSE.addEventListener('click', () => 
+    CLOSE.addEventListener(
+      'click', () => 
     {
       if(!this.clicked) return 
 
@@ -137,7 +141,7 @@ export default class Footer extends Component
       height: FB.height * 3.0,
       width: FB.width * 3.0,
       duration: 0.5,
-      ease: 'back.inOut'
+      ease: 'power2.inOut'
     }, 'start')
 
     this.media.forEach(
@@ -214,7 +218,7 @@ export default class Footer extends Component
       height: FB.height,
       width: FB.width,
       duration: 1.0,
-      ease: 'back.inOut'
+      ease: 'power2.inOut'
     }, 'end')
 
     this.clicked = false

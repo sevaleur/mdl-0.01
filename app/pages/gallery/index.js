@@ -112,7 +112,7 @@ export default class Gallery extends Page
           scale: 1.0, 
           transformOrigin: 'bottom left',
           duration: 0.8,
-          ease: 'back.inOut', 
+          ease: 'power2.inOut', 
           paused: true
         }
       )

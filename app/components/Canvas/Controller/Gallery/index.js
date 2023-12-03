@@ -173,7 +173,7 @@ export default class Gallery
         }, 
         {
           xPercent: 0, 
-          duration: 0.4, 
+          duration: 0.8, 
           ease: 'power2.inOut', 
           paused: true
         }
@@ -219,14 +219,16 @@ export default class Gallery
       if(this.screen.tablet || this.screen.mobile)
         this.onModalMobile.reverse()
 
-      this.onModalShow.reverse()
-
-      this.onModal.reverse().eventCallback('onReverseComplete', () => 
+      this.onModalShow.reverse().eventCallback('onReverseComplete', () => 
       {
-        this.modal.style.display = 'none'
-        this.show()
-        this.enlarged = false
+        this.onModal.reverse().eventCallback('onReverseComplete', () => 
+        {
+          this.modal.style.display = 'none'
+          this.show()
+          this.enlarged = false
+        })
       })
+
     }
 
     if(this.screen.tablet || this.screen.mobile)
@@ -238,14 +240,16 @@ export default class Gallery
         if(this.screen.tablet || this.screen.mobile)
           this.onModalMobile.reverse()
   
-        this.onModalShow.reverse()
-  
-        this.onModal.reverse().eventCallback('onReverseComplete', () => 
+        this.onModalShow.reverse().eventCallback('onReverseComplete', () => 
         {
-          this.modal.style.display = 'none'
-          this.show()
-          this.enlarged = false
+          this.onModal.reverse().eventCallback('onReverseComplete', () => 
+          {
+            this.modal.style.display = 'none'
+            this.show()
+            this.enlarged = false
+          })
         })
+  
       }
     }
   }

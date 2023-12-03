@@ -6,7 +6,7 @@ import gsap from 'gsap'
 
 export default class Navigation extends Component
 {
-  constructor({ template })
+  constructor({ template, device })
   {
     super({
       element: '.navigation',
@@ -14,18 +14,37 @@ export default class Navigation extends Component
       {
         items: '.navigation__list__item',
         links: '.navigation__list__item__link',
-        logo: '.navigation__logo'
+        logo: '.navigation__logo',
       }
     })
 
-    this.createMotion()
+    this.device = device
+    this.menuClick = false
+
     this.createNavElements()
+    this.createMotion()
     this.createNavLocation(template)
+
+    if(this.device.tablet || this.device.mobile)
+      this.onMenuInteraction()
   }
 
   /*
     CREATE.
   */
+
+  createNavElements()
+  {
+    this.nav_menu = document.querySelector('.navigation__menu')
+    this.nav_menu_icon = document.querySelector('.navigation__menu__icon')
+    this.nav_menu_items = document.querySelector('.navigation__list')
+
+    this.nav_links = []
+    this.elements.links.forEach(link =>
+    {
+      this.nav_links.push(new Show(link))
+    })
+  }
 
   createMotion()
   {
@@ -38,19 +57,60 @@ export default class Navigation extends Component
         scale: 1.0, 
         transformOrigin: 'top left', 
         duration: 0.8, 
-        ease: 'back.inOut', 
+        ease: 'power2.inOut', 
         paused: true
       }
     )
-  }
 
-  createNavElements()
-  {
-    this.nav_links = []
-    this.elements.links.forEach(link =>
+    if(this.device.tablet || this.device.mobile)
     {
-      this.nav_links.push(new Show(link))
-    })
+      this.onMenuShow = gsap.fromTo(
+        this.nav_menu, 
+        {
+          scale: 0.0, 
+        }, 
+        {
+          scale: 1.0, 
+          transformOrigin: 'top right', 
+          duration: 0.8, 
+          ease: 'power2.inOut', 
+          paused: true 
+        }
+      )
+  
+      this.onMenuClick = gsap.fromTo(
+        this.nav_menu_icon,
+        {
+          rotation: '0deg',
+          top: '50%', 
+          right: '50%'
+        },
+        {
+          rotation: '135deg', 
+          top: '5rem', 
+          right: '6rem',
+          transformOrigin: 'center',
+          duration: 0.8, 
+          ease: 'power2.inOut', 
+          paused: true
+        }
+      )
+  
+      this.onMenuEnlarge = gsap.fromTo(
+        this.nav_menu, 
+        {
+          width: '12rem', 
+          height: '10rem'
+        }, 
+        {
+          width: '100%', 
+          height: '100vh',
+          duration: 0.8, 
+          ease: 'power2.inOut', 
+          paused: true
+        }
+      )
+    }
   }
 
   createNavLocation(template)
@@ -88,8 +148,11 @@ export default class Navigation extends Component
 
           link.classList.add('selected')
           link.classList.remove('hidden')
-
+          
           this.former = link
+
+          if(this.device.tablet || this.device.mobile)
+            this.onMenuShrink()
         }
       })
     })
@@ -99,9 +162,87 @@ export default class Navigation extends Component
     ANIMATIONS.
   */
 
+  onMenuInteraction()
+  {
+    this.nav_menu_icon.onclick = () => 
+    {
+      if(!this.menuClick)
+      {
+        this.onMenuExpand()
+      }
+      else 
+      {
+        this.onMenuShrink()
+      }
+    }
+  }
+
+  onMenuShrink()
+  {
+    this.nav_links.forEach(
+      link =>
+      {
+        link.hide()
+
+        gsap.to(
+          link, 
+          {
+            opacity: 0.0,
+          }
+        )
+      }
+    )
+
+    this.onMenuClick.reverse().eventCallback('onReverseComplete', () => { this.menuClick = false })
+    this.onMenuEnlarge.reverse()
+    this.nav_menu_items.style.display = 'none'
+  }
+
+  onMenuExpand()
+  {
+    this.onMenuClick.play().eventCallback('onComplete', () => { this.menuClick = true })
+
+    this.onMenuEnlarge.play()
+      .eventCallback(
+        'onComplete', () => 
+      { 
+        this.nav_menu_items.style.display = 'flex' 
+
+        this.nav_links.forEach(
+          link =>
+          {
+            gsap.to(
+              link, 
+              {
+                opacity: 1.0, 
+                duration: 0.5, 
+              }
+            )
+            
+            link.show()
+          }
+        )
+      }
+    )
+  }
+
   show()
   {
     this.showLogo.play()
+
+    if(this.device.tablet || this.device.mobile)
+    {
+      this.onMenuShow.play()
+    }
+    else 
+    {
+      this.nav_links.forEach(
+        link =>
+        {
+          link.show()
+        }
+      )
+    }
     
     gsap.to([
       '.navigation__logo__image',
@@ -111,18 +252,16 @@ export default class Navigation extends Component
       opacity: 1.0,
       duration: 0.5,
     })
-
-    this.nav_links.forEach(link =>
-    {
-      link.show()
-    })
   }
 
   hide()
   {
-    this.nav_links.forEach(link =>
+    if(!this.device.tablet || !this.device.mobile)
     {
-      link.hide()
-    })
+      this.nav_links.forEach(link =>
+      {
+        link.hide()
+      })
+    }
   }
 }

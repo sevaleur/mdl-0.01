@@ -112,7 +112,8 @@ export default class App
   createNavigation()
   {
     this.navigation = new Navigation({
-      template: this.template
+      template: this.template, 
+      device: this.device
     })
   }
 
