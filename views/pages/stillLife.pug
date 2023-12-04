@@ -7,7 +7,8 @@ block content
   .stillLife
 
   .gallery
-
+    .gallery__title 
+      h2.gallery__title__text=sl.title
     .gallery__media
       .gallery__wrapper
         each img in sl.images
@@ -24,8 +25,8 @@ block content
       if(sl.project_description.length > 0)
         p.gallery__info__desc!=sl.project_description.replace(/\n/g, '<br>')
 
-    .gallery__back
-      a.gallery__back__button(href=Link=('/'))=sl.back
+    a.gallery__back(href=Link=(''))
+      .gallery__back__button
 
     .gallery__modal
       .gallery__modal__selected

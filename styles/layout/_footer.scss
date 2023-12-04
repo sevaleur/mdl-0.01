@@ -84,6 +84,12 @@
       opacity: 0.0;
       pointer-events:none;
 
+      @include media('<=tablet')
+      {
+        height: 5rem; 
+        width: 5rem; 
+      }
+
       &:hover
       {
         opacity: 0.5;

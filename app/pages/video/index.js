@@ -2,7 +2,6 @@ import Plyr from 'plyr'
 import gsap from 'gsap'
 
 import Page from 'classes/Page'
-import Show from 'animations/Show'
 
 import { COLOR_CULTURED, COLOR_NIGHT } from 'utils/color_variables'
 import { horizontalLoop } from 'utils/HelperFunctions'
@@ -34,8 +33,6 @@ export default class Video extends Page
   {
     super.create()
 
-    this.showAnimations = []
-
     this.video = {
       isPlaying: false, 
       isClicked: false,
@@ -51,18 +48,61 @@ export default class Video extends Page
     const GHOST = document.querySelector('.video__ghost__div')
     const CREDITS = document.querySelectorAll('h3.video__footer__credits__title__text')
     const THANKS = document.querySelectorAll('h3.video__footer__thanks__title__text')
+    const TITLE = document.querySelectorAll('.video__title__text')
 
     this.cover = document.querySelector('.video__media__cover')
+    this.back = document.querySelector('.video__back')
 
     this.titleBounds = this.elements.titleDiv.getBoundingClientRect()
 
-    this.showAnimations.push(new Show(this.elements.title))
-
     this.createVideo(GHOST)
     this.createMotion()
+    this.onBack()
 
-    if(CREDITS.length && THANKS.length)
-      this.createLoop(CREDITS, THANKS)
+    CREDITS.length && THANKS.length
+       ? this.createLoop(TITLE, CREDITS, THANKS)
+       : this.createLoop(TITLE)
+  }
+
+  createMotion()
+  {
+    this.enlarge = gsap.to(
+      this.controls.element, 
+      {
+        height: '50rem',
+        width: '50rem', 
+        duration: 0.5, 
+        ease: 'power2.inOut',
+        paused: true
+      }
+    )
+
+    this.onBackShow = gsap.fromTo(
+      this.back, 
+      {
+        scale: 0, 
+      }, 
+      {
+        scale: 1.0, 
+        transformOrigin: 'bottom left',
+        duration: 0.8,
+        ease: 'power2.inOut', 
+        paused: true
+      }
+    )
+
+    this.onTitleShow = gsap.fromTo(
+      this.elements.titleDiv, 
+      {
+        yPercent: 100 
+      }, 
+      {
+        yPercent: 0, 
+        duration: 0.8, 
+        ease: 'power2.inOut', 
+        paused: true
+      }
+    )
   }
 
   createVideo(GHOST)
@@ -74,6 +114,7 @@ export default class Video extends Page
       hideControls: true, 
       loop: { active: true },
       loadSprite: false,
+      ratio: this.device.tablet || this.device.mobile ? '9:16' : '16:9'
     })
 
     this.controls = {
@@ -98,24 +139,15 @@ export default class Video extends Page
     })
   }
 
-  createLoop(CREDITS, THANKS)
+  createLoop(TITLE, CREDITS=false, THANKS=false)
   {
-    horizontalLoop(CREDITS, { paused: false, reversed: true, repeat: -1, speed: 0.5 })
-    horizontalLoop(THANKS, { paused: false, reversed: true, repeat: -1, speed: 0.5 })
-  }
+    horizontalLoop(TITLE, { paused: false, reversed: true, repeat: -1, speed: 0.5 })
 
-  createMotion()
-  {
-    this.enlarge = gsap.to(
-      this.controls.element, 
-      {
-        height: '50rem',
-        width: '50rem', 
-        duration: 0.5, 
-        ease: 'power2.inOut',
-        paused: true
-      }
-    )
+    if(CREDITS && THANKS)
+    {
+      horizontalLoop(CREDITS, { paused: false, reversed: true, repeat: -1, speed: 0.5 })
+      horizontalLoop(THANKS, { paused: false, reversed: false, repeat: -1, speed: 0.5 })
+    }
   }
 
   /* 
@@ -156,6 +188,16 @@ export default class Video extends Page
     super.onMove(e)
   }
 
+  onBack()
+  {
+    this.back.addEventListener('click', (e) => 
+    {
+      e.preventDefault()
+
+      window.history.back()
+    })
+  }
+
   onPlay()
   {
     this.video.isPlaying = true
@@ -177,20 +219,18 @@ export default class Video extends Page
   {
     super.show()
 
-    this.showAnimations.forEach(
-      el => 
-      {
-        el.show()
-      }
-    )
-
+    this.onBackShow.play()
+    this.onTitleShow.play()
     this.enlarge.play()
   }
 
   hide()
   {
     super.hide()
+
     this.enlarge.reverse()
+    this.onTitleShow.reverse()
+    this.onBackShow.reverse()
   }
 
   /* 
@@ -201,14 +241,17 @@ export default class Video extends Page
   {
     super.update()
 
-    gsap.to(
-      this.controls.element,
-      {
-        top: this.coord.y,
-        left: this.coord.x,
-        duration: 0.5, 
-        ease: 'linear',
-      }
-    )
+    if(this.device.desktop)
+    {
+      gsap.to(
+        this.controls.element,
+        {
+          top: this.coord.y,
+          left: this.coord.x,
+          duration: 0.5, 
+          ease: 'linear',
+        }
+      )
+    }
   }
 }

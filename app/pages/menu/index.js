@@ -47,10 +47,20 @@ export default class Menu extends Page
     const INDEX = document.querySelectorAll('.menu__gallery__image__index__text')
     const TITLE = document.querySelectorAll('.menu__gallery__image__title__text')
 
+    let nav = document.querySelector('.navigation__logo')
+    let nav_bounds = nav.getBoundingClientRect()
+
+    this.createMarquee(nav_bounds)
     this.createMotion()
     this.createText(TYPE, INDEX, TITLE)
     this.onLoadedLoop()
     this.onHover()
+  }
+
+  createMarquee(bounds)
+  {
+    let calc = window.innerHeight - bounds.height
+    this.marquee.style.height = `${calc}px`
   }
 
   createMotion()
@@ -227,7 +237,14 @@ export default class Menu extends Page
     return new Promise(resolve =>
     {
       this.onLeave()
-      this.showMarquee.reverse().eventCallback('onReverseComplete', () => { gsap.delayedCall(0.2, () => { resolve() } ) } )
+      this.showMarquee.reverse()
+        .eventCallback(
+          'onReverseComplete', 
+          () => 
+          { 
+            gsap.delayedCall(0.2, () => { resolve() } ) 
+          } 
+        )
     })
   }
 }

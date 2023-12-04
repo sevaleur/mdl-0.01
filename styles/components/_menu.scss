@@ -12,9 +12,10 @@
 
     position: absolute;
     bottom: 0;
-    left: 0;
+    left: -0.1rem;
 
     border-right: 1px solid $color-grey;
+    border-top: 1px solid $color-grey;
 
     overflow: hidden;
 
@@ -85,7 +86,7 @@
 
         @include media('<=tablet')
         {
-          width: 0.25rem; 
+          visibility: hidden;
         }
       }
 
@@ -107,7 +108,7 @@
 
         @include media('<=tablet')
         {
-          width: 0.25rem; 
+          visibility: hidden;
         }
       }
 
@@ -154,7 +155,7 @@
 
         @include media('<=tablet')
         {
-          padding: 1rem;
+          visibility: hidden;
         }
 
         &__text
@@ -165,11 +166,6 @@
           transform: scale(-1, -1);
           word-spacing: 2rem;
           overflow: hidden;
-
-          @include media('<=tablet')
-          {
-            font-size: 1.6rem;
-          }
 
           .char 
           {
@@ -185,7 +181,7 @@
 
         @include media('<=tablet')
         {
-          padding: 1rem;
+          visibility: hidden;
         }
 
         &__text
@@ -196,11 +192,6 @@
           transform: scale(1, 1);
           word-spacing: 2rem;
           overflow: hidden;
-
-          @include media('<=tablet')
-          {
-            font-size: 1.6rem;
-          }
 
           .char 
           {

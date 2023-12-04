@@ -19,7 +19,13 @@ block content
       .video__ghost 
         .video__ghost__div
         .video__title 
-          h1.video__title__text=film.title
+          .video__title__wrapper
+            h1.video__title__text=film.title
+            span.video__title__text=film.title
+            span.video__title__text=film.title
+            span.video__title__text=film.title
+            span.video__title__text=film.title
+            span.video__title__text=film.title
 
       section.video__grid
         .video__info
@@ -83,8 +89,5 @@ block content
               .video__footer__thanks__desc 
                 p.video__footer__thanks__desc__text!=film.footer.thanks.replace(/\n/g, '<br>')
 
-
-
-
-    //.video__back
-      a.video__back__button(href=Link='/')=film.back_button
+    a.video__back(href=Link=(''))
+      .video__back__button

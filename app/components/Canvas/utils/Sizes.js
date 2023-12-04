@@ -14,6 +14,7 @@ export default class Sizes extends EventEmitter
       mobile: false
     }
 
+    this.screen.desktop = this.screen.width > 1024 ? true : false
     this.screen.tablet = this.screen.width <= 1024 ? true : false
     this.screen.mobile = this.screen.width <= 768 ? true : false
 
@@ -25,6 +26,7 @@ export default class Sizes extends EventEmitter
         this.screen.height = window.innerHeight
         this.screen.ratio = Math.min(2, window.devicePixelRatio)
 
+        this.screen.desktop = this.screen.width > 1024 ? true : false
         this.screen.tablet = this.screen.width <= 1024 ? true : false
         this.screen.mobile = this.screen.width <= 768 ? true : false
 

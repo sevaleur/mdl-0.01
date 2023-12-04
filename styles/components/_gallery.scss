@@ -1,6 +1,46 @@
 .gallery
 {
-  //@extend %page;
+
+  &__title 
+  {
+    height: 10rem; 
+    width: 24rem; 
+
+    position: absolute; 
+    top: -0.1rem; 
+    left: 11.7rem;
+
+    border-right: 1px solid $color-grey;
+    border-bottom: 1px solid $color-grey;
+
+    white-space: nowrap;
+    overflow: hidden;
+
+    background: $color-night;
+
+    transform: scaleX(0.0);
+
+    z-index: z('modal');
+
+    &__text 
+    {
+      @extend %title-15; 
+
+      text-transform: uppercase;
+
+      position: absolute; 
+      top:50%; 
+      left: 50%; 
+      transform: translate(-50%, -50%);
+
+      font-style: italic;
+    }
+
+    @include media('<=tablet')
+    {
+      visibility: hidden;
+    }
+  }
 
   &__modal
   {
@@ -30,13 +70,11 @@
     &__images 
     {
       position: absolute; 
-      bottom: 0;
-      left: 50%;
-      
-      transform: translateX(-50%);
+      bottom: -0.1rem;
+      left: -0.1rem;
 
       height: 10rem;
-      width: 50%;
+      width: 0px;
 
       border: 1px solid $color-grey;
       border-bottom: none;
@@ -52,9 +90,9 @@
       @include media('<=tablet')
       {
         height: 20rem;
-        width: 0px;
-        left: -0.1rem; 
-        transform: none;
+
+        bottom: -0.05rem;
+        left: -0.15rem;
       }
 
       &__wrapper 
@@ -373,84 +411,34 @@
 
   &__back
   {
-    position: fixed;
-    bottom: 3rem;
-    right: 50%;
-    transform: translateX(50%);
+    cursor: pointer;
+
+    position: absolute;
+    bottom: -0.1rem;
+    left: -0.1rem;
+
+    background: $color-night;
+    border: 1px solid $color-grey;
+    border-left: none;
+    border-bottom: none;
+
+    height: 10rem;
+    width: 12rem;
 
     z-index: z('link');
 
-    @include media('<=tablet')
-    {
-      position: absolute;
-      bottom: -0.1rem;
-      left: -0.1rem;
-
-      transform: none;
-
-      height: 10rem;
-      width: 12rem;
-
-      background: $color-night;
-      border: 1px solid $color-grey;
-      border-left: none;
-      border-bottom: none;
-    }
-
     &__button
     {
-      @extend %link__center--hidden;
-      @extend %title-30;
+      height: 0.5rem;
+      width: 4rem;
 
-      font-weight: 300;
-      font-style: normal;
-      display: block;
-      line-height: 1;
-      padding: .5rem 0;
+      background: $color-cultured;
 
-      text-shadow:
-            -1px -1px 0 $color-night,
-            1px -1px 0 $color-night,
-            -1px 1px 0 $color-night,
-            1px 1px 0 $color-night;
+      position: absolute; 
+      top: 50%; 
+      left: 50%; 
 
-      transition: all 0.5s ease-in-out;
-
-      color: $color-black-coral;
-
-      @include media('<=tablet')
-      {
-        font-size: 1.6rem;
-        color: $color-cultured;
-
-        cursor: pointer;
-
-        position: absolute; 
-        top: 50%; 
-        left: 50%; 
-
-        transform: translate(-20%, -50%);
-
-        width: 100%; 
-      }
-
-      &::first-letter
-      {
-        @extend %desc-50;
-
-        font-style: italic;
-        text-transform: uppercase;
-
-        @include media('<=tablet')
-        {
-          font-size: 3rem;
-        }
-      }
-
-      &:hover
-      {
-        color: $color-cultured;
-      }
+      transform: translate(-50%, -50%);
     }
   }
 }

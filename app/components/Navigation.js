@@ -86,7 +86,7 @@ export default class Navigation extends Component
           right: '50%'
         },
         {
-          rotation: '135deg', 
+          rotation: '-135deg', 
           top: '5rem', 
           right: '6rem',
           transformOrigin: 'center',
@@ -103,7 +103,7 @@ export default class Navigation extends Component
           height: '10rem'
         }, 
         {
-          width: '100%', 
+          width: '102%', 
           height: '100vh',
           duration: 0.8, 
           ease: 'power2.inOut', 

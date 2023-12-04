@@ -43,6 +43,7 @@ export default class Gallery extends Page
 
     this.createElements()
     this.createMotion()
+    this.onBack()
   }
 
   createElements()
@@ -50,6 +51,7 @@ export default class Gallery extends Page
     this.modal_image = document.querySelector('img.gallery__modal__selected__figure__image')
     this.modal_selected = document.querySelector('.gallery__modal__selected')
 
+    this.modal_div = document.querySelector('.gallery__modal__images')
     this.modal_divs = document.querySelectorAll('.gallery__modal__images__div')
     this.modal_images = document.querySelectorAll('img.gallery__modal__images__div__media__figure__image')
     this.modal_figures = document.querySelectorAll('.gallery__modal__images__div__media__figure')
@@ -63,7 +65,17 @@ export default class Gallery extends Page
     this.btm_lines = document.querySelectorAll('span.gallery__modal__images__div__bottom')
 
     this.gallery_title = document.querySelector('h1.gallery__info__title')
+    this.gallery_info = document.querySelector('.gallery__info')
 
+    const CB = document.querySelector('.footer')
+
+    this.createModal(CB)
+    this.onModalSelect()
+    this.onModalInteraction()
+  }
+
+  createModal(CB)
+  {
     this.top_lines.forEach(
       (line, idx) => 
       {
@@ -83,8 +95,10 @@ export default class Gallery extends Page
       }
     )
 
-    this.onModalSelect()
-    this.onModalInteraction()
+    let bounds = CB.getBoundingClientRect()
+    let calc = window.innerWidth - bounds.width
+
+    this.modal_div.style.width = `${calc}px`  
   }
 
   createMotion()
@@ -101,22 +115,31 @@ export default class Gallery extends Page
       }
     )
 
-    if(this.device.tablet || this.device.mobile)
-    {
-      this.onBackShow = gsap.fromTo(
-        this.back, 
-        {
-          scale: 0, 
-        }, 
-        {
-          scale: 1.0, 
-          transformOrigin: 'bottom left',
-          duration: 0.8,
-          ease: 'power2.inOut', 
-          paused: true
-        }
-      )
-    }
+    this.onBackShow = gsap.fromTo(
+      this.back, 
+      {
+        scale: 0, 
+      }, 
+      {
+        scale: 1.0, 
+        transformOrigin: 'bottom left',
+        duration: 0.8,
+        ease: 'power2.inOut', 
+        paused: true
+      }
+    )
+
+    this.onInfo = gsap.fromTo(
+      this.gallery_info, 
+      {
+        opacity: 0.0
+      }, 
+      {
+        opacity: 1.0, 
+        duration: 0.8, 
+        paused: true
+      }
+    )
   }
 
   /* 
@@ -225,19 +248,22 @@ export default class Gallery extends Page
     super.onMove(e)
   }
 
+  onBack()
+  {
+    this.back.addEventListener('click', (e) => 
+    {
+      e.preventDefault()
+  
+      window.history.back()
+    })
+  }
+
   show()
   {
     super.show()
 
-    gsap.to(
-    '.gallery__info',
-      {
-        opacity: 1.0
-      }
-    )
-
-    if(this.device.tablet || this.device.mobile)
-      this.onBackShow.play()
+    this.onInfo.play()
+    this.onBackShow.play()
 
     this.title = new Show(this.elements.title)
     this.desc = new Show(this.elements.desc)
@@ -248,13 +274,21 @@ export default class Gallery extends Page
 
   hide()
   {
-    super.hide()
-
-    if(this.device.tablet || this.device.mobile)
-      this.onBackShow.reverse()
+    super.hide(true)
 
     this.title.hide()
     this.desc.hide()
+    this.onInfo.reverse()
+
+    return new Promise(
+      resolve => 
+      {
+        this.onBackShow.reverse()
+          .eventCallback(
+            'onReverseComplete', 
+            () => { resolve() })
+      }
+    )
   }
 
   update()
