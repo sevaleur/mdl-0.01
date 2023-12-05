@@ -5,7 +5,7 @@ import gsap from 'gsap'
 
 export default class Footer extends Component
 {
-  constructor({ template })
+  constructor({ template, device })
   {
     super({
       element: '.footer',
@@ -16,6 +16,8 @@ export default class Footer extends Component
     })
 
     this.template = template
+    this.device = device
+
     this.clicked = false
     this.mouseOver = false
 
@@ -36,6 +38,8 @@ export default class Footer extends Component
     const FB = FOOTER.getBoundingClientRect()
     
     this.media = document.querySelectorAll('.footer__icons__media')
+    this.top = document.querySelector('.footer__top')
+    this.btm = document.querySelector('.footer__btm')
 
     this.con = new Direction(CONNECT)
     this.exp = new Direction(EXPAND)
@@ -122,6 +126,9 @@ export default class Footer extends Component
     this.initial = true
     this.clicked = true 
 
+    this.top.style.display = 'block'
+    this.btm.style.display = 'block'
+
     if(!this.mouseOver)
     {
       this.con.hide()
@@ -135,14 +142,28 @@ export default class Footer extends Component
 
     const enter = gsap.timeline()
 
-    enter.to(
-      TITLES.parentElement,
+    if(window.innerWidth <= 500)
     {
-      height: FB.height * 3.0,
-      width: FB.width * 3.0,
-      duration: 0.5,
-      ease: 'power2.inOut'
-    }, 'start')
+      enter.to(
+        TITLES.parentElement,
+      {
+        height: FB.height * 4.0,
+        width: FB.width * 4.0,
+        duration: 0.5,
+        ease: 'power2.inOut'
+      }, 'start')
+    }
+    else 
+    {
+      enter.to(
+        TITLES.parentElement,
+      {
+        height: FB.height * 3.0,
+        width: FB.width * 3.0,
+        duration: 0.5,
+        ease: 'power2.inOut'
+      }, 'start')
+    }
 
     this.media.forEach(
       (m, i) =>
@@ -191,7 +212,12 @@ export default class Footer extends Component
     this.con.show()
 
     const leave = gsap.timeline({
-      onComplete: () => { this.initial = false }
+      onComplete: () => 
+      { 
+        this.initial = false 
+        this.top.style.display = 'none'
+        this.btm.style.display = 'none'
+      }
     })
 
     this.media.forEach(

@@ -48,17 +48,17 @@ export default class App
 
     this.device.desktop = window.innerWidth > 1024 ? true : false
     this.device.tablet = window.innerWidth <= 1024 ? true : false
-    this.device.mobile = window.innerWidth <= 768 ? true : false
+    this.device.phone = window.innerWidth <= 768 ? true : false
 
     if(this.device.desktop)
     {
       this.device.tablet = false
-      this.device.mobile = false
+      this.device.phone = false
     }
     else if(this.device.tablet)
     {
       this.device.desktop = false 
-      this.device.mobile = false 
+      this.device.phone = false 
     }
     else 
     {
@@ -120,7 +120,8 @@ export default class App
   createFooter()
   {
     this.footer = new Footer({
-      template: this.template
+      template: this.template, 
+      device: this.device
     })
   }
 
@@ -187,17 +188,17 @@ export default class App
   {
     this.device.desktop = window.innerWidth > 1024 ? true : false
     this.device.tablet = window.innerWidth <= 1024 ? true : false
-    this.device.mobile = window.innerWidth <= 768 ? true : false
+    this.device.phone = window.innerWidth <= 768 ? true : false
 
     if(this.device.desktop)
     {
       this.device.tablet = false
-      this.device.mobile = false
+      this.device.phone = false
     }
     else if(this.device.tablet)
     {
       this.device.desktop = false 
-      this.device.mobile = false 
+      this.device.phone = false 
     }
     else 
     {

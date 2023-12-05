@@ -19,10 +19,9 @@ export default class Gallery extends Page
         desc: '.gallery__info__desc'
       }, 
       background: COLOR_NIGHT, 
-      color: COLOR_CULTURED
+      color: COLOR_CULTURED, 
+      device: device
     })
-
-    this.device = device
   }
 
   /* 

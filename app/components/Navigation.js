@@ -95,21 +95,42 @@ export default class Navigation extends Component
           paused: true
         }
       )
+
+      if(window.innerWidth < 500)
+      {
+        this.onMenuEnlarge = gsap.fromTo(
+          this.nav_menu, 
+          {
+            width: '15rem', 
+            height: '13rem'
+          }, 
+          {
+            width: '102%', 
+            height: '100vh',
+            duration: 0.8, 
+            ease: 'power2.inOut', 
+            paused: true
+          }
+        )
+      }
+      else 
+      {
+        this.onMenuEnlarge = gsap.fromTo(
+          this.nav_menu, 
+          {
+            width: '12rem', 
+            height: '10rem'
+          }, 
+          {
+            width: '102%', 
+            height: '100vh',
+            duration: 0.8, 
+            ease: 'power2.inOut', 
+            paused: true
+          }
+        )
+      }
   
-      this.onMenuEnlarge = gsap.fromTo(
-        this.nav_menu, 
-        {
-          width: '12rem', 
-          height: '10rem'
-        }, 
-        {
-          width: '102%', 
-          height: '100vh',
-          duration: 0.8, 
-          ease: 'power2.inOut', 
-          paused: true
-        }
-      )
     }
   }
 

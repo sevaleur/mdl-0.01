@@ -4,7 +4,7 @@ import { COLOR_CULTURED, COLOR_NIGHT } from 'utils/color_variables'
 
 export default class About extends Page
 {
-  constructor()
+  constructor({ device })
   {
     super({
       id: 'about',
@@ -14,7 +14,8 @@ export default class About extends Page
         title: '.about__title'
       },
       background: COLOR_CULTURED, 
-      color: COLOR_NIGHT
+      color: COLOR_NIGHT,
+      device: device
     })
   }
 

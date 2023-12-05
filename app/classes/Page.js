@@ -11,11 +11,11 @@ import Label from 'animations/Observer/Label'
 import Vertical from 'animations/Observer/Vertical'
 
 import AsyncLoad from 'classes/AsyncLoad'
-import { ColorManager } from 'classes/Colors'
+import ColorManager from 'classes/Colors'
 
 export default class Page
 {
-  constructor({ element, elements, id, background, color })
+  constructor({ element, elements, id, background, color, device })
   {
     this.selector = element
     this.selectorChildren = {
@@ -29,9 +29,10 @@ export default class Page
 
     this.background = background
     this.color = color
-
+    this.device = device
     this.id = id
-
+    
+    this.colorManager = new ColorManager({ device: this.device })
     this.transform_prefix = Prefix('transform')
   }
 
@@ -172,7 +173,7 @@ export default class Page
     return new Promise(
       resolve =>
     {
-      ColorManager.change({
+      this.colorManager.change({
         backgroundColor: this.background,
         color: this.color
       })

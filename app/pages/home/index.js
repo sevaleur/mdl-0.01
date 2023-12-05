@@ -10,7 +10,7 @@ import { COLOR_NIGHT, COLOR_CULTURED } from 'utils/color_variables'
 
 export default class Home extends Page
 {
-  constructor()
+  constructor({ device })
   {
     super({
       id: 'home',
@@ -20,7 +20,8 @@ export default class Home extends Page
         showcase: '.home__gallery__showcase__title__text'
       },
       background: COLOR_NIGHT,
-      color: COLOR_CULTURED
+      color: COLOR_CULTURED,
+      device: device
     })
   }
 
@@ -66,6 +67,7 @@ export default class Home extends Page
     {
       const HALF = Math.floor( LEN / 2 ) 
       const MID_EL = this.elms[HALF]
+      let state
   
       this.active = MID_EL
       this.onSelect(HALF)
@@ -77,9 +79,9 @@ export default class Home extends Page
   
         el.addEventListener('mouseenter', () => 
         {
-          const STATE = Flip.getState(this.elms)
+          state = Flip.getState(this.elms)
           this.createState( el, i, HALF, MID_EL, LEN )
-          Flip.from(STATE, { scale: true, duration: 0.5, ease: 'power2.inOut' })
+          Flip.from(state, { scale: true, nested: true, duration: 0.5, ease: 'power2.inOut' })
         } ) 
       })
     }

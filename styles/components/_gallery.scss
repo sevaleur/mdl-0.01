@@ -91,8 +91,15 @@
       {
         height: 20rem;
 
-        bottom: -0.05rem;
+        bottom: -0.1rem;
         left: -0.15rem;
+      }
+
+      @include media('<=500px')
+      {
+        height: 26rem;
+
+        bottom: -0.1rem; 
       }
 
       &__wrapper 
@@ -107,6 +114,11 @@
         gap: 1rem;
 
         padding: 1rem; 
+
+        @include media('<=500px')
+        {
+          gap: 3rem; 
+        }
       }
 
       &__div 
@@ -119,6 +131,11 @@
         position: relative; 
 
         padding: 1rem 0;
+
+        @include media('<=500px')
+        {
+          width: 15rem; 
+        }
 
         &:hover
         {
@@ -163,6 +180,11 @@
           width: 100%; 
           
           background: $color-cultured;
+
+          @include media('<=500px')
+          {
+            height: 0.5rem; 
+          }
         }
 
         &__bottom 
@@ -178,6 +200,11 @@
           width: 100%; 
           
           background: $color-cultured;
+
+          @include media('<=500px')
+          {
+            height: 0.5rem; 
+          }
         }
       }
     }
@@ -204,14 +231,34 @@
 
         display: grid; 
         place-content: center;
+
+        @include media('<=500px')
+        {
+          bottom: 12.9rem; 
+          right: -0.2rem;
+
+          height: 13rem; 
+          width: 15rem; 
+        }
       }
 
       &__close 
       {
         @extend %desc-16;
         color: $color-cultured;
+        text-transform: lowercase;
 
         cursor: pointer;
+
+        @include media('<=phone')
+        {
+          font-size: 2rem;
+        }
+
+        @include media('<=500px')
+        {
+          font-size: 2.5rem;
+        }
 
         .char 
         {
@@ -227,6 +274,16 @@
 
       cursor: none;
 
+      @include media('<=phone')
+      {
+        height: 50rem; 
+      }
+
+      @include media('<=500px')
+      {
+        height: 100rem; 
+      }
+
       &__text
       {
         position: absolute; 
@@ -239,7 +296,7 @@
 
         @include media('<=tablet')
         {
-          visibility: hidden;
+          display: none;
         }
 
         &__close
@@ -293,7 +350,6 @@
       {
         width: 50rem;
         height: 65rem;
-        transform: translateY(50%);
 
         position: relative;
 
@@ -307,8 +363,14 @@
 
         @include media('<=phone')
         {
-          width: 50rem;
-          height: 65rem;
+          width: 40rem;
+          height: 50rem;
+        }
+
+        @include media('<=500px')
+        {
+          width: 60rem;
+          height: 75rem;
         }
 
         &__image
@@ -339,7 +401,12 @@
 
     @include media('<=phone')
     {
-      transform: translate(-48rem * 0.5, -50%);
+      transform: translate(-40rem * 0.5, -50%);
+    }
+
+    @include media('<=500px')
+    {
+      transform: translate(-60rem * 0.5, -50%);
     }
   }
 
@@ -368,6 +435,18 @@
       gap: 2rem;
     }
 
+    @include media('<=500px')
+    {
+      top: 2.5rem; 
+
+      transform: none;
+
+      display: grid; 
+      grid-template-rows: 13rem 1fr; 
+
+      gap: 2.5rem;
+    }
+
     &__title
     {
       @extend %title-30;
@@ -394,6 +473,19 @@
 
         padding-right: 1.5rem;
       }
+
+      @include media('<=500px')
+      {
+        justify-self: center;
+        align-items: center;
+        
+        text-align: center;
+        width: fit-content;
+
+        border-right: none;
+
+        padding-right: 0;
+      }
     }
 
     &__desc
@@ -401,6 +493,11 @@
       align-self: center;
 
       @extend %desc-16;
+
+      @include media('<=500px')
+      {
+        font-size: 2.5rem;
+      }
 
       .char 
       {
@@ -427,6 +524,15 @@
 
     z-index: z('link');
 
+    @include media('<=500px')
+    {
+      bottom: -0.2rem; 
+      left: -0.2rem;
+
+      height: 13rem; 
+      width: 15rem; 
+    }
+
     &__button
     {
       height: 0.5rem;
@@ -439,6 +545,11 @@
       left: 50%; 
 
       transform: translate(-50%, -50%);
+
+      @include media('<=500px')
+      {
+        width: 6rem; 
+      }
     }
   }
 }

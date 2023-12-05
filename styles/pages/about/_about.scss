@@ -8,16 +8,16 @@
     width: 50rem;
     position: relative;
 
-    @include media('<tablet')
+    @include media('<=tablet')
     {
-      height: 110rem;
-      width: 120rem;
+      height: 60rem;
+      width: 70rem;
     }
 
-    @include media('<phone')
+    @include media('<=phone')
     {
-      height: 80rem;
-      width: 90rem;
+      height: 40rem;
+      width: 50rem;
     }
 
     &__image
@@ -39,7 +39,7 @@
     display: grid;
     grid-template-columns: 1fr 70rem;
 
-    @include media('<tablet')
+    @include media('<=tablet')
     {
       display: flex;
       flex-direction: column;
@@ -53,7 +53,7 @@
       padding: 10rem 12.7rem;
       border-right: 1px solid $color-cadet-blue-crayola;
 
-      @include media('<tablet')
+      @include media('<=tablet')
       {
         border: none;
         padding: 10rem;
@@ -66,12 +66,12 @@
 
         letter-spacing: 2rem;
 
-        @include media('<tablet')
+        @include media('<=tablet')
         {
-          font-size: 25rem;
+          font-size: 15rem;
         }
 
-        @include media('<phone')
+        @include media('<=phone')
         {
           font-size: 10rem;
         }
@@ -92,7 +92,7 @@
   {
     border-top: 1px solid $color-cadet-blue-crayola;
 
-    @include media('<tablet')
+    @include media('<=tablet')
     {
       border: none;
     }
@@ -102,10 +102,15 @@
       display: grid;
       grid-template-columns: 1fr 5rem 70rem;
 
-      @include media('<tablet')
+      @include media('<=tablet')
       {
         display: flex;
         flex-direction: column;
+      }
+
+      @include media('<=phone')
+      {
+        gap: 10rem;
       }
 
       &__smdesc
@@ -119,16 +124,17 @@
 
         border-bottom: 1px solid $color-cadet-blue-crayola;
 
-        @include media('<tablet')
+        @include media('<=tablet')
         {
           border: none;
-          margin-top: 30rem;
+          margin-top: 10rem;
           padding: 5rem;
         }
 
-        @include media('<phone')
+        @include media('<=phone')
         {
-          margin-top: 60rem;
+          margin-top: 0;
+          border-bottom: none;
         }
 
         &__div
@@ -136,16 +142,15 @@
           height: 100%;
           padding-top: 5rem;
 
-          @include media('<tablet')
+          @include media('<=tablet')
           {
             padding: 5rem;
-            margin-bottom: 30rem;
+            margin-bottom: 10rem;
           }
 
-          @include media('<phone')
+          @include media('<=phone')
           {
-            padding: 2.7rem;
-            margin-bottom: 60rem;
+            margin-bottom: 0;
           }
 
           &__text
@@ -154,17 +159,22 @@
 
             height: 100%;
 
-            @include media('<tablet')
+            @include media('<=tablet')
             {
               font-style: italic;
-              font-size: 8rem;
+              font-size: 3rem;
               padding: 10rem;
             }
 
-            @include media('<phone')
+            @include media('<=phone')
+            {
+              font-size: 2rem;
+              padding: 0;
+            }
+
+            @include media('<=500px')
             {
               font-size: 4rem;
-              padding: 0;
             }
           }
         }
@@ -194,20 +204,34 @@
           border-left: 1px solid $color-cadet-blue-crayola;
           border-top: 1px solid $color-cadet-blue-crayola;
 
+          @include media('<=phone')
+          {
+            height: fit-content;
+            border-top: none;
+            transform: none;
+            writing-mode: horizontal-tb;
+          }
+
           &__text
           {
             @extend %title-25;
 
-            @include media('<tablet')
+            @include media('<=tablet')
             {
-              font-size: 20rem;
+              font-size: 7.5rem;
               text-transform: uppercase;
               letter-spacing: 5rem;
             }
 
-            @include media('<phone')
+            @include media('<=phone')
             {
-              font-size: 10rem;
+              font-size: 5rem;
+              letter-spacing: 2.5rem;
+            }
+
+            @include media('<=500px')
+            {
+              font-size: 6rem;
             }
 
             .word
@@ -222,18 +246,23 @@
     {
       grid-area: 1 / 3 / -1 / -1;
 
+      @include media('<=phone')
+      {
+        border-top: 1px solid $color-cadet-blue-crayola;
+      }
+
       &__frame
       {
         text-align: center;
         padding: 4rem 2rem;
         border-top: 1px solid $color-cadet-blue-crayola;
 
-        @include media('<tablet')
+        @include media('<=tablet')
         {
           padding: 6rem 2rem;
         }
 
-        @include media('<phone')
+        @include media('<=phone')
         {
           padding: 4rem 2rem;
         }
@@ -252,14 +281,20 @@
         {
           @extend %desc-25;
 
-          @include media('<tablet')
+          @include media('<=tablet')
           {
-            font-size: 5rem;
+            font-size: 3rem;
           }
 
-          @include media('<phone')
+          @include media('<=phone')
           {
-            font-size: 2.5rem;
+            font-size: 2rem;
+            text-align: right;
+          }
+
+          @include media('<=500px')
+          {
+            font-size: 3rem;
           }
         }
       }
@@ -270,21 +305,17 @@
   {
     padding-bottom: 12.7rem;
 
-    @include media('<tablet')
+    @include media('<=tablet')
     {
-      margin-top: 30rem;
-    }
-
-    @include media('<phone')
-    {
-      margin-top: 50rem;
+      margin-top: 20rem;
     }
 
     &__title
     {
-      @include media('<tablet')
+      @include media('<=tablet')
       {
         text-align: center;
+        padding-bottom: 20rem;
       }
 
       &__text
@@ -294,37 +325,37 @@
         letter-spacing: 2rem;
         padding: 12.7rem;
 
-        @include media('<tablet')
+        @include media('<=tablet')
         {
           padding: 2rem;
           letter-spacing: 0.5rem;
-          font-size: 20rem;
+          font-size: 7.5rem;
         }
 
-        @include media('<phone')
+        @include media('<=phone')
         {
-          font-size: 10rem;
+          font-size: 5rem;
+        }
+
+        @include media('<=500px')
+        {
+          font-size: 7rem;
         }
       }
     }
 
     &__gallery
     {
-      @include media('<tablet')
+      @include media('<=tablet')
       {
-        margin-top: 30rem;
-      }
-
-      @include media('<phone')
-      {
-        margin-top: 20rem;
+        border-top: 1px solid $color-cadet-blue-crayola;
       }
 
       &__wrapper
       {
         padding: 0 35rem;
 
-        @include media('<tablet')
+        @include media('<=tablet')
         {
           padding: 0rem;
         }
@@ -338,12 +369,12 @@
 
         border-bottom: 1px solid $color-cadet-blue-crayola;
 
-        @include media('<tablet')
+        @include media('<=tablet')
         {
           justify-content: center;
         }
 
-        @include media('<phone')
+        @include media('<=phone')
         {
           justify-content: space-between;
         }
@@ -355,15 +386,20 @@
           letter-spacing: 1rem;
           padding: 3rem;
 
-          @include media('<tablet')
+          @include media('<=tablet')
           {
-            font-size: 5rem;
+            font-size: 3rem;
             padding: 5rem;
           }
 
-          @include media('<phone')
+          @include media('<=phone')
           {
-            font-size: 2.5rem;
+            font-size: 2rem;
+          }
+
+          @include media('<=500px')
+          {
+            font-size: 3rem;
           }
         }
       }
@@ -380,7 +416,7 @@
     padding: 12.7rem;
     padding-right: 0;
 
-    @include media('<tablet')
+    @include media('<=tablet')
     {
       display: flex;
       flex-direction: column;
@@ -399,11 +435,14 @@
       display: grid;
       grid-template-columns: 5rem 1fr;
 
-      @include media('<tablet')
+      @include media('<=tablet')
       {
         display: flex;
-        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
         padding: 2.7rem;
+        margin-top: 20rem;
       }
 
       &__title
@@ -414,16 +453,12 @@
         height: 100%;
         width: 100%;
 
-        @include media('<tablet')
+        @include media('<=tablet')
         {
-          margin-top: 40rem;
-          margin-bottom: 40rem;
-        }
+          display: flex; 
+          justify-content: flex-end;
 
-        @include media('<phone')
-        {
-          margin-top: 30rem;
-          margin-bottom: 10rem;
+          width:fit-content;
         }
 
         &__text
@@ -433,16 +468,22 @@
           writing-mode: vertical-rl;
           transform: scale(-1, -1);
 
-          @include media('<tablet')
+          @include media('<=tablet')
           {
-            font-size: 20rem;
+            font-size: 7.5rem;
             text-transform: uppercase;
             letter-spacing: 5rem;
           }
 
-          @include media('<phone')
+          @include media('<=phone')
           {
-            font-size: 10rem;
+            font-size: 5rem;
+            letter-spacing: 2.5rem;
+          }
+
+          @include media('<=500px')
+          {
+            font-size: 7rem;
           }
 
           .word
@@ -462,28 +503,30 @@
         justify-content: flex-start;
         align-items: center;
 
-        @include media('<tablet')
+        @include media('<=tablet')
         {
-          justify-content: center;
-        }
-
-        @include media('<phone')
-        {
-          justify-content: flex-start;
+          width: fit-content;
         }
 
         &__text
         {
           @extend %desc-25;
 
-          @include media('<tablet')
-          {
-            font-size: 5rem;
-          }
-
-          @include media('<phone')
+          @include media('<=tablet')
           {
             font-size: 2.5rem;
+          }
+
+          @include media('<=phone')
+          {
+            font-size: 2rem;
+          }
+
+          @include media('<=500px')
+          {
+            font-size: 3rem;
+            letter-spacing: 0.2rem;
+            line-height: 4rem;
           }
         }
       }
@@ -501,19 +544,23 @@
 
       border-left: 1px solid $color-cadet-blue-crayola;
 
-      @include media('<tablet')
+      @include media('<=tablet')
       {
+        display: flex; 
+        justify-content: flex-end;
+
         border: none;
         padding: 2.7rem;
-        text-align: center;
-        margin: 20rem 0;
+        margin-bottom: 40rem;
       }
 
-      @include media('<phone')
+      @include media('<=500px')
       {
-        margin: 10rem 0;
-      }
+        justify-content: center;
 
+        margin-bottom: 20rem;
+      }
+      
       &__text
       {
         @extend %title-70;
@@ -521,17 +568,20 @@
         writing-mode: vertical-lr;
         transform: scale(1, 1);
 
-        @include media('<tablet')
+        @include media('<=tablet')
         {
           writing-mode: horizontal-tb;
           transform: none;
-          font-size: 9rem;
+          font-size: 3.5rem;
         }
 
-        @include media('<phone')
+        @include media('<=phone')
         {
-          writing-mode: horizontal-tb;
-          transform: none;
+          font-size: 3rem;
+        }
+
+        @include media('<=500px')
+        {
           font-size: 4rem;
         }
       }
@@ -542,19 +592,9 @@
   {
     padding-bottom: 12.7rem;
 
-    @include media('<tablet')
-    {
-      margin-top: 40rem;
-    }
-
-    @include media('<phone')
-    {
-      margin-top: 50rem;
-    }
-
     &__title
     {
-      @include media('<tablet')
+      @include media('<=tablet')
       {
         text-align: center;
         margin-bottom: 10rem;
@@ -569,15 +609,20 @@
         padding: 12.7rem;
         padding-top: 0;
 
-        @include media('<tablet')
+        @include media('<=tablet')
         {
           padding: 0;
-          font-size: 20rem;
+          font-size: 7.5rem;
         }
 
-        @include media('<phone')
+        @include media('<=phone')
         {
-          font-size: 10rem;
+          font-size: 5rem;
+        }
+
+        @include media('<=500px')
+        {
+          font-size: 7rem;
         }
       }
     }
@@ -590,7 +635,7 @@
       justify-content: space-between;
       align-items: center;
 
-      @include media('<tablet')
+      @include media('<=tablet')
       {
         padding: 0;
       }
@@ -605,7 +650,7 @@
 
         &:first-of-type
         {
-          @include media('<tablet')
+          @include media('<=tablet')
           {
             border-top: 1px solid $color-cadet-blue-crayola;
           }
@@ -618,16 +663,20 @@
           cursor: pointer;
           padding: 3rem;
 
-          @include media('<tablet')
+          @include media('<=tablet')
           {
-            font-size: 5rem;
+            font-size: 3rem;
             padding: 5rem;
           }
 
-          @include media('<phone')
+          @include media('<=phone')
           {
-            font-size: 2.5rem;
-            padding: 3rem;
+            font-size: 2rem;
+          }
+
+          @include media('<=500px')
+          {
+            font-size: 3rem;
           }
 
           &__link
@@ -645,20 +694,21 @@
     width: 100%;
     padding: 22.7rem;
 
-    @include media('<tablet')
+    @include media('<=tablet')
     {
       padding: 2.7rem;
-      margin-top: 40rem;
+      margin-top: 20rem;
     }
 
-    @include media('<phone')
+    @include media('<=phone')
     {
-      margin-top: 50rem;
+      padding: 2.7rem;
+      margin-top: 10rem;
     }
 
     &__title
     {
-      @extend %center;
+      text-align: center;
 
       padding-bottom: 6rem;
 
@@ -668,14 +718,19 @@
 
         text-transform: uppercase;
 
-        @include media('<tablet')
+        @include media('<=tablet')
         {
-          font-size: 20rem;
+          font-size: 7.5rem;
         }
 
-        @include media('<phone')
+        @include media('<=phone')
         {
-          font-size: 10rem;
+          font-size: 5rem;
+        }
+
+        @include media('<=500px')
+        {
+          font-size: 7rem;
         }
 
         &__link
@@ -691,8 +746,12 @@
 
       padding-bottom: 12.7rem;
 
-      display: flex;
-      flex-direction: column;
+      text-align: center;
+
+      @include media('<=tablet')
+      {
+        padding-bottom: 0;
+      }
 
       &__text
       {
@@ -704,16 +763,21 @@
         letter-spacing: 1rem;
         padding: 0.5rem 0;
 
-        @include media('<tablet')
+        @include media('<=tablet')
         {
           letter-spacing: 0.5rem;
           padding: 0;
-          font-size: 8rem;
+          font-size: 3rem;
         }
 
-        @include media('<phone')
+        @include media('<=phone')
         {
-          font-size: 4rem;
+          font-size: 2.5rem;
+        }
+
+        @include media('<=500px')
+        {
+          font-size: 3.5rem;
         }
       }
     }
@@ -724,7 +788,7 @@
       align-items: center;
       justify-content: center;
 
-      @include media('<tablet')
+      @include media('<=tablet')
       {
         flex-wrap: wrap;
 
@@ -741,45 +805,17 @@
         opacity: 1;
         transition: all 0.2s linear;
 
-        @include media('<tablet')
-        {
-          height: 10rem;
-          width: 10rem;
-
-          margin: 5rem;
-        }
-
-        @include media('<phone')
+        @include media('<=tablet')
         {
           height: 5rem;
           width: 5rem;
 
-          margin: 5rem;
+          margin: 6rem;
         }
 
         &:hover
         {
           opacity: 0.5;
-        }
-
-        &:first-child
-        {
-          margin-left: 0;
-
-          @include media('<phone')
-          {
-            margin-left: 2rem;
-          }
-        }
-
-        &:last-child
-        {
-          margin-right: 0;
-
-          @include media('<phone')
-          {
-            margin-right: 2rem;
-          }
         }
 
         &__div
@@ -813,13 +849,12 @@
     grid-template-columns: 70rem 1fr;
     border-top: 1px solid $color-cadet-blue-crayola;
 
-    @include media('<tablet')
+    @include media('<=tablet')
     {
       border: none;
-      padding: 20rem 0;
+      padding: 10rem 0;
       display: flex;
       flex-direction: column;
-      margin-top: 50rem;
     }
 
     &__media
@@ -838,7 +873,7 @@
       padding: 10rem 12.7rem;
       border-left: 1px solid $color-cadet-blue-crayola;
 
-      @include media('<tablet')
+      @include media('<=tablet')
       {
         border: none;
         padding: 10rem;
@@ -851,12 +886,12 @@
 
         letter-spacing: 2rem;
 
-        @include media('<tablet')
+        @include media('<=tablet')
         {
-          font-size: 25rem;
+          font-size: 15rem;
         }
 
-        @include media('<phone')
+        @include media('<=phone')
         {
           font-size: 10rem;
         }

@@ -19,6 +19,12 @@
 
     overflow: hidden;
 
+    @include media('<=500px')
+    {
+      left: -0.2rem;
+      width: 15rem;
+    }
+
     &__wrapper 
     {
       height: 100%; 
@@ -86,7 +92,7 @@
 
         @include media('<=tablet')
         {
-          visibility: hidden;
+          display: none;
         }
       }
 
@@ -108,7 +114,7 @@
 
         @include media('<=tablet')
         {
-          visibility: hidden;
+          display: none;
         }
       }
 
@@ -136,8 +142,8 @@
 
         @include media('<=phone')
         {
-          height: 10rem; 
-          width: 60rem; 
+          height: 40rem; 
+          width: 40rem; 
         }
 
         &__image
@@ -155,7 +161,7 @@
 
         @include media('<=tablet')
         {
-          visibility: hidden;
+          display:none;
         }
 
         &__text
@@ -181,7 +187,7 @@
 
         @include media('<=tablet')
         {
-          visibility: hidden;
+          display: none;
         }
 
         &__text
@@ -228,6 +234,11 @@
           @include media('<=tablet')
           {
             font-size: 5rem;
+          }
+
+          @include media('<=phone')
+          {
+            font-size: 4rem;
           }
 
           .char 

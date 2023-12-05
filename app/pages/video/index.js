@@ -19,10 +19,9 @@ export default class Video extends Page
         wrapper: '.video__wrapper'
       }, 
       background: COLOR_NIGHT, 
-      color: COLOR_CULTURED
+      color: COLOR_CULTURED,
+      device: device
     })
-
-    this.device = device
   }
 
   /* 
@@ -114,7 +113,7 @@ export default class Video extends Page
       hideControls: true, 
       loop: { active: true },
       loadSprite: false,
-      ratio: this.device.tablet || this.device.mobile ? '9:16' : '16:9'
+      ratio: this.device.tablet || this.device.phone ? '9:16' : '16:9'
     })
 
     this.controls = {

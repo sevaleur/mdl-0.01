@@ -23,14 +23,19 @@
     {
       display: inline-block;
 
-      @include media('<tablet')
+      @include media('<=tablet')
       {
         font-size: 4rem;
       }
 
-      @include media('<phone')
+      @include media('<=phone')
       {
         font-size: 2.5rem;
+      }
+
+      @include media('<=500px')
+      {
+        font-size: 5rem;
       }
     }
   }

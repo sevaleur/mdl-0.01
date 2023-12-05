@@ -18,10 +18,10 @@ export default class Menu extends Page
         title: '.menu__title__text'
       },
       background: COLOR_NIGHT, 
-      color: COLOR_CULTURED
+      color: COLOR_CULTURED, 
+      device: device
     })
 
-    this.device = device 
     this.ready = false
   }
 
@@ -215,7 +215,7 @@ export default class Menu extends Page
     super.show()
     this.showMarquee.play()
 
-    if(this.device.tablet || this.device.mobile)
+    if(this.device.tablet || this.device.phone)
     {
       this.title.forEach(
         (t, index) => 
