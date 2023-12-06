@@ -142,14 +142,15 @@ export default class Footer extends Component
 
     const enter = gsap.timeline()
 
-    if(window.innerWidth <= 500)
+    if(window.innerWidth<=500)
     {
+      let calc = window.innerWidth - FB.width
       enter.to(
         TITLES.parentElement,
       {
         height: FB.height * 4.0,
-        width: FB.width * 4.0,
-        duration: 0.5,
+        width: calc,
+        duration: 0.8,
         ease: 'power2.inOut'
       }, 'start')
     }

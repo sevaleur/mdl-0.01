@@ -39,6 +39,7 @@ export default class Menu extends Page
   {
     this.marquee = document.querySelector('.menu__title')
     this.marqueeContent = document.querySelectorAll('.menu__title__text')
+    this.right = document.querySelector('.menu__right')
 
     this.images = document.querySelectorAll('.menu__gallery__image')
     this.image_link_elements = document.querySelectorAll('.menu__gallery__image__link')
@@ -54,13 +55,18 @@ export default class Menu extends Page
     this.createMotion()
     this.createText(TYPE, INDEX, TITLE)
     this.onLoadedLoop()
-    this.onHover()
+
+    if(this.device.desktop)
+      this.onHover()
   }
 
   createMarquee(bounds)
   {
     let calc = window.innerHeight - bounds.height
     this.marquee.style.height = `${calc}px`
+
+    if(this.right)
+      this.right.style.height = `${calc - bounds.height}px`
   }
 
   createMotion()
@@ -74,12 +80,29 @@ export default class Menu extends Page
         x: '0',
         duration: 1.0,
         ease: 'power2.inOut',
+        paused: true,
         onComplete: () =>
         {
           this.ready = true
         }
       }
     )
+    
+    if(this.right)
+    {
+      this.showRightTitles = gsap.fromTo(
+        this.right,
+        {
+          x: '100%',
+        },
+        {
+          x: '0',
+          duration: 1.0,
+          ease: 'power2.inOut',
+          paused: true
+        }
+      )
+    }
   }
 
   createText(TYPE, INDEX, TITLE)
@@ -94,8 +117,12 @@ export default class Menu extends Page
       (t, i) => 
       {
         this.title.push(new Show(t))
-        this.type.push(new Show(TYPE[i]))
-        this.index.push(new Show(INDEX[i]))
+
+        if(this.device.desktop)
+        {
+          this.type.push(new Show(TYPE[i]))
+          this.index.push(new Show(INDEX[i]))
+        }
       }
     )
   }
@@ -129,7 +156,7 @@ export default class Menu extends Page
           opacity: 0.0
         }
       )
-
+     
       this.leftLines.push(new Line(
         this.images[index].querySelector('span.menu__gallery__image__left'))
       )
@@ -192,11 +219,15 @@ export default class Menu extends Page
       link.onmouseover = null
       link.onmouseleave = null
 
-      this.leftLines[index].hide()
-      this.rightLines[index].hide()
-      this.type[index].hide()
-      this.index[index].hide()
       this.title[index].hide()
+      
+      if(this.device.desktop)
+      {
+        this.leftLines[index].hide()
+        this.rightLines[index].hide()
+        this.type[index].hide()
+        this.index[index].hide()
+      }
     })
 
     this.leftLines = null 
@@ -215,16 +246,27 @@ export default class Menu extends Page
     super.show()
     this.showMarquee.play()
 
-    if(this.device.tablet || this.device.phone)
+    if(window.innerWidth<=500) 
+    {
+      this.showRightTitles.play()
+        .eventCallback(
+          'onComplete', () => 
+          {
+            this.title.forEach(
+              t => 
+              {
+                t.show()
+              }
+            )
+          }
+        )
+    }
+    else if(this.device.tablet)
     {
       this.title.forEach(
-        (t, index) => 
+        t => 
         {
-          this.leftLines[index].show()
-          this.rightLines[index].show()
-          this.type[index].show()
-          this.index[index].show()
-          this.title[index].show()
+          t.show()
         }
       )
     }
@@ -237,11 +279,15 @@ export default class Menu extends Page
     return new Promise(resolve =>
     {
       this.onLeave()
+
       this.showMarquee.reverse()
         .eventCallback(
           'onReverseComplete', 
           () => 
-          { 
+          {
+            if(window.innerWidth<=500) 
+              this.showRightTitles.reverse()
+
             gsap.delayedCall(0.2, () => { resolve() } ) 
           } 
         )

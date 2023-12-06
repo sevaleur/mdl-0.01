@@ -25,7 +25,7 @@ export default class Navigation extends Component
     this.createMotion()
     this.createNavLocation(template)
 
-    if(this.device.tablet || this.device.mobile)
+    if(!this.device.desktop)
       this.onMenuInteraction()
   }
 
@@ -62,7 +62,7 @@ export default class Navigation extends Component
       }
     )
 
-    if(this.device.tablet || this.device.mobile)
+    if(!this.device.desktop)
     {
       this.onMenuShow = gsap.fromTo(
         this.nav_menu, 
@@ -172,7 +172,7 @@ export default class Navigation extends Component
           
           this.former = link
 
-          if(this.device.tablet || this.device.mobile)
+          if(!this.device.desktop)
             this.onMenuShrink()
         }
       })
@@ -251,7 +251,7 @@ export default class Navigation extends Component
   {
     this.showLogo.play()
 
-    if(this.device.tablet || this.device.mobile)
+    if(!this.device.desktop)
     {
       this.onMenuShow.play()
     }
@@ -277,7 +277,7 @@ export default class Navigation extends Component
 
   hide()
   {
-    if(!this.device.tablet || !this.device.mobile)
+    if(this.device.desktop)
     {
       this.nav_links.forEach(link =>
       {

@@ -42,6 +42,7 @@ canvas
   position: relative;
   z-index: z('canvas');
   pointer-events: none;
+  border: 1px solid $color-grey;
 }
 
 a
@@ -66,8 +67,6 @@ img
 .content
 {
   @extend %cover;
-
-  border: 1px solid $color-grey;
 }
 
 [data-animation="title"]

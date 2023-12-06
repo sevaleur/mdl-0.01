@@ -154,7 +154,8 @@ export default class Transition
     this.y = this.element.bounds.top / this.screen.height
     this.pos_y = this.plane.position.y + this.y / 100
 
-    this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height, -0.35, 0.35, this.pos_y)
+    if(!this.screen.phone)
+      this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height, -0.35, 0.35, this.pos_y)
   }
 
   update(elements)

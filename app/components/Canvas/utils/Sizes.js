@@ -16,7 +16,7 @@ export default class Sizes extends EventEmitter
 
     this.screen.desktop = this.screen.width > 1024 ? true : false
     this.screen.tablet = this.screen.width <= 1024 ? true : false
-    this.screen.mobile = this.screen.width <= 768 ? true : false
+    this.screen.phone = this.screen.width <= 768 ? true : false
 
     window.addEventListener(
       'resize',
@@ -28,20 +28,20 @@ export default class Sizes extends EventEmitter
 
         this.screen.desktop = this.screen.width > 1024 ? true : false
         this.screen.tablet = this.screen.width <= 1024 ? true : false
-        this.screen.mobile = this.screen.width <= 768 ? true : false
+        this.screen.phone = this.screen.width <= 768 ? true : false
 
         if(this.screen.tablet)
         {
-          this.screen.mobile = false 
+          this.screen.phone = false 
         }
-        else if(this.screen.mobile)
+        else if(this.screen.phone)
         {
           this.screen.tablet = false 
         }
         else 
         {
           this.screen.tablet = false 
-          this.screen.mobile = false
+          this.screen.phone = false
         }
 
         this.trigger('resize')

@@ -107,8 +107,8 @@ export default class Video extends Page
   createVideo(GHOST)
   {
     this.vid = new Plyr('#plyr', {
-      autoplay: false, 
-      muted: false, 
+      autoplay: !this.device.desktop ? true : false, 
+      muted: true, 
       clickToPlay: true,
       hideControls: true, 
       loop: { active: true },

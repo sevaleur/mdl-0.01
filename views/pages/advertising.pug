@@ -12,6 +12,7 @@ block content
         h1.menu__title__text=advertising.title
         span.menu__title__text=advertising.title
         span.menu__title__text=advertising.title
+        span.menu__title__text=advertising.title
     .menu__wrapper
       .menu__gallery
         each obj, index in advertising.showcase
@@ -27,3 +28,6 @@ block content
               h2.menu__gallery__image__title__text=obj.title
             .menu__gallery__image__index
               h2.menu__gallery__image__index__text=`00.${index}`
+
+    if device === 'phone'
+      .menu__right

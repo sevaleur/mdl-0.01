@@ -137,6 +137,11 @@
           border-bottom: none;
         }
 
+        @include media('<=400px')
+        {
+          padding-bottom: 20rem;
+        }
+
         &__div
         {
           height: 100%;
@@ -423,6 +428,11 @@
       padding: 2.7rem;
     }
 
+    @include media('<=400px')
+    {
+      padding-bottom: 20rem;
+    }
+
     &__gc
     {
       grid-area: 1 / 1 / -1 / 2;
@@ -591,6 +601,11 @@
   &__press
   {
     padding-bottom: 12.7rem;
+
+    @include media('<=400px')
+    {
+      padding-bottom: 20rem;
+    }
 
     &__title
     {

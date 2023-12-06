@@ -47,7 +47,7 @@ export default class App
     }
 
     this.device.desktop = window.innerWidth > 1024 ? true : false
-    this.device.tablet = window.innerWidth <= 1024 ? true : false
+    this.device.tablet = window.innerWidth <= 1024 && window.innerWidth > 768 ? true : false
     this.device.phone = window.innerWidth <= 768 ? true : false
 
     if(this.device.desktop)

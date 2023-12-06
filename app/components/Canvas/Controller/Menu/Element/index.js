@@ -55,7 +55,8 @@ export default class Element
         u_viewportSize: { value: [this.viewport.width, this.viewport.height] },
         u_intensity: { value: 10. },
         u_state: { value: 0.0 },
-        u_time: { value: 0.0 }
+        u_time: { value: 0.0 }, 
+        u_phone: { value: 0.0 }
       },
       transparent: true
     })
@@ -64,6 +65,9 @@ export default class Element
       this.texture.image.naturalWidth, 
       this.texture.image.naturalHeight
     ]
+
+    if(this.screen.phone)
+      this.material.uniforms.u_phone.value = 1.0
 
     this.plane = new Mesh( this.geo, this.material )
     this.scene.add(this.plane)
@@ -163,8 +167,11 @@ export default class Element
     this.y = ((this.bounds.top + current) / this.screen.height) * this.viewport.height
     this.plane.position.y = (this.viewport.height / 2) - (this.plane.scale.y / 2) - this.y
 
-    this.pos_viewport_y = this.plane.position.y + this.y / 100
-    this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height, -0.35, 0.35, this.pos_viewport_y)
+    if(!this.screen.phone)
+    {
+      this.pos_viewport_y = this.plane.position.y + this.y / 100
+      this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height, -0.35, 0.35, this.pos_viewport_y)
+    }
   }
 
   updateLink()

@@ -714,11 +714,6 @@
 
         display: flex; 
         align-items: center;
-
-        @include media('<=400px')
-        {
-          width: 103%; 
-        }
   
         &__text 
         {
@@ -761,11 +756,6 @@
           border-top: 1px solid $color-grey;
         }
 
-        @include media('<=400px')
-        {
-          width: 103%; 
-        }
-
         &__text 
         {
           @extend %title-100;
@@ -783,6 +773,11 @@
         align-self: center;
         justify-self: center;
 
+        @include media('<=500px')
+        {
+          justify-self: normal;
+        }
+
         &__text 
         {
           @extend %desc-18;
@@ -797,6 +792,7 @@
 
             padding-top: 10rem; 
             padding-bottom: 20rem; 
+            padding-left: 5rem;
           }
         }
       }

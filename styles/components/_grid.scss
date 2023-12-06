@@ -51,6 +51,7 @@
   @include media('<=500px')
   {
     grid-area: 1 / 1 / 5 / -1;
+    padding-bottom: 20rem;
   }
 }
 

@@ -57,6 +57,8 @@
 
     place-content: center;
 
+    border: 1px solid $color-grey;
+
     @include media('<phone')
     {
       padding: 2rem;
@@ -91,7 +93,7 @@
       {
         height: 20rem;
 
-        bottom: -0.1rem;
+        bottom: 0rem;
         left: -0.15rem;
       }
 
@@ -100,6 +102,11 @@
         height: 26rem;
 
         bottom: -0.1rem; 
+      }
+
+      @include media('<=400px')
+      {
+        bottom: -0.2rem; 
       }
 
       &__wrapper 
@@ -284,6 +291,11 @@
         height: 100rem; 
       }
 
+      @include media('<=400px')
+      {
+        height: 80rem; 
+      }
+
       &__text
       {
         position: absolute; 
@@ -373,6 +385,12 @@
           height: 75rem;
         }
 
+        @include media('<=400px')
+        {
+          width: 50rem;
+          height: 65rem;
+        }
+
         &__image
         {
           @extend %cover;
@@ -407,6 +425,11 @@
     @include media('<=500px')
     {
       transform: translate(-60rem * 0.5, -50%);
+    }
+
+    @include media('<=400px')
+    {
+      transform: translate(-50rem * 0.5, -50%);
     }
   }
 
@@ -468,8 +491,6 @@
         text-align: right;
 
         border-right: 1px solid $color-grey;
-
-        letter-spacing: 1rem;
 
         padding-right: 1.5rem;
       }
