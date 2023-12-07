@@ -137,7 +137,7 @@ export default class Menu extends Page
       this.marqueeContent, 
     {
       repeat: -1, 
-      duration: 5.0,
+      speed: 0.5,
       paused: false, 
       center: true, 
       draggable: false,
@@ -276,9 +276,10 @@ export default class Menu extends Page
   {
     super.hide(true)
 
+    this.onLeave()
+
     return new Promise(resolve =>
     {
-      this.onLeave()
 
       this.showMarquee.reverse()
         .eventCallback(

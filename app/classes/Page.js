@@ -218,6 +218,10 @@ export default class Page
         })
       })
     }
+    else 
+    {
+      this.removeEventListeners()
+    }
   }
 
   /*

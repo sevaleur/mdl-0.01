@@ -7,7 +7,7 @@
     width: 24rem; 
 
     position: absolute; 
-    top: -0.1rem; 
+    top: 0; 
     left: 11.7rem;
 
     border-right: 1px solid $color-grey;
@@ -102,11 +102,6 @@
         height: 26rem;
 
         bottom: -0.1rem; 
-      }
-
-      @include media('<=400px')
-      {
-        bottom: -0.2rem; 
       }
 
       &__wrapper 
@@ -387,8 +382,8 @@
 
         @include media('<=400px')
         {
-          width: 50rem;
-          height: 65rem;
+          width: 45rem;
+          height: 60rem;
         }
 
         &__image
@@ -429,7 +424,7 @@
 
     @include media('<=400px')
     {
-      transform: translate(-50rem * 0.5, -50%);
+      transform: translate(-45rem * 0.5, -50%);
     }
   }
 
@@ -437,7 +432,7 @@
   {
     position: absolute;
     top: 50%;
-    left: 6rem;
+    left: 20rem;
     transform: translateY(-50%);
 
     opacity: 0.0;
@@ -454,20 +449,25 @@
 
       display: flex; 
       justify-content: center;
-      align-content: center;
+      align-items: center;
       gap: 2rem;
+    }
+
+    @include media('<=phone')
+    {
+      top: 2.5rem; 
+      gap: 2rem; 
+
+      transform: none;
+
+      flex-direction: column;
     }
 
     @include media('<=500px')
     {
-      top: 2.5rem; 
-
-      transform: none;
-
       display: grid; 
       grid-template-rows: 13rem 1fr; 
-
-      gap: 2.5rem;
+      justify-items: center;
     }
 
     &__title
@@ -495,9 +495,9 @@
         padding-right: 1.5rem;
       }
 
-      @include media('<=500px')
+      @include media('<=phone')
       {
-        justify-self: center;
+        justify-content: center;
         align-items: center;
         
         text-align: center;
@@ -506,6 +506,12 @@
         border-right: none;
 
         padding-right: 0;
+        font-size: 2rem;
+      }
+
+      @include media('<=500px')
+      {
+        font-size: 3rem;
       }
     }
 

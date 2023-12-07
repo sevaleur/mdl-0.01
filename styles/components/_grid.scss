@@ -19,12 +19,15 @@
   {
     grid-template-rows: 20rem 1fr 20rem 1fr 30rem;
     gap: 5rem; 
+
+    margin-bottom: 0;
   }
 
   @include media('<=400px')
   {
-    grid-template-rows: 20rem 1fr 20rem 1fr 45rem;
+    grid-template-rows: 20rem 1fr 20rem 1fr 35rem;
     gap: 10rem; 
+    margin-bottom: 10rem;
   }
 }
 

@@ -217,6 +217,11 @@
             writing-mode: horizontal-tb;
           }
 
+          @include media('<=500px')
+          {
+            padding: 10rem 0; 
+          }
+
           &__text
           {
             @extend %title-25;
@@ -482,13 +487,12 @@
           {
             font-size: 7.5rem;
             text-transform: uppercase;
-            letter-spacing: 5rem;
+            letter-spacing: 0.5rem;
           }
 
           @include media('<=phone')
           {
             font-size: 5rem;
-            letter-spacing: 2.5rem;
           }
 
           @include media('<=500px')
@@ -524,7 +528,7 @@
 
           @include media('<=tablet')
           {
-            font-size: 2.5rem;
+            font-size: 3rem;
           }
 
           @include media('<=phone')

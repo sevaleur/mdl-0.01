@@ -240,12 +240,15 @@ export default class Controller
 
   onChange(template)
   {
-    if(!this.navigation)
-      this.createNavigation('navigation')
+    if(this.sizes.screen.desktop)
+    {
+      if(!this.navigation)
+        this.createNavigation('navigation')
 
-    !this.ray
-      ? this.createRay()
-      : this.ray.removeObjects(template)
+      !this.ray
+        ? this.createRay()
+        : this.ray.removeObjects(template)
+    }
 
     switch(template)
     {
@@ -364,70 +367,48 @@ export default class Controller
 
   onTouchDown({ y, x })
   {
-    if(this.menu)
-    {
-      this.menu.onTouchDown({ y, x })
+    if(this.navigation)
       this.navigation.onTouchDown({ y, x })
-    }
+
+    if(this.menu)
+      this.menu.onTouchDown({ y, x })
+    
 
     if(this.gallery)
-    {
       this.gallery.onTouchDown({ y, x })
-      this.navigation.onTouchDown({ y, x })
-    }
 
     if(this.about)
-    {
       this.about.onTouchUp({ y })
-      this.navigation.onTouchDown({ y, x })
-    }
   }
 
   onTouchMove({ y, x })
   {
     if(this.navigation)
-    {
       this.navigation.onTouchMove({ y, x })
-    }
 
     if(this.menu)
-    {
       this.menu.onTouchMove({ y, x })
-      this.navigation.onTouchMove({ y, x })
-    }
 
     if(this.gallery)
-    {
       this.gallery.onTouchMove({ y, x })
-      this.navigation.onTouchMove({ y, x })
-    }
 
     if(this.about)
-    {
       this.about.onTouchMove({ y })
-      this.navigation.onTouchMove({ y, x })
-    }
   }
 
   onTouchUp({ y, x })
   {
-    if(this.menu)
-    {
-      this.menu.onTouchUp({ y, x })
+    if(this.navigation)
       this.navigation.onTouchUp({ y, x })
-    }
+
+    if(this.menu)
+      this.menu.onTouchUp({ y, x })
 
     if(this.gallery)
-    {
       this.gallery.onTouchUp({ y, x })
-      this.navigation.onTouchUp({ y, x })
-    }
 
     if(this.about)
-    {
       this.about.onTouchUp ({ y })
-      this.navigation.onTouchUp({ y, x })
-    }
   }
 
   onMove({ clientX, clientY })
@@ -444,23 +425,17 @@ export default class Controller
 
   onWheel(e)
   {
+    if(this.navigation)
+      this.navigation.onWheel(e)  
+
     if(this.menu)
-    {
       this.menu.onWheel(e)
-      this.navigation.onWheel(e)
-    }
 
     if(this.gallery)
-    {
       this.gallery.onWheel(e)
-      this.navigation.onWheel(e)
-    }
 
     if(this.about)
-    {
       this.about.onWheel(e)
-      this.navigation.onWheel(e)
-    }
   }
 
   /* 

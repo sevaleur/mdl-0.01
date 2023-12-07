@@ -15,7 +15,7 @@
 
       position: absolute; 
       top: 50%; 
-      right: -0.1rem; 
+      right: 0rem; 
 
       transform: translateY(-50%); 
       
@@ -34,7 +34,7 @@
 
     position: absolute;
     bottom: 0;
-    left: -0.1rem;
+    left: 0;
 
     border-right: 1px solid $color-grey;
     border-top: 1px solid $color-grey;
@@ -43,7 +43,6 @@
 
     @include media('<=500px')
     {
-      left: -0.1rem;
       width: 15rem;
 
       background: $color-night;
@@ -247,15 +246,15 @@
 
         width: 100%; 
 
-        @include media('<=phone')
+        @include media('<=500px')
         {
           writing-mode: vertical-lr;
 
           left:auto;
           right: -50%; 
 
-          transform: translate(-130%, -50%);
- 
+          transform: translate(-90%, -50%);
+           
           width: fit-content;
 
           white-space: nowrap;
@@ -263,11 +262,6 @@
           padding: 3rem 0; 
 
           letter-spacing: 0.4rem;
-        }
-
-        @include media('<=500px')
-        {
-          transform: translate(-90%, -50%);
         }
 
         &__text

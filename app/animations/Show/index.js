@@ -56,8 +56,10 @@ export default class Show
     this.onShow.play()
   }
 
-  hide()
+  hide(reset=false)
   {
-    this.onShow.reverse()
+    reset
+      ? this.onShow.revert()
+      : this.onShow.reverse()
   }
 }

@@ -5,16 +5,27 @@ block variables
 
 block content
   .video
+    .video__controls 
+      .video__controls__mute 
+        p.video__controls__mute__text mute
+      if device !== 'desktop'
+        .video__controls__play
+          .video__btn
+            .video__btn__icon
+              .part.part__left
+              .part.part__right
+      .video__controls__fullscreen 
+        p.video__controls__fulscreen__text fullscreen
     .video__wrap
-      .video__media
+      if device === 'desktop'
         .video__btn
           .video__btn__icon
             .part.part__left
             .part.part__right
+      .video__media
         .video__media__cover
         .video__selected#plyr
-          if film.selected_video
-            iframe.video__selected__video.plyr__video-embed(src=film.selected_video)
+          iframe.video__selected__video.plyr__video-embed(src=film.selected_video)
     .video__wrapper
       .video__ghost 
         .video__ghost__div

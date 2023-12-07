@@ -8,7 +8,32 @@
 
   @include media('<=tablet')
   {
-    transform: scale(3.5);
+    transform: scale(2) translateY(-14rem);
+  }
+
+  @include media('<=phone')
+  {
+    transform: scale(3) translateY(-10rem);
+  }
+
+  @include media('<=500px')
+  {
+    transform: scale(3) translateY(0);
+  }
+
+  @include media('<=400px')
+  {
+    transform: scale(2) translateY(0);
+  }
+
+  @include media('<=380px')
+  {
+    transform: scale(2) translateY(-5rem);
+  }
+
+  @include media('<=360px')
+  {
+    transform: scale(2) translateY(-1.5rem);
   }
 }
 
@@ -57,8 +82,8 @@
     cursor: pointer;
 
     position: absolute;
-    bottom: -0.3rem;
-    left: -0.1rem;
+    bottom: 0;
+    left: 0;
 
     background: $color-night;
     border: 1px solid $color-grey;
@@ -122,6 +147,65 @@
 
       transform: rotate(120deg);
       transition: transform 500ms;
+    }
+  }
+
+  &__controls 
+  {
+    position: absolute; 
+    top: 10rem; 
+    left: 0;
+
+    height: fit-content; 
+    width: 12rem;
+
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    border-top: 1px solid $color-grey;
+    border-right: 1px solid $color-grey;
+    border-bottom: 1px solid $color-grey;
+
+    background: $color-night;
+
+    z-index: z('content');
+
+    @include media('<=phone')
+    {
+      height: 10rem; 
+      top: 0; 
+      left: 50%;
+      transform: translateX(-50%);
+
+      flex-direction: row;
+
+      border-top: none;
+      border-left: 1px solid $color-grey;
+    }
+
+    @include media('<=500px')
+    {
+      height: 13rem; 
+    }
+
+    &__mute 
+    {
+      padding: 5rem;
+    }
+
+    &__play
+    {
+      position:relative; 
+      
+      height: 5rem; 
+      width: 5rem; 
+    }
+
+    &__fullscreen 
+    {
+      padding: 5rem;
     }
   }
 
@@ -319,6 +403,12 @@
     &__text 
     {
       @extend %title-40;
+
+      @include media('<=phone')
+      {
+        text-align: center;
+      }
+
 
       @include media('<=500px')
       {
@@ -650,7 +740,7 @@
       display: grid; 
       grid-template-columns: 1fr 1fr;
 
-      @include media('<=500px')
+      @include media('<=phone')
       {
         display: flex; 
         flex-direction: column;
@@ -751,7 +841,7 @@
         display: flex; 
         align-items: center;
 
-        @include media('<=500px')
+        @include media('<=phone')
         {
           border-top: 1px solid $color-grey;
         }
@@ -785,13 +875,17 @@
           line-height: 3rem;
           letter-spacing: 0.2rem;
 
+          @include media('<=phone')
+          {
+            padding-top: 10rem; 
+            padding-bottom: 20rem; 
+          }
+
           @include media('<=500px')
           {
             font-size: 3rem;
             line-height: 4rem;
 
-            padding-top: 10rem; 
-            padding-bottom: 20rem; 
             padding-left: 5rem;
           }
         }

@@ -5,21 +5,31 @@ block variables
 
 block content
   .video
-
+    .video__controls 
+      .video__controls__mute 
+        p.video__controls__mute__text mute
+      if device !== 'desktop'
+        .video__controls__play
+          .video__btn
+            .video__btn__icon
+              .part.part__left
+              .part.part__right
+      .video__controls__fullscreen 
+        p.video__controls__fulscreen__text fullscreen
     .video__wrap
-      .video__btn
-        .video__btn__icon
-          .part.part__left
-          .part.part__right
+      if device === 'desktop'
+        .video__btn
+          .video__btn__icon
+            .part.part__left
+            .part.part__right
       .video__media
         .video__media__cover
         .video__selected#plyr
           iframe.video__selected__video.plyr__video-embed(src=advert.selected_video)
-
     .video__wrapper
       .video__ghost 
         .video__ghost__div
-        .video__title 
+        .video__title
           .video__title__wrapper
             h1.video__title__text=advert.title
             span.video__title__text=advert.title 
@@ -89,5 +99,5 @@ block content
               .video__footer__thanks__desc 
                 p.video__footer__thanks__desc__text!=advert.footer.thanks.replace(/\n/g, '<br>')
       
-    a.video__back(href=Link=(''))
+    .video__back
       .video__back__button

@@ -23,7 +23,10 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
-app.use(device.capture())
+app.use(device.capture({ 
+  emptyUserAgentDeviceType: 'tablet', 
+  unknownUserAgentDeviceType: 'desktop'
+}))
 
 const endpoint = process.env.ENDPOINT
 const projectId = process.env.PROJECT_ID 

@@ -151,8 +151,8 @@ export default class Home extends Page
   {
     if(fIdx)
     {
-      this.title[fIdx].hide()
-      this.type[fIdx].hide()
+      this.title[fIdx].hide(true)
+      this.type[fIdx].hide(true)
     }
 
     fIdx === null
