@@ -22,7 +22,8 @@ export default class Video extends Page
         thanks: 'h3.video__footer__thanks__title__text',
         cover: '.video__media__cover', 
         back: '.video__back',
-        play: '.video__controls__play'
+        play: '.video__controls__play',
+        mute: '.video__controls__mute',
       }, 
       background: COLOR_NIGHT, 
       color: COLOR_CULTURED,
@@ -67,7 +68,7 @@ export default class Video extends Page
   createVideo()
   {
     this.vid = new Plyr('#plyr', {
-      autoplay: !this.device.desktop ? true : false, 
+      autoplay: true, 
       muted: true, 
       clickToPlay: true,
       hideControls: true, 
@@ -96,7 +97,7 @@ export default class Video extends Page
   createWidth()
   {
     let calc = window.innerWidth - (this.backBounds.width * 2) + 2
-    this.controls.element.style.width = `${calc}px`
+    this.elements.titleDiv.style.width = `${calc}px`
   }
 
   createLoop(TITLE, CREDITS=false, THANKS=false)
@@ -114,6 +115,19 @@ export default class Video extends Page
   {
     if(!this.device.phone)
     {
+      this.onTitleShow = gsap.fromTo(
+        this.elements.titleDiv, 
+        {
+          yPercent: 100 
+        }, 
+        {
+          yPercent: 0, 
+          duration: 0.8, 
+          ease: 'power2.inOut', 
+          paused: true
+        }
+      )
+      
       this.enlargeControls = gsap.fromTo(
         this.controls.element, 
         {
@@ -140,10 +154,23 @@ export default class Video extends Page
     }
     else 
     {
+      this.onTitleShow = gsap.fromTo(
+        this.elements.titleDiv, 
+        {
+          yPercent: -100 
+        }, 
+        {
+          yPercent: 0, 
+          duration: 0.8, 
+          ease: 'power2.inOut', 
+          paused: true
+        }
+      )
+
       this.enlargeControls = gsap.fromTo(
         this.controls.element, 
         {
-          yPercent: -100, 
+          yPercent: 100, 
         }, 
         {
           yPercent: 0,
@@ -156,8 +183,8 @@ export default class Video extends Page
       this.enlargeButton = gsap.to(
         this.controls.buttons.play, 
         {
-          height: '20rem',
-          width: '20rem', 
+          height: '30rem',
+          width: '30rem', 
           duration: 0.5, 
           ease: 'power2.inOut',
           paused: true
@@ -174,19 +201,6 @@ export default class Video extends Page
         scale: 1.0, 
         transformOrigin: 'bottom left',
         duration: 0.8,
-        ease: 'power2.inOut', 
-        paused: true
-      }
-    )
-
-    this.onTitleShow = gsap.fromTo(
-      this.elements.titleDiv, 
-      {
-        yPercent: 100 
-      }, 
-      {
-        yPercent: 0, 
-        duration: 0.8, 
         ease: 'power2.inOut', 
         paused: true
       }
@@ -208,6 +222,18 @@ export default class Video extends Page
       : (this.onPause(), this.controls.isClicked = false)
   }
 
+  onMute()
+  {
+    if(!this.vid.muted)
+    {
+      this.vid.muted = true 
+    }
+    else 
+    {
+      this.vid.muted = false
+    }
+  }
+
   onMouseEnter()
   {
     this.enlargeButton.play()
@@ -224,29 +250,6 @@ export default class Video extends Page
 
     let location = (window.innerHeight - this.titleBounds.height) - this.scroll.current
     let scrollPos = (this.scroll.current + this.titleBounds.height) - window.innerHeight
-
-    let scrollPosControls, 
-        controlsLocation
-    
-    if(this.device.phone)
-    {
-      scrollPosControls = (this.scroll.current + this.controlBounds.height) - window.innerHeight
-      controlsLocation = (window.innerHeight - this.controlBounds.height) - this.scroll.current
-    }
-    else 
-    {
-      scrollPosControls = (this.scroll.current + (this.controlBounds.height + this.backBounds.height)) - window.innerHeight
-      controlsLocation = (window.innerHeight - (this.controlBounds.height + this.backBounds.height)) - this.scroll.current
-    }
-
-    if(scrollPosControls >= controlsLocation)
-    {
-      this.enlargeControls.reverse()
-    }
-    else 
-    {
-      this.enlargeControls.play()
-    }
 
     if(scrollPos >= location)
     {
@@ -266,8 +269,7 @@ export default class Video extends Page
 
         gsap.to(this.elements.cover, {background: 'transparent'})
 
-        if(this.controls.isClicked)
-          this.onPlay()  
+        this.onPlay()  
       }
     }
   }
@@ -350,42 +352,6 @@ export default class Video extends Page
     UPDATE.
   */
 
-  addEventListeners()
-  {
-    super.addEventListeners()
-
-    if(!this.device.phone)
-    {
-      this.elements.ghost.addEventListener('mouseenter', this.onMouseEnter.bind(this))
-      this.elements.ghost.addEventListener('mouseleave', this.onMouseLeave.bind(this))
-    }
-    else
-    {
-      this.elements.play.addEventListener('click', this.onClickInteraction.bind(this))
-    }
-
-    this.elements.ghost.addEventListener('click', this.onClickInteraction.bind(this))
-    this.elements.back.addEventListener('click', this.onBack)
-  }
-
-  removeEventListeners()
-  {
-    super.removeEventListeners()
-
-    if(!this.device.phone)
-    {
-      this.elements.ghost.removeEventListener('mouseenter', this.onMouseEnter)
-      this.elements.ghost.removeEventListener('mouseleave', this.onMouseLeave)
-    }
-    else 
-    {
-      this.elements.play.removeEventListener('click', this.onClickInteraction)
-    }
-
-    this.elements.ghost.removeEventListener('click', this.onClickInteraction)
-    this.elements.back.removeEventListener('click', this.onBack)
-  }
-
   update()
   {
     super.update()
@@ -402,5 +368,47 @@ export default class Video extends Page
         }
       )
     }
+  }
+
+  /* 
+    EVENTLISTENERS.
+  */
+
+  addEventListeners()
+  {
+    super.addEventListeners()
+
+    if(this.device.desktop)
+    {
+      this.elements.ghost.addEventListener('mouseenter', this.onMouseEnter.bind(this))
+      this.elements.ghost.addEventListener('mouseleave', this.onMouseLeave.bind(this))
+    }
+    else
+    {
+      this.elements.play.addEventListener('click', this.onClickInteraction.bind(this))
+    }
+
+    this.elements.mute.addEventListener('click', this.onMute.bind(this))
+    this.elements.ghost.addEventListener('click', this.onClickInteraction.bind(this))
+    this.elements.back.addEventListener('click', this.onBack)
+  }
+
+  removeEventListeners()
+  {
+    super.removeEventListeners()
+
+    if(this.device.desktop)
+    {
+      this.elements.ghost.removeEventListener('mouseenter', this.onMouseEnter)
+      this.elements.ghost.removeEventListener('mouseleave', this.onMouseLeave)
+    }
+    else 
+    {
+      this.elements.play.removeEventListener('click', this.onClickInteraction)
+    }
+
+    this.elements.mute.removeEventListener('click', this.onMute)
+    this.elements.ghost.removeEventListener('click', this.onClickInteraction)
+    this.elements.back.removeEventListener('click', this.onBack)
   }
 }

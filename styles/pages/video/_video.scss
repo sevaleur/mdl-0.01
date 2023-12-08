@@ -3,6 +3,11 @@
   --plyr-color-main: $color-night;
 }
 
+.plyr__controls 
+{
+  display: none; 
+}
+
 .plyr__video-embed
 {
 
@@ -170,24 +175,23 @@
 
     background: $color-night;
 
-    z-index: z('content');
+    z-index: z('controls');
 
     @include media('<=phone')
     {
-      height: 10rem; 
-      top: 0; 
+      grid-area: 2 / 1 / -1 / -1;
+
+      height: 100%;
+      width: 100%; 
+
+      top: auto;
+      bottom: 0;  
       left: 50%;
       transform: translateX(-50%);
 
       flex-direction: row;
 
-      border-top: none;
-      border-left: 1px solid $color-grey;
-    }
-
-    @include media('<=500px')
-    {
-      height: 13rem; 
+      border-right: none;
     }
 
     &__mute 
@@ -199,8 +203,8 @@
     {
       position:relative; 
       
-      height: 5rem; 
-      width: 5rem; 
+      height: 10rem; 
+      width: 10rem; 
     }
 
     &__fullscreen 
@@ -211,7 +215,15 @@
 
   &__wrapper 
   {
-    z-index: z('content');
+    position: relative;
+    z-index: z('canvas');
+
+    border: 1px solid $color-grey;
+
+    @include media('<=phone')
+    {
+      z-index: z('content');
+    }
   }
 
   &__ghost 
@@ -222,14 +234,15 @@
     display: grid; 
     grid-template-rows: 85vh 15vh;
 
-    @include media('<=500px')
+    @include media('<=phone')
     {
-      grid-template-rows: 77.1vh 15vh;
+      position: relative;
+      grid-template-rows: 78vh 15rem;
     }
 
     @include media('<=400px')
     {
-      grid-template-rows: 75vh 15vh;
+      grid-template-rows: 76vh 13rem;
     }
 
     &__div 
@@ -240,6 +253,11 @@
 
       height: 100%; 
       width: 100%; 
+
+      @include media('<=500px')
+      {
+        grid-area: 2 / 1 / 3 / -1;
+      }
     }
   }
 
@@ -251,6 +269,8 @@
 
     height: 100%; 
     width: 100%; 
+
+    z-index: z('canvas')
   }
 
   &__media 
@@ -299,19 +319,28 @@
 
     border: 1px solid $color-grey;
 
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-
     background: $color-night;
 
     overflow: hidden;
 
     position: relative; 
 
-    @include media('<=400px')
+    @include media('<=phone')
     {
-      height: 105%; 
-      width: 103%; 
+      position: absolute; 
+      top: 0; 
+      left: 50%; 
+
+      transform: translateX(-50%);
+
+      height: 10rem; 
+
+      z-index: z('content');
+    }
+
+    @include media('<=500px')
+    {
+      height: 13rem; 
     }
 
     &__wrapper 
@@ -339,6 +368,11 @@
       letter-spacing: 1rem;
 
       padding: 0 2rem;
+
+      @include media('<=500px')
+      {
+        font-size: 4rem;
+      }
     }
   }
 
@@ -352,6 +386,7 @@
     display: grid; 
     grid-template-columns: 2fr 1fr 2fr;
 
+    border-top: 1px solid $color-grey;
     border-bottom: 1px solid $color-grey;
 
     @include media('<=tablet')

@@ -15,8 +15,21 @@ export default class Gallery extends Page
       id: 'gallery',
       element: '.gallery',
       elements: {
+        info: '.gallery__info',
         title: '.gallery__info__title',
-        desc: '.gallery__info__desc'
+        desc: '.gallery__info__desc', 
+        modal_selected: '.gallery__modal__selected',
+        modal_image: 'img.gallery__modal__selected__figure__image', 
+        modal_images: '.gallery__modal__images',
+        modal_images_div: '.gallery__modal__images__div',
+        modal_images_image: 'img.gallery__modal__images__div__media__figure__image',
+        modal_images_figure: '.gallery__modal__images__div__media__figure',
+        modal_close: '.gallery__modal__selected__text',
+        modal_top_lines: 'span.gallery__modal__images__div__top',
+        modal_bottom_lines: 'span.gallery__modal__images__div__bottom',
+        close: '.gallery__modal__selected__text__close',
+        back: '.gallery__back',
+        footer: '.footer'
       }, 
       background: COLOR_NIGHT, 
       color: COLOR_CULTURED, 
@@ -34,76 +47,49 @@ export default class Gallery extends Page
 
     this.modal = {
       active: '', 
-      former: '', 
-      fIdx: '', 
-      top_lines: [], 
-      btm_lines: []
+      animations: {
+        hover: [],
+        top_lines: [], 
+        btm_lines: [], 
+      }
     }
 
-    this.createElements()
     this.createMotion()
-    this.onBack()
-  }
-
-  createElements()
-  {
-    this.modal_image = document.querySelector('img.gallery__modal__selected__figure__image')
-    this.modal_selected = document.querySelector('.gallery__modal__selected')
-
-    this.modal_div = document.querySelector('.gallery__modal__images')
-    this.modal_divs = document.querySelectorAll('.gallery__modal__images__div')
-    this.modal_images = document.querySelectorAll('img.gallery__modal__images__div__media__figure__image')
-    this.modal_figures = document.querySelectorAll('.gallery__modal__images__div__media__figure')
-
-    this.modal_close = document.querySelector('.gallery__modal__selected__text')
-    this.close = document.querySelector('.gallery__modal__selected__text__close')
-
-    this.back = document.querySelector('.gallery__back')
-    
-    this.top_lines = document.querySelectorAll('span.gallery__modal__images__div__top') 
-    this.btm_lines = document.querySelectorAll('span.gallery__modal__images__div__bottom')
-
-    this.gallery_title = document.querySelector('h1.gallery__info__title')
-    this.gallery_info = document.querySelector('.gallery__info')
-
-    const CB = document.querySelector('.footer')
-
-    this.createModal(CB)
+    this.createModal()
     this.onModalSelect()
-    this.onModalInteraction()
   }
 
-  createModal(CB)
+  createModal()
   {
-    this.top_lines.forEach(
+    this.elements.modal_top_lines.forEach(
       (line, idx) => 
       {
-        this.modal.top_lines.push(
+        this.modal.animations.top_lines.push(
           new Line(
             line, 
             true
           )
         )
 
-        this.modal.btm_lines.push(
+        this.modal.animations.btm_lines.push(
           new Line(
-            this.btm_lines[idx], 
+            this.elements.modal_bottom_lines[idx], 
             true
           )
         )
       }
     )
 
-    let bounds = CB.getBoundingClientRect()
+    let bounds = this.elements.footer.getBoundingClientRect()
     let calc = window.innerWidth - bounds.width
 
-    this.modal_div.style.width = `${calc}px`  
+    this.elements.modal_images.style.width = `${calc}px`  
   }
 
   createMotion()
   {
     this.show_close = gsap.fromTo(
-      this.close, 
+      this.elements.close, 
       {
         scale: 0,
       }, 
@@ -115,7 +101,7 @@ export default class Gallery extends Page
     )
 
     this.onBackShow = gsap.fromTo(
-      this.back, 
+      this.elements.back, 
       {
         scale: 0, 
       }, 
@@ -129,7 +115,7 @@ export default class Gallery extends Page
     )
 
     this.onInfo = gsap.fromTo(
-      this.gallery_info, 
+      this.elements.info, 
       {
         opacity: 0.0
       }, 
@@ -141,9 +127,32 @@ export default class Gallery extends Page
     )
   }
 
+  createMotionElement(element)
+  {
+    let imageHover = gsap.fromTo(
+      element, 
+      {
+        scale: 1.0,
+      },
+      {
+        scale: 1.2, 
+        duration: 0.5, 
+        ease: 'power2.inOut',
+        paused: true
+      }
+    )
+
+    this.modal.animations.hover.push(imageHover)
+  }
+
   /* 
     EVENTS.
   */
+
+  onModalChangeSelection(idx)
+  {
+    this.elements.modal_image.src = this.elements.modal_images_image[idx].src
+  }
 
   onModalSelect()
   {
@@ -154,92 +163,53 @@ export default class Gallery extends Page
         {
           this.modal.active = change.target.src
 
-          this.modal_images.forEach(
+          this.elements.modal_images_image.forEach(
             (img, idx) => 
             {
               if(img.src === this.modal.active)
               {
-                this.modal.top_lines[idx].show(true)
-                this.modal.btm_lines[idx].show(true)
+                this.modal.animations.top_lines[idx].show(true)
+                this.modal.animations.btm_lines[idx].show(true)
               }
               else 
               {
-                this.modal.top_lines[idx].hide(true)
-                this.modal.btm_lines[idx].hide(true)
+                this.modal.animations.top_lines[idx].hide(true)
+                this.modal.animations.btm_lines[idx].hide(true)
               }
             }
           )
         }
       })
     })
-    observer.observe(this.modal_image, { attributes : true })
+    observer.observe(this.elements.modal_image, { attributes : true })
   }
 
-  onModalInteraction()
+  onModalEnter()
   {
-    if(this.device.desktop)
-    {
-      this.modal_selected.addEventListener(
-        'mouseenter', () => 
-        {
-          this.close.style.display = 'block'
-          this.show_close.play()
-        }
-      )
-  
-      this.modal_selected.addEventListener(
-        'mouseleave', () => 
-        {
-          this.show_close.reverse()
-            .eventCallback(
-              'onReverseComplete', 
-              () => 
-            { 
-              this.close.style.display = 'none' 
-            } 
-          )
-        }
-      ) 
-    }
+    this.elements.close.style.display = 'block'
+    this.show_close.play()
+  }
 
-    this.modal_divs.forEach(
-      (div, idx) => 
-      {
-        div.addEventListener(
-          'mouseenter', () => 
-          {
-            gsap.to(
-              this.modal_figures[idx], 
-              {
-                scale: 1.2, 
-                duration: 0.5, 
-                ease: 'power2.inOut'
-              }
-            )
-          }
-        )
-
-        div.addEventListener(
-          'mouseleave', () => 
-          {
-            gsap.to(
-              this.modal_figures[idx], 
-              {
-                scale: 1.0, 
-                duration: 0.5, 
-                ease: 'power2.inOut'
-              }
-            )
-          }
-        )
-        div.addEventListener(
-          'click', () => 
-          {
-            this.modal_image.src = this.modal_images[idx].src
-          }
-        )
-      }
+  onModalLeave()
+  {
+    this.show_close.reverse()
+      .eventCallback(
+        'onReverseComplete', 
+        () => 
+      { 
+        this.elements.close.style.display = 'none' 
+      } 
     )
+  }
+
+  onModalImagesEnter(idx)
+  {
+    this.modal.animations.hover[idx].play()
+  }
+
+  onModalImagesLeave(idx)
+  {
+    this.modal.animations.hover[idx].reverse()
   }
 
   onMove(e)
@@ -249,12 +219,9 @@ export default class Gallery extends Page
 
   onBack()
   {
-    this.back.addEventListener('click', (e) => 
-    {
-      e.preventDefault()
-  
-      window.history.back()
-    })
+    this.hide()
+
+    window.history.back()
   }
 
   show()
@@ -297,7 +264,7 @@ export default class Gallery extends Page
     if(this.device.desktop)
     {
       gsap.to(
-        this.modal_close, 
+        this.elements.modal_close, 
         {
           top: this.coord.y, 
           left: this.coord.x,
@@ -306,5 +273,55 @@ export default class Gallery extends Page
         }
       )
     }
+  }
+
+  /* 
+    EVENTLISTENERS.
+  */
+
+  addEventListeners()
+  {
+    super.addEventListeners()
+
+    if(this.device.desktop)
+    {
+      this.elements.modal_selected.addEventListener('mouseenter', this.onModalEnter.bind(this))
+      this.elements.modal_selected.addEventListener('mouseleave', this.onModalLeave.bind(this))
+    }
+
+    this.elements.modal_images_div.forEach(
+      (div, idx) => 
+      {
+        this.createMotionElement(this.elements.modal_images_figure[idx])
+
+        div.addEventListener('mouseenter', this.onModalImagesEnter.bind(this, idx))
+        div.addEventListener('mouseleave', this.onModalImagesLeave.bind(this, idx))
+        div.addEventListener('click', this.onModalChangeSelection.bind(this, idx))
+      }
+    )
+
+    this.elements.back.addEventListener('click', this.onBack.bind(this))
+  }
+
+  removeEventListeners()
+  {
+    super.removeEventListeners()
+
+    if(this.device.desktop)
+    {
+      this.elements.modal_selected.removeEventListener('mouseenter', this.onModalEnter)
+      this.elements.modal_selected.removeEventListener('mouseleave', this.onModalLeave)
+    }
+
+    this.elements.modal_images_div.forEach(
+      (div, idx) => 
+      {
+        div.removeEventListener('mouseenter', this.onModalImagesEnter)
+        div.removeEventListener('mouseleave', this.onModalImagesLeave)
+        div.removeEventListener('click', this.onModalChangeSelection)
+      }
+    )
+
+    this.elements.back.removeEventListener('click', this.onBack)
   }
 }

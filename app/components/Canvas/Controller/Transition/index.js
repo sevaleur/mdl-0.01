@@ -64,7 +64,7 @@ export default class Transition
 
     this.plane.position.x = this.element.plane.position.x
     this.plane.position.y = this.element.plane.position.y
-    this.plane.position.z = this.element.plane.position.z + 0.01
+    this.plane.position.z = this.element.plane.position.z
 
     this.scene.add(this.plane)
   }

@@ -15,14 +15,22 @@ export default class Menu extends Page
       id: 'menu',
       element: '.menu',
       elements: {
-        title: '.menu__title__text'
+        marquee: '.menu__title',
+        marquee_title: '.menu__title__text', 
+        right: '.menu__right', 
+        menu_images: '.menu__gallery__image', 
+        menu_links: '.menu__gallery__image__link', 
+        menu_image_type: '.menu__gallery__image__type__text',
+        menu_image_index: '.menu__gallery__image__index__text', 
+        menu_image_title: '.menu__gallery__image__title__text', 
+        menu_left_lines: 'span.menu__gallery__image__left', 
+        menu_right_lines: 'span.menu__gallery__image__right', 
+        nav: '.navigation__logo' 
       },
       background: COLOR_NIGHT, 
       color: COLOR_CULTURED, 
       device: device
     })
-
-    this.ready = false
   }
 
   /*
@@ -32,47 +40,66 @@ export default class Menu extends Page
   create()
   {
     super.create()
-    this.createElements()
-  }
 
-  createElements()
-  {
-    this.marquee = document.querySelector('.menu__title')
-    this.marqueeContent = document.querySelectorAll('.menu__title__text')
-    this.right = document.querySelector('.menu__right')
-
-    this.images = document.querySelectorAll('.menu__gallery__image')
-    this.image_link_elements = document.querySelectorAll('.menu__gallery__image__link')
-
-    const TYPE = document.querySelectorAll('.menu__gallery__image__type__text')
-    const INDEX = document.querySelectorAll('.menu__gallery__image__index__text')
-    const TITLE = document.querySelectorAll('.menu__gallery__image__title__text')
-
-    let nav = document.querySelector('.navigation__logo')
-    let nav_bounds = nav.getBoundingClientRect()
-
-    this.createMarquee(nav_bounds)
+    this.menu = {
+      ready: false,
+      animations: {
+        links: [],
+        type: [],
+        index: [],
+        title: [],
+        left_lines: [],
+        right_lines: [],
+      }
+    }
+    
+    this.createBounds()
     this.createMotion()
-    this.createText(TYPE, INDEX, TITLE)
-    this.onLoadedLoop()
-
-    if(this.device.desktop)
-      this.onHover()
+    this.createMenuInteraction()
   }
 
-  createMarquee(bounds)
+  createBounds()
   {
-    let calc = window.innerHeight - bounds.height
-    this.marquee.style.height = `${calc}px`
+    let nav_bounds = this.elements.nav.getBoundingClientRect()
+    let calc = window.innerHeight - nav_bounds.height
 
-    if(this.right)
-      this.right.style.height = `${calc - bounds.height}px`
+    this.elements.marquee.style.height = `${calc}px`
+
+    if(this.elements.right)
+      this.elements.right.style.height = `${calc - nav_bounds.height}px`
+  }
+
+  createMenuInteraction()
+  {
+    this.elements.menu_image_title.forEach(
+      (t, idx) => 
+      {
+        this.menu.animations.left_lines.push(
+          new Line(
+            this.elements.menu_left_lines[idx]
+          )
+        )
+  
+        this.menu.animations.right_lines.push(new Line(
+            this.elements.menu_right_lines[idx]
+          )
+        )
+
+        this.menu.animations.title.push(new Show(t))
+
+        if(this.device.desktop)
+        {
+          this.menu.animations.type.push(new Show(this.elements.menu_image_type[idx]))
+          this.menu.animations.index.push(new Show(this.elements.menu_image_index[idx]))
+        }
+      }
+    )
   }
 
   createMotion()
   {
     this.showMarquee = gsap.fromTo(
-      this.marquee,
+      this.elements.marquee,
       {
         x: '-100%',
       },
@@ -83,15 +110,26 @@ export default class Menu extends Page
         paused: true,
         onComplete: () =>
         {
-          this.ready = true
+          this.menu.ready = true
         }
       }
     )
+
+    verticalLoop(
+      this.elements.marquee_title, 
+    {
+      repeat: -1, 
+      speed: 0.5,
+      paused: false, 
+      center: true, 
+      draggable: false,
+      inertia: false
+    })
     
-    if(this.right)
+    if(this.elements.right)
     {
       this.showRightTitles = gsap.fromTo(
-        this.right,
+        this.elements.right,
         {
           x: '100%',
         },
@@ -105,136 +143,77 @@ export default class Menu extends Page
     }
   }
 
-  createText(TYPE, INDEX, TITLE)
+  createMotionElement(element)
   {
-    this.type = []
-    this.index = []
-    this.title = []
-    this.leftLines = []
-    this.rightLines = []
-
-    TITLE.forEach(
-      (t, i) => 
+    let showLink = gsap.fromTo(
+      element, 
       {
-        this.title.push(new Show(t))
-
-        if(this.device.desktop)
-        {
-          this.type.push(new Show(TYPE[i]))
-          this.index.push(new Show(INDEX[i]))
-        }
+        opacity: 0, 
+      }, 
+      {
+        opacity: 1.0, 
+        paused: true
       }
     )
+
+    this.menu.animations.links.push(showLink)
   }
 
   /*
     EVENTS.
   */
 
-  onLoadedLoop()
+  onMouseEnter(element, idx)
   {
-    verticalLoop(
-      this.marqueeContent, 
+    if(!this.menu.ready)
     {
-      repeat: -1, 
-      speed: 0.5,
-      paused: false, 
-      center: true, 
-      draggable: false,
-      inertia: false
-    })
+      element.style.cursor = 'default'
+    }
+    else 
+    {
+      element.style.cursor = 'pointer'
+
+      this.menu.animations.links[idx].play()
+      this.menu.animations.left_lines[idx].show()
+      this.menu.animations.right_lines[idx].show()
+      this.menu.animations.type[idx].show()
+      this.menu.animations.index[idx].show()
+      this.menu.animations.title[idx].show()
+    }
+
   }
 
-  onHover()
-  {
-    this.image_link_elements.forEach(
-      (link, index) =>
-    {
-      gsap.set(
-        link,
-        {
-          opacity: 0.0
-        }
-      )
-     
-      this.leftLines.push(new Line(
-        this.images[index].querySelector('span.menu__gallery__image__left'))
-      )
-
-      this.rightLines.push(new Line(
-        this.images[index].querySelector('span.menu__gallery__image__right'))
-      )
-
-      link.onmouseenter = () =>
-      {
-        if(!this.ready)
-          link.style.cursor = 'default'
-
-        if(this.ready)
-        {
-          link.style.cursor = 'pointer'
-
-          gsap.to(
-            link,
-            {
-              opacity: 1.0
-            }
-          )
-          
-          this.leftLines[index].show()
-          this.rightLines[index].show()
-          this.type[index].show()
-          this.index[index].show()
-          this.title[index].show()
-        }
-      }
-
-      link.onmouseleave = () =>
-      {
-        this.leftLines[index].hide()
-        this.rightLines[index].hide()
-        this.type[index].hide()
-        this.index[index].hide()
-        this.title[index].hide()
-      }
-    })
+  onMouseLeave(idx)
+  {   
+    this.menu.animations.left_lines[idx].hide()
+    this.menu.animations.right_lines[idx].hide()
+    this.menu.animations.type[idx].hide()
+    this.menu.animations.index[idx].hide()
+    this.menu.animations.title[idx].hide()
   }
 
   onLeave()
   {
-    this.ready = false
+    this.menu.ready = false 
     
-    this.image_link_elements.forEach(
-      (link, index) =>
-    {
-      link.style.cursor = 'default'
-
-      gsap.to(
-        link,
-        {
-          opacity: 0.0
-        }
-      )
-
-      link.onmouseover = null
-      link.onmouseleave = null
-
-      this.title[index].hide()
-      
-      if(this.device.desktop)
+    this.elements.menu_links.forEach(
+      (link, idx) =>
       {
-        this.leftLines[index].hide()
-        this.rightLines[index].hide()
-        this.type[index].hide()
-        this.index[index].hide()
-      }
-    })
+        link.style.cursor = 'default'
 
-    this.leftLines = null 
-    this.rightLines = null
-    this.type = null
-    this.index = null
-    this.title = null
+        this.menu.animations.links[idx].reverse()
+
+        this.menu.animations.title[idx].hide()
+        
+        if(this.device.desktop)
+        {
+          this.menu.animations.left_lines[idx].hide()
+          this.menu.animations.right_lines[idx].hide()
+          this.menu.animations.type[idx].hide()
+          this.menu.animations.index[idx].hide()
+        }
+      }
+    )
   }
 
   /*
@@ -252,7 +231,7 @@ export default class Menu extends Page
         .eventCallback(
           'onComplete', () => 
           {
-            this.title.forEach(
+            this.menu.animations.title.forEach(
               t => 
               {
                 t.show()
@@ -263,7 +242,7 @@ export default class Menu extends Page
     }
     else if(this.device.tablet)
     {
-      this.title.forEach(
+      this.menu.animations.title.forEach(
         t => 
         {
           t.show()
@@ -293,5 +272,43 @@ export default class Menu extends Page
           } 
         )
     })
+  }
+
+  /* 
+    EVENTLISTENERS. 
+  */
+
+  addEventListeners()
+  {
+    super.addEventListeners()
+
+    this.elements.menu_links.forEach(
+      (link, idx) =>
+      {
+        this.createMotionElement(link)
+
+        if(this.device.desktop)
+        {
+          link.addEventListener('mouseenter', this.onMouseEnter.bind(this, link, idx))
+          link.addEventListener('mouseleave', this.onMouseLeave.bind(this, idx))
+        }
+      }
+    )
+  }
+
+  removeEventListeners()
+  {
+    super.removeEventListeners()
+
+    this.elements.menu_links.forEach(
+      link =>
+      {
+        if(this.device.desktop)
+        {
+          link.removeEventListener('mouseenter', this.onMouseEnter)
+          link.removeEventListener('mouseleave', this.onMouseLeave)
+        }
+      }
+    )
   }
 }

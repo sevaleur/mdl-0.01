@@ -30,6 +30,7 @@ export default class Gallery
     this.onResize()
 
     this.createLinkListeners()
+    this.onBack()
 
     this.scene.add(this.group)
 
@@ -52,7 +53,7 @@ export default class Gallery
     this.title = document.querySelector('.gallery__info__title')
     this.desc = document.querySelector('.gallery__info__desc')
 
-    this.back_button = document.querySelector('.gallery__back__button')
+    this.back_button = document.querySelector('.gallery__back')
 
     this.modal = document.querySelector('.gallery__modal')
     this.modal_image = document.querySelector('.gallery__modal__selected__figure__image')
@@ -220,6 +221,11 @@ export default class Gallery
   /*
     ANIMATIONS.
   */
+
+  onBack()
+  {
+    this.back_button.addEventListener('click', () => { this.hide() })
+  }
 
   onModalHide()
   {

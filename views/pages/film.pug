@@ -5,17 +5,22 @@ block variables
 
 block content
   .video
-    .video__controls 
-      .video__controls__mute 
-        p.video__controls__mute__text mute
-      if device !== 'desktop'
-        .video__controls__play
-          .video__btn
-            .video__btn__icon
-              .part.part__left
-              .part.part__right
-      .video__controls__fullscreen 
-        p.video__controls__fulscreen__text fullscreen
+    if device === 'desktop'
+      .video__controls 
+        .video__controls__mute 
+          span.video__controls__mute__column
+          span.video__controls__mute__column
+          span.video__controls__mute__column
+          span.video__controls__mute__column
+    else 
+      .video__title
+        .video__title__wrapper
+          h1.video__title__text=film.title
+          span.video__title__text=film.title 
+          span.video__title__text=film.title 
+          span.video__title__text=film.title 
+          span.video__title__text=film.title 
+          span.video__title__text=film.title 
     .video__wrap
       if device === 'desktop'
         .video__btn
@@ -28,15 +33,28 @@ block content
           iframe.video__selected__video.plyr__video-embed(src=film.selected_video)
     .video__wrapper
       .video__ghost 
+        if device !== 'desktop'
+          .video__controls 
+            .video__controls__mute 
+              span.video__controls__mute__column
+              span.video__controls__mute__column
+              span.video__controls__mute__column
+              span.video__controls__mute__column
+            .video__controls__play
+              .video__btn
+                .video__btn__icon
+                  .part.part__left
+                  .part.part__right
         .video__ghost__div
-        .video__title 
-          .video__title__wrapper
-            h1.video__title__text=film.title
-            span.video__title__text=film.title
-            span.video__title__text=film.title
-            span.video__title__text=film.title
-            span.video__title__text=film.title
-            span.video__title__text=film.title
+        if device === 'desktop'
+          .video__title
+            .video__title__wrapper
+              h1.video__title__text=film.title
+              span.video__title__text=film.title 
+              span.video__title__text=film.title 
+              span.video__title__text=film.title 
+              span.video__title__text=film.title 
+              span.video__title__text=film.title 
 
       section.video__grid
         .video__info

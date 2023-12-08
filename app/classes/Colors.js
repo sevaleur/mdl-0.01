@@ -5,7 +5,6 @@ export default class ColorManager
   constructor({ device })
   {
     this.device = device
-    console.log(this.device)
   }
 
   change({ backgroundColor, color })
