@@ -80,7 +80,8 @@ export default class Menu extends Page
           )
         )
   
-        this.menu.animations.right_lines.push(new Line(
+        this.menu.animations.right_lines.push(
+          new Line(
             this.elements.menu_right_lines[idx]
           )
         )
