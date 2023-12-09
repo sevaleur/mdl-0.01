@@ -22,9 +22,12 @@ export default class Video extends Page
         thanks: 'h3.video__footer__thanks__title__text',
         video_cover: '.video__media__cover', 
         back: '.video__back',
+        controls: '.video__controls',
         controls_play: '.video__controls__play',
+        controls_play_btn: '.video__btn',
         controls_mute: '.video__controls__mute',
-        controls_mute_columns: '.video__controls__mute__column',
+        controls_mute_speaker: '.video__controls__mute__speaker',
+        controls_mute_soundwaves: '.video__controls__mute__soundwave',
       }, 
       background: COLOR_NIGHT, 
       color: COLOR_CULTURED,
@@ -49,12 +52,6 @@ export default class Video extends Page
   createControls()
   {
     this.controls = {
-      element: document.querySelector('.video__controls'),
-      buttons: {
-        mute: '', 
-        play: document.querySelector('.video__btn'),
-        fullScreen: ''
-      },
       isPlaying: false, 
       isClicked: false,
       isCovered: false,
@@ -77,7 +74,7 @@ export default class Video extends Page
     if(this.vid.autoplay)
     {
       this.controls.isPlaying = true 
-      this.controls.buttons.play.classList.add('active')
+      this.elements.controls_play_btn.classList.add('active')
     }
   }
 
@@ -85,7 +82,7 @@ export default class Video extends Page
   {
     this.backBounds = this.elements.back.getBoundingClientRect()
     this.titleBounds = this.elements.title_div.getBoundingClientRect()
-    this.controlBounds = this.controls.element.getBoundingClientRect()
+    this.controlBounds = this.elements.controls.getBoundingClientRect()
 
     if(this.device.phone)
       this.createWidth()
@@ -115,7 +112,7 @@ export default class Video extends Page
       )
       
       this.enlargeControls = gsap.fromTo(
-        this.controls.element, 
+        this.elements.controls, 
         {
           xPercent: -100, 
         }, 
@@ -128,7 +125,7 @@ export default class Video extends Page
       )
 
       this.enlargeButton = gsap.to(
-        this.controls.buttons.play, 
+        this.elements.controls_play_btn,
         {
           height: '50rem',
           width: '50rem', 
@@ -154,7 +151,7 @@ export default class Video extends Page
       )
 
       this.enlargeControls = gsap.fromTo(
-        this.controls.element, 
+        this.elements.controls, 
         {
           yPercent: 100, 
         }, 
@@ -167,7 +164,7 @@ export default class Video extends Page
       )
 
       this.enlargeButton = gsap.to(
-        this.controls.buttons.play, 
+        this.elements.controls_play_btn, 
         {
           height: '30rem',
           width: '30rem', 
@@ -233,10 +230,10 @@ export default class Video extends Page
   onClickInteraction()
   {
     this.controls.isPlaying  
-      ? this.controls.buttons.play.classList.remove('active')
-      : this.controls.buttons.play.classList.add('active')
+      ? this.elements.controls_play_btn.classList.remove('active')
+      : this.elements.controls_play_btn.classList.add('active')
 
-    this.controls.buttons.play.classList.contains('active') 
+    this.elements.controls_play_btn.classList.contains('active') 
       ? (this.onPlay(), this.controls.isClicked = true)
       : (this.onPause(), this.controls.isClicked = false)
   }
@@ -378,7 +375,7 @@ export default class Video extends Page
     if(this.device.desktop)
     {
       gsap.to(
-        this.controls.buttons.play,
+        this.elements.controls_play_btn,
         {
           top: this.coord.y,
           left: this.coord.x,

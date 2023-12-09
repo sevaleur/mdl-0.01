@@ -185,7 +185,7 @@ export default class Navigation extends Component
 
   onMenuInteraction()
   {
-    this.nav_menu_icon.onclick = () => 
+    this.nav_menu.onclick = () => 
     {
       if(!this.menuClick)
       {
