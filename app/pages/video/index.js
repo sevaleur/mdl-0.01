@@ -14,16 +14,17 @@ export default class Video extends Page
       id: 'video',
       element: '.video',
       elements: {
-        titleDiv: '.video__title',
+        title_div: '.video__title',
         title: '.video__title__text',
         wrapper: '.video__wrapper', 
         ghost: '.video__ghost__div',
         credits: 'h3.video__footer__credits__title__text',
         thanks: 'h3.video__footer__thanks__title__text',
-        cover: '.video__media__cover', 
+        video_cover: '.video__media__cover', 
         back: '.video__back',
-        play: '.video__controls__play',
-        mute: '.video__controls__mute',
+        controls_play: '.video__controls__play',
+        controls_mute: '.video__controls__mute',
+        controls_mute_columns: '.video__controls__mute__column',
       }, 
       background: COLOR_NIGHT, 
       color: COLOR_CULTURED,
@@ -43,10 +44,6 @@ export default class Video extends Page
     this.createVideo()
     this.createBounds()
     this.createMotion()
-
-    this.elements.credits && this.elements.thanks
-       ? this.createLoop(this.elements.title, this.elements.credits, this.elements.thanks)
-       : this.createLoop(this.elements.title)
   }
 
   createControls()
@@ -87,7 +84,7 @@ export default class Video extends Page
   createBounds()
   {
     this.backBounds = this.elements.back.getBoundingClientRect()
-    this.titleBounds = this.elements.titleDiv.getBoundingClientRect()
+    this.titleBounds = this.elements.title_div.getBoundingClientRect()
     this.controlBounds = this.controls.element.getBoundingClientRect()
 
     if(this.device.phone)
@@ -97,18 +94,7 @@ export default class Video extends Page
   createWidth()
   {
     let calc = window.innerWidth - (this.backBounds.width * 2) + 2
-    this.elements.titleDiv.style.width = `${calc}px`
-  }
-
-  createLoop(TITLE, CREDITS=false, THANKS=false)
-  {
-    horizontalLoop(TITLE, { paused: false, reversed: true, repeat: -1, speed: 0.5 })
-
-    if(CREDITS && THANKS)
-    {
-      horizontalLoop(CREDITS, { paused: false, reversed: true, repeat: -1, speed: 0.5 })
-      horizontalLoop(THANKS, { paused: false, reversed: false, repeat: -1, speed: 0.5 })
-    }
+    this.elements.title_div.style.width = `${calc}px`
   }
 
   createMotion()
@@ -116,7 +102,7 @@ export default class Video extends Page
     if(!this.device.phone)
     {
       this.onTitleShow = gsap.fromTo(
-        this.elements.titleDiv, 
+        this.elements.title_div, 
         {
           yPercent: 100 
         }, 
@@ -155,7 +141,7 @@ export default class Video extends Page
     else 
     {
       this.onTitleShow = gsap.fromTo(
-        this.elements.titleDiv, 
+        this.elements.title_div, 
         {
           yPercent: -100 
         }, 
@@ -205,6 +191,39 @@ export default class Video extends Page
         paused: true
       }
     )
+
+    horizontalLoop(
+      this.elements.title, 
+      { 
+        paused: false, 
+        reversed: true, 
+        repeat: -1, 
+        speed: 0.5 
+      }
+    )
+
+    if(this.elements.credits && this.elements.thanks)
+    {
+      horizontalLoop(
+        this.elements.credits, 
+        { 
+          paused: false, 
+          reversed: true, 
+          repeat: -1, 
+          speed: 0.5 
+        }
+      )
+
+      horizontalLoop(
+        this.elements.thanks, 
+        { 
+          paused: false, 
+          reversed: false, 
+          repeat: -1, 
+          speed: 0.5 
+        }
+      )
+    }
   }
 
   /* 
@@ -255,7 +274,7 @@ export default class Video extends Page
     {
       this.controls.isCovered = true 
 
-      gsap.to(this.elements.cover, {background: this.background})
+      gsap.to(this.elements.video_cover, {background: this.background})
 
       if(this.controls.isPlaying)
         this.onPause()
@@ -267,7 +286,7 @@ export default class Video extends Page
       {
         this.controls.isCovered = false
 
-        gsap.to(this.elements.cover, {background: 'transparent'})
+        gsap.to(this.elements.video_cover, {background: 'transparent'})
 
         this.onPlay()  
       }
@@ -385,10 +404,10 @@ export default class Video extends Page
     }
     else
     {
-      this.elements.play.addEventListener('click', this.onClickInteraction.bind(this))
+      this.elements.controls_play.addEventListener('click', this.onClickInteraction.bind(this))
     }
 
-    this.elements.mute.addEventListener('click', this.onMute.bind(this))
+    this.elements.controls_mute.addEventListener('click', this.onMute.bind(this))
     this.elements.ghost.addEventListener('click', this.onClickInteraction.bind(this))
     this.elements.back.addEventListener('click', this.onBack)
   }
@@ -404,10 +423,10 @@ export default class Video extends Page
     }
     else 
     {
-      this.elements.play.removeEventListener('click', this.onClickInteraction)
+      this.elements.controls_play.removeEventListener('click', this.onClickInteraction)
     }
 
-    this.elements.mute.removeEventListener('click', this.onMute)
+    this.elements.controls_mute.removeEventListener('click', this.onMute)
     this.elements.ghost.removeEventListener('click', this.onClickInteraction)
     this.elements.back.removeEventListener('click', this.onBack)
   }
