@@ -8,9 +8,8 @@ block content
     if device === 'desktop'
       .video__controls 
         .video__controls__mute 
-          span.video__controls__mute__speaker
-          span.video__controls__mute__soundwave
-          span.video__controls__mute__soundwave
+          .video__controls__mute__icon
+            span
     else 
       .video__title
         .video__title__wrapper
@@ -35,9 +34,8 @@ block content
         if device !== 'desktop'
           .video__controls 
             .video__controls__mute 
-              span.video__controls__mute__speaker
-              span.video__controls__mute__soundwave
-              span.video__controls__mute__soundwave
+              .video__controls__mute__icon
+                span
             .video__controls__play
               .video__btn
                 .video__btn__icon

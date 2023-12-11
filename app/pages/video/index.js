@@ -26,8 +26,7 @@ export default class Video extends Page
         controls_play: '.video__controls__play',
         controls_play_btn: '.video__btn',
         controls_mute: '.video__controls__mute',
-        controls_mute_speaker: '.video__controls__mute__speaker',
-        controls_mute_soundwaves: '.video__controls__mute__soundwave',
+        controls_mute_icon: '.video__controls__mute__icon'
       }, 
       background: COLOR_NIGHT, 
       color: COLOR_CULTURED,
@@ -76,6 +75,10 @@ export default class Video extends Page
       this.controls.isPlaying = true 
       this.elements.controls_play_btn.classList.add('active')
     }
+
+    this.vid.muted
+      ? this.elements.controls_mute_icon.classList.add('on')
+      : this.elements.controls_mute_icon.classList.remove('on')
   }
 
   createBounds()
@@ -124,7 +127,7 @@ export default class Video extends Page
         }
       )
 
-      this.enlargeButton = gsap.to(
+      this.enlargePlayButton = gsap.to(
         this.elements.controls_play_btn,
         {
           height: '50rem',
@@ -163,7 +166,7 @@ export default class Video extends Page
         }
       )
 
-      this.enlargeButton = gsap.to(
+      this.enlargePlayButton = gsap.to(
         this.elements.controls_play_btn, 
         {
           height: '30rem',
@@ -184,6 +187,32 @@ export default class Video extends Page
         scale: 1.0, 
         transformOrigin: 'bottom left',
         duration: 0.8,
+        ease: 'power2.inOut', 
+        paused: true
+      }
+    )
+
+    this.enlargeMuteButton = gsap.fromTo(
+      this.elements.controls_mute, 
+      {
+        scale: 0
+      },
+      {
+        scale: 1,
+        duration: 0.5, 
+        ease: 'power2.inOut',
+        paused: true
+      }
+    )
+
+    this.onMuteClick = gsap.fromTo(
+      this.elements.controls_mute_on, 
+      {
+        scale: 1, 
+      }, 
+      {
+        scale: 0, 
+        duration: 0.5, 
         ease: 'power2.inOut', 
         paused: true
       }
@@ -243,21 +272,23 @@ export default class Video extends Page
     if(!this.vid.muted)
     {
       this.vid.muted = true 
+      this.elements.controls_mute_icon.classList.add('on')
     }
     else 
     {
       this.vid.muted = false
+      this.elements.controls_mute_icon.classList.remove('on')
     }
   }
 
   onMouseEnter()
   {
-    this.enlargeButton.play()
+    this.enlargePlayButton.play()
   }
 
   onMouseLeave()
   {
-    this.enlargeButton.reverse()
+    this.enlargePlayButton.reverse()
   }
 
   onWheel(e)
@@ -271,7 +302,7 @@ export default class Video extends Page
     {
       this.controls.isCovered = true 
 
-      gsap.to(this.elements.video_cover, {background: this.background})
+      gsap.to(this.elements.video_cover, { background: this.background } )
 
       if(this.controls.isPlaying)
         this.onPause()
@@ -283,7 +314,7 @@ export default class Video extends Page
       {
         this.controls.isCovered = false
 
-        gsap.to(this.elements.video_cover, {background: 'transparent'})
+        gsap.to(this.elements.video_cover, { background: 'transparent' } )
 
         this.onPlay()  
       }
@@ -303,12 +334,14 @@ export default class Video extends Page
   onPlay()
   {
     this.controls.isPlaying = true
+    this.elements.controls_play_btn.classList.add('active')
     this.vid.play()
   }
 
   onPause()
   {
     this.controls.isPlaying = false 
+    this.elements.controls_play_btn.classList.remove('active')
     this.vid.pause()
   }
 
@@ -329,14 +362,16 @@ export default class Video extends Page
         .eventCallback(
           'onComplete', () => 
           { 
-            this.enlargeButton.play() 
+            this.enlargePlayButton.play() 
+            this.enlargeMuteButton.play()
           }
         )
     }
     else 
     {
       this.enlargeControls.play()
-      this.enlargeButton.play()
+      this.enlargePlayButton.play()
+      this.enlargeMuteButton.play()
     }
   }
 
@@ -350,14 +385,16 @@ export default class Video extends Page
         .eventCallback(
           'onReverseComplete', () => 
           {
-            this.enlargeButton.reverse()
+            this.enlargeMuteButton.reverse()
+            this.enlargePlayButton.reverse()
           }
         )
     }
     else 
     {
       this.enlargeControls.reverse()
-      this.enlargeButton.reverse()
+      this.enlargePlayButton.reverse()
+      this.enlargeMuteButton.reverse()
     }
 
     this.onTitleShow.reverse()
@@ -384,6 +421,18 @@ export default class Video extends Page
         }
       )
     }
+
+    if(this.device.tablet)
+    {
+      if(this.controls.isPlaying)
+      {
+        this.enlargePlayButton.reverse()
+      }
+      else 
+      {
+        this.enlargePlayButton.play()
+      }
+    }
   }
 
   /* 
@@ -394,7 +443,7 @@ export default class Video extends Page
   {
     super.addEventListeners()
 
-    if(this.device.desktop)
+    if(!this.device.phone)
     {
       this.elements.ghost.addEventListener('mouseenter', this.onMouseEnter.bind(this))
       this.elements.ghost.addEventListener('mouseleave', this.onMouseLeave.bind(this))
@@ -413,7 +462,7 @@ export default class Video extends Page
   {
     super.removeEventListeners()
 
-    if(this.device.desktop)
+    if(!this.device.phone)
     {
       this.elements.ghost.removeEventListener('mouseenter', this.onMouseEnter)
       this.elements.ghost.removeEventListener('mouseleave', this.onMouseLeave)

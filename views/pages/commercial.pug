@@ -17,19 +17,24 @@ block content
       .menu__gallery
         each obj, index in commercial.showcase
           .menu__gallery__image
-            .menu__gallery__image__type
-              h2.menu__gallery__image__type__text=obj._type
-            span.menu__gallery__image__left
-            span.menu__gallery__image__right
+            if device === 'desktop'
+              .menu__gallery__image__type
+                h2.menu__gallery__image__type__text=obj._type
+              span.menu__gallery__image__left
+              span.menu__gallery__image__right
             a.menu__gallery__image__link(href=Link=(`${obj._type}/${obj.slug}`) aria-label=obj.title)
               figure.menu__gallery__image__figure
                 img.menu__gallery__image__figure__image(alt=obj.image.alt data-src=Build.image(obj.image.asset._ref).url())
-            .menu__gallery__image__title
-              h2.menu__gallery__image__title__text=obj.title
-            .menu__gallery__image__index
-              h2.menu__gallery__image__index__text=`00.${index}`
-
-      .menu__controls
+            if device === 'desktop'
+              .menu__gallery__image__title
+                h2.menu__gallery__image__title__text=obj.title
+              .menu__gallery__image__index
+                h2.menu__gallery__image__index__text=`00.${index}`
 
     if device === 'phone'
       .menu__right
+        .menu__right__outer
+          .menu__right__inner
+            each obj, index in commercial.showcase
+              .menu__right__title
+                h2.menu__right__title__text=obj.title

@@ -12,38 +12,44 @@ export default class Navigation extends Component
       element: '.navigation',
       elements:
       {
-        items: '.navigation__list__item',
-        links: '.navigation__list__item__link',
+        menu: '.navigation__menu',
+        menu_icon: '.navigation__menu__icon', 
+        menu_list: '.navigation__list',
+        menu_items: '.navigation__list__item',
+        menu_links: '.navigation__list__item__link',
         logo: '.navigation__logo',
-      }
+        logo_image: '.navigation__logo__image'
+      }, 
+      device: device
     })
 
-    this.device = device
-    this.menuClick = false
-
-    this.createNavElements()
-    this.createMotion()
-    this.createNavLocation(template)
-
-    if(!this.device.desktop)
-      this.onMenuInteraction()
+    this.template = template
   }
 
   /*
     CREATE.
   */
 
-  createNavElements()
+  create()
   {
-    this.nav_menu = document.querySelector('.navigation__menu')
-    this.nav_menu_icon = document.querySelector('.navigation__menu__icon')
-    this.nav_menu_items = document.querySelector('.navigation__list')
+    super.create()
 
+    this.menuClick = false
     this.nav_links = []
-    this.elements.links.forEach(link =>
-    {
-      this.nav_links.push(new Show(link))
-    })
+
+    this.elements.menu_links.forEach(
+      link =>
+      {
+        this.nav_links.push(
+          new Show(link)
+        )
+      }
+    )
+
+    this.createMotion()
+
+    if(!this.device.desktop)
+      this.onMenuInteraction()
   }
 
   createMotion()
@@ -65,7 +71,7 @@ export default class Navigation extends Component
     if(!this.device.desktop)
     {
       this.onMenuShow = gsap.fromTo(
-        this.nav_menu, 
+        this.elements.menu, 
         {
           scale: 0.0, 
         }, 
@@ -77,9 +83,24 @@ export default class Navigation extends Component
           paused: true 
         }
       )
+
+      this.onMenuEnlarge = gsap.fromTo(
+        this.elements.menu, 
+        {
+          width: '15rem', 
+          height: '13rem'
+        }, 
+        {
+          width: '100%', 
+          height: '100vh',
+          duration: 0.8, 
+          ease: 'power2.inOut', 
+          paused: true
+        }
+      ) 
   
       this.onMenuClick = gsap.fromTo(
-        this.nav_menu_icon,
+        this.elements.menu_icon,
         {
           rotation: '0deg',
           top: '50%', 
@@ -94,107 +115,84 @@ export default class Navigation extends Component
           ease: 'power2.inOut', 
           paused: true
         }
+      ) 
+    }
+    else 
+    {
+      this.onMenuShow = gsap.fromTo(
+        this.elements.menu, 
+        {
+          yPercent: -150
+        }, 
+        {
+          yPercent: 0, 
+          duration: 0.8, 
+          ease: 'power2.inOut', 
+          paused: true
+        }
       )
-
-      if(window.innerWidth < 500)
-      {
-        this.onMenuEnlarge = gsap.fromTo(
-          this.nav_menu, 
-          {
-            width: '15rem', 
-            height: '13rem'
-          }, 
-          {
-            width: '102%', 
-            height: '100vh',
-            duration: 0.8, 
-            ease: 'power2.inOut', 
-            paused: true
-          }
-        )
-      }
-      else 
-      {
-        this.onMenuEnlarge = gsap.fromTo(
-          this.nav_menu, 
-          {
-            width: '12rem', 
-            height: '10rem'
-          }, 
-          {
-            width: '102%', 
-            height: '100vh',
-            duration: 0.8, 
-            ease: 'power2.inOut', 
-            paused: true
-          }
-        )
-      }
-  
     }
   }
 
-  createNavLocation(template)
+  /*
+    EVENTS. 
+  */
+
+  onLogoClick()
   {
-    this.elements.logo.addEventListener('click', () =>
-    {
-      this.elements.links.forEach(
-        link =>
+    this.elements.menu_links.forEach(
+      link =>
       {
         link.classList.remove('selected')
         link.classList.add('hidden')
       }
-      )
-    })
-
-    this.elements.links.forEach(
-      link =>
-    {
-      if(link.classList.contains('selected'))
-        this.former = link
-
-      link.dataset.path === template
-      ? (link.classList.add('selected'), link.classList.remove('hidden'), this.former = link)
-      : (link.classList.add('hidden'), link.classList.remove('selected'))
-
-      link.addEventListener('click', () =>
-      {
-        if(this.former != link)
-        {
-          if(this.former)
-          {
-            this.former.classList.remove('selected')
-            this.former.classList.add('hidden')
-          }
-
-          link.classList.add('selected')
-          link.classList.remove('hidden')
-          
-          this.former = link
-
-          if(!this.device.desktop)
-            this.onMenuShrink()
-        }
-      })
-    })
+    )
   }
 
-  /*
-    ANIMATIONS.
-  */
+  onLinkInteraction(link)
+  {
+    this.onNavLocationCheck(link)
+
+    if(this.former != link)
+    {
+      if(this.former)
+      {
+        this.former.classList.remove('selected')
+        this.former.classList.add('hidden')
+      }
+
+      link.classList.add('selected')
+      link.classList.remove('hidden')
+      
+      this.former = link
+
+      if(!this.device.desktop)
+        this.onMenuShrink()
+    }
+  }
+
+  onNavLocationCheck(link)
+  {
+    if(link === this.former)
+      return
+
+    if(link.classList.contains('selected'))
+      this.former = link
+
+    link.dataset.path === this.template
+    ? (link.classList.add('selected'), link.classList.remove('hidden'), this.former = link)
+    : (link.classList.add('hidden'), link.classList.remove('selected'))
+  }
 
   onMenuInteraction()
   {
-    this.nav_menu.onclick = () => 
+    if(!this.menuClick)
     {
-      if(!this.menuClick)
-      {
-        this.onMenuExpand()
-      }
-      else 
-      {
-        this.onMenuShrink()
-      }
+      this.onMenuExpand()
+    }
+    else 
+    {
+      this.onMenuShrink()
     }
   }
 
@@ -214,20 +212,33 @@ export default class Navigation extends Component
       }
     )
 
-    this.onMenuClick.reverse().eventCallback('onReverseComplete', () => { this.menuClick = false })
+    this.onMenuClick.reverse()
+      .eventCallback(
+        'onReverseComplete', () => 
+        { 
+          this.menuClick = false 
+        }
+      )
+
     this.onMenuEnlarge.reverse()
-    this.nav_menu_items.style.display = 'none'
+    this.elements.menu_list.style.display = 'none'
   }
 
   onMenuExpand()
   {
-    this.onMenuClick.play().eventCallback('onComplete', () => { this.menuClick = true })
+    this.onMenuClick.play()
+      .eventCallback(
+        'onComplete', () => 
+        { 
+          this.menuClick = true 
+        }
+      )
 
     this.onMenuEnlarge.play()
       .eventCallback(
         'onComplete', () => 
       { 
-        this.nav_menu_items.style.display = 'flex' 
+        this.elements.menu_list.style.display = 'flex' 
 
         this.nav_links.forEach(
           link =>
@@ -247,6 +258,10 @@ export default class Navigation extends Component
     )
   }
 
+  /* 
+    ANIMATIONS.
+  */
+
   show()
   {
     this.showLogo.play()
@@ -257,22 +272,35 @@ export default class Navigation extends Component
     }
     else 
     {
-      this.nav_links.forEach(
-        link =>
-        {
-          link.show()
-        }
-      )
+      this.onMenuShow.play()
+        .eventCallback(
+          'onComplete', () => 
+          {
+            this.nav_links.forEach(
+              link =>
+              {
+                link.show()
+              }
+            )
+          }
+        )
     }
     
-    gsap.to([
-      '.navigation__logo__image',
-      '.navigation__list'
-    ],
-    {
-      opacity: 1.0,
-      duration: 0.5,
-    })
+    gsap.to(
+      this.elements.menu_list,
+      {
+        opacity: 1.0,
+        duration: 0.5,
+      }
+    )
+    
+    gsap.to(
+      this.elements.logo_image,
+      {
+        opacity: 1.0,
+        duration: 0.5,
+      }
+    )
   }
 
   hide()
@@ -283,6 +311,31 @@ export default class Navigation extends Component
       {
         link.hide()
       })
+    }
+  }
+
+  /* 
+    EVENTLISTENERS.
+  */
+
+  addEventListeners()
+  {
+    super.addEventListeners()
+
+    this.elements.logo.addEventListener('click', this.onLogoClick.bind(this))
+
+    this.elements.menu_links.forEach(
+      link =>
+      {
+        this.onNavLocationCheck(link)
+        
+        link.addEventListener('click', this.onLinkInteraction.bind(this, link))
+      }
+    )
+
+    if(!this.device.desktop)
+    {
+      this.elements.menu.addEventListener('click', this.onMenuInteraction.bind(this))
     }
   }
 }

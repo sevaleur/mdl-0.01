@@ -17,7 +17,7 @@ export default class Home extends Page
       element: '.home',
       elements: {
         title: '.home__title__text',
-        showcase: '.home__gallery__showcase__title__text'
+        showcase_title: '.home__gallery__showcase__title__text'
       },
       background: COLOR_NIGHT,
       color: COLOR_CULTURED,
@@ -48,7 +48,7 @@ export default class Home extends Page
   createTitles(TITLES, TYPES)
   {
     this.main = new Show(this.elements.title)
-    this.st = new Show(this.elements.showcase)
+    this.st = new Show(this.elements.showcase_title)
 
     this.title = []
     this.type = []

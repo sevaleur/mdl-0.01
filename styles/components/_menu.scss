@@ -24,6 +24,68 @@
   
       border: 1px solid $color-grey;
       border-right: none;
+
+      &__outer 
+      {
+        position: absolute; 
+        top: 0; 
+        left: 0; 
+
+        height: 100%; 
+        width: 100%; 
+      }
+
+      &__inner
+      {
+        height: 100%; 
+        width: 100%; 
+
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+
+        transform: translate(-50%, -17rem);
+
+        &:first-child
+        {
+          border-top: 1px solid $color-grey;
+        }
+      }
+
+      &__title 
+      {
+        
+        height: 49rem; 
+        width: 100%;
+         
+        display: grid; 
+        place-content: center;
+        
+        writing-mode: vertical-lr;
+        white-space: nowrap;
+        letter-spacing: 0.4rem;
+        text-align: center;
+
+        border-bottom: 1px solid $color-grey;
+
+        &__text 
+        {
+          font-family: 'Montserrat';
+          font-size: 2.5rem;
+
+          display: flex; 
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+
+          .word 
+          {
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
     }
   }
 
@@ -41,7 +103,7 @@
 
     overflow: hidden;
 
-    @include media('<=500px')
+    @include media('<=tablet')
     {
       width: 15rem;
 
@@ -245,24 +307,6 @@
         transform: translate(-50%, -50%);
 
         width: 100%; 
-
-        @include media('<=500px')
-        {
-          writing-mode: vertical-lr;
-
-          left:auto;
-          right: -50%; 
-
-          transform: translate(-90%, -50%);
-           
-          width: fit-content;
-
-          white-space: nowrap;
-
-          padding: 3rem 0; 
-
-          letter-spacing: 0.4rem;
-        }
 
         &__text
         {

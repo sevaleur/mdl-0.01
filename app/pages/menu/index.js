@@ -25,6 +25,8 @@ export default class Menu extends Page
         menu_image_title: '.menu__gallery__image__title__text', 
         menu_left_lines: 'span.menu__gallery__image__left', 
         menu_right_lines: 'span.menu__gallery__image__right', 
+        menu_phone_titles: '.menu__right__title',
+        menu_phone_title_text: '.menu__right__title__text',
         nav: '.navigation__logo' 
       },
       background: COLOR_NIGHT, 
@@ -55,6 +57,7 @@ export default class Menu extends Page
     
     this.createBounds()
     this.createMotion()
+
     this.createMenuInteraction()
   }
 
@@ -71,30 +74,57 @@ export default class Menu extends Page
 
   createMenuInteraction()
   {
-    this.elements.menu_image_title.forEach(
-      (t, idx) => 
-      {
-        this.menu.animations.left_lines.push(
-          new Line(
-            this.elements.menu_left_lines[idx]
-          )
-        )
-  
-        this.menu.animations.right_lines.push(
-          new Line(
-            this.elements.menu_right_lines[idx]
-          )
-        )
-
-        this.menu.animations.title.push(new Show(t))
-
-        if(this.device.desktop)
+    if(this.device.phone)
+    {
+      this.elements.menu_phone_titles.forEach(
+        t => 
         {
-          this.menu.animations.type.push(new Show(this.elements.menu_image_type[idx]))
-          this.menu.animations.index.push(new Show(this.elements.menu_image_index[idx]))
+          this.menu.animations.title.push(
+            new Show(
+              t
+            )
+          )
         }
-      }
-    )
+      )
+    }
+    else 
+    {
+      this.elements.menu_image_title.forEach(
+        (t, idx) => 
+        {
+          this.menu.animations.left_lines.push(
+            new Line(
+              this.elements.menu_left_lines[idx]
+            )
+          )
+    
+          this.menu.animations.right_lines.push(
+            new Line(
+              this.elements.menu_right_lines[idx]
+            )
+          )
+
+          this.menu.animations.title.push(
+            new Show(t)
+          )
+  
+          if(this.device.desktop)
+          {
+            this.menu.animations.type.push(
+              new Show(
+                this.elements.menu_image_type[idx]
+              )
+            )
+    
+            this.menu.animations.index.push(
+              new Show(
+                this.elements.menu_image_index[idx]
+              )
+            )
+          }
+        }
+      )
+    }
   }
 
   createMotion()

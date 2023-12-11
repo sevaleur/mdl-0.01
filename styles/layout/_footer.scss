@@ -18,7 +18,7 @@
 
   z-index: z('footer');
 
-  @include media('<=500px')
+  @include media('<=tablet')
   {
     height: 13rem; 
     width: 15rem; 
@@ -39,7 +39,7 @@
 
     width: 100%; 
 
-    @include media('<=phone')
+    @include media('<=tablet')
     {
       font-size: 2rem;
     }

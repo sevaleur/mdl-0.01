@@ -91,17 +91,10 @@
 
       @include media('<=tablet')
       {
-        height: 20rem;
-
-        bottom: 0rem;
-        left: -0.15rem;
-      }
-
-      @include media('<=500px')
-      {
         height: 26rem;
 
         bottom: -0.1rem; 
+        left: -0.15rem;
       }
 
       &__wrapper 
@@ -234,13 +227,17 @@
         display: grid; 
         place-content: center;
 
-        @include media('<=500px')
+        @include media('<=tablet')
         {
           bottom: 12.9rem; 
-          right: -0.2rem;
 
           height: 13rem; 
           width: 15rem; 
+        }
+
+        @include media('<=500px')
+        {
+          right: -0.2rem;
         }
       }
 
@@ -551,7 +548,7 @@
 
     z-index: z('link');
 
-    @include media('<=500px')
+    @include media('<=tablet')
     {
       bottom: -0.2rem; 
       left: -0.2rem;

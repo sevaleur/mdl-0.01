@@ -23,10 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
-app.use(device.capture({ 
-  emptyUserAgentDeviceType: 'tablet', 
-  unknownUserAgentDeviceType: 'desktop'
-}))
+app.use(device.capture())
 
 const endpoint = process.env.ENDPOINT
 const projectId = process.env.PROJECT_ID 
@@ -42,13 +39,11 @@ const client = createClient({
 
 const build = urlBuilder(client)
 
-
 /*
 *
 ** FUNCTIONS.
 *
 */
-
 
 const url = query => 
 {
@@ -63,31 +58,36 @@ const url = query =>
 
 const linkResolver = doc =>
 {
-  if(doc._type === 'advertising')
-    return `/advertising`
-
-  if(doc._type === 'shortFilms')
-    return '/shortFilms'
-
-  if(doc._type === 'commercial')
-    return '/commercial'
-
-  if(doc._type === 'gallery')
-    return `/gallery/${doc.slug}`
-
-  if(doc._type === 'video')
-    return `/video/${doc.slug}`
-
-  if(doc._type === 'portraits')
-    return '/portraits'
-
-  if(doc._type === 'stillLife')
-    return '/stillLife'
-
-  if(doc._type === 'about')
-    return '/about'
-
-  return '/'
+  switch(doc._type)
+  {
+    case 'advertising': 
+      return '/advertising'
+      break
+    case 'shortFilms': 
+      return '/shortFilms'
+      break
+    case 'commercial': 
+      return '/commercial'
+      break 
+    case 'gallery': 
+      return `/gallery/${doc.slug}`
+      break 
+    case 'video': 
+      return `/video/${doc.slug}`
+      break
+    case 'portraits': 
+      return '/portraits'
+      break 
+    case 'stillLife': 
+      return '/stillLife'
+      break 
+    case 'about': 
+      return '/about'
+      break 
+    default: 
+      return '/'
+      break
+  }
 }
 
 app.use((req, res, next) => {
@@ -221,13 +221,11 @@ const handleReq = async(req) =>
   }
 }
 
-
 /*
 *
 ** ROUTES.
 *
 */
-
 
 app.get('/', async(req, res) =>
 {
@@ -429,7 +427,6 @@ app.get('/stillLife', async(req, res) =>
     })
 })
 
-
 app.get('/about', async(req, res) =>
 {
     const partials = await handleReq(req)
@@ -445,13 +442,11 @@ app.get('/about', async(req, res) =>
     })
 })
 
-
 /*
 *
 ** LISTEN.
 *
 */
-
 
 app.listen(process.env.PORT, () =>
 {

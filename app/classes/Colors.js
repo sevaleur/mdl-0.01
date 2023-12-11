@@ -16,16 +16,5 @@ export default class ColorManager
       color,
       duration: 1.0,
     })
-
-    if(this.device.desktop)
-    {
-      gsap.to(
-        '.navigation__list',
-        {
-          color,
-          duration: 1.0
-        }
-      )
-    }
   }
 }
