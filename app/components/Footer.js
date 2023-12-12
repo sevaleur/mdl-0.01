@@ -46,7 +46,6 @@ export default class Footer extends Component
     }
 
     this.createMotion()
-    this.createTimelines()
   }
 
   createMotion()
@@ -66,21 +65,12 @@ export default class Footer extends Component
     )
   }
 
-  createTimelines()
+  createEnlargeTimeline()
   {
     this.enter = gsap.timeline()
-
-    this.leave = gsap.timeline({
-      onComplete: () => 
-      { 
-        this.footer.isOpen = false 
-        this.elements.top.style.display = 'none'
-        this.elements.btm.style.display = 'none'
-      }
-    })
   }
 
-  createOpenTimeline()
+  createEnlargeLabel()
   {
     if(window.innerWidth<=500)
     {
@@ -110,7 +100,7 @@ export default class Footer extends Component
     }
   }
 
-  createOpenMediaTimeline(media, idx)
+  createEnlargeMediaLabel(media, idx)
   {
     if(media.classList.contains('top'))
     {
@@ -154,7 +144,19 @@ export default class Footer extends Component
     }
   }
 
-  createCloseTimeline()
+  createShrinkTimeline()
+  {
+    this.leave = gsap.timeline({
+      onComplete: () => 
+      { 
+        this.footer.isOpen = false 
+        this.elements.top.style.display = 'none'
+        this.elements.btm.style.display = 'none'
+      }
+    })
+  }
+
+  createShrinkLabel()
   {
     this.leave.to(
       this.element,
@@ -167,7 +169,7 @@ export default class Footer extends Component
     )
   }
 
-  createCloseMediaTimeline(media)
+  createShrinkMediaLabel(media)
   {
     this.leave.fromTo(
       media, 
@@ -228,12 +230,13 @@ export default class Footer extends Component
       this.cls.show()
     }
 
-    this.createOpenTimeline()
+    this.createEnlargeTimeline()
+    this.createEnlargeLabel()
 
     this.elements.media.forEach(
       (media, idx) =>
       {
-        this.createOpenMediaTimeline(media, idx)
+        this.createEnlargeMediaLabel(media, idx)
       }
     )
 
@@ -247,14 +250,16 @@ export default class Footer extends Component
     this.cls.hide()
     this.con.show()
 
+    this.createShrinkTimeline()
+
     this.elements.media.forEach(
       media => 
       {
-        this.createCloseMediaTimeline(media)
+        this.createShrinkMediaLabel(media)
       }
     )
 
-    this.createCloseTimeline()
+    this.createShrinkLabel()
 
     this.footer.isClicked = false
   }

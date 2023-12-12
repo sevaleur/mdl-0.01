@@ -17,7 +17,12 @@ export default class Home extends Page
       element: '.home',
       elements: {
         title: '.home__title__text',
-        showcase_title: '.home__gallery__showcase__title__text'
+        showcase: '.home__gallery__showcase',
+        showcase_title: '.home__gallery__showcase__title',
+        showcase_title_text: '.home__gallery__showcase__title__text', 
+        showcase_elem_titles: 'h3',
+        showcase_elem_types: '.home__gallery__image__info__type__text',
+        showcase_elem_images: '.home__gallery__image'
       },
       background: COLOR_NIGHT,
       color: COLOR_CULTURED,
@@ -33,76 +38,79 @@ export default class Home extends Page
   {
     super.create()
 
-    this.elms = Array.from(document.querySelectorAll('.home__gallery__image'))
+    this.showcase = { 
+      elements: Array.from(this.elements.showcase_elem_images),
+      length: this.elements.showcase_elem_images.length, 
+      animations: {
+        titles: [], 
+        types: []
+      }
+    }
 
-    const GRID = document.querySelector('.home__gallery__showcase')
-    const TITLES = Array.from(document.querySelectorAll('h3'))
-    const TYPES = Array.from(document.querySelectorAll('.home__gallery__image__info__type__text'))
-    const TITLE = document.querySelector('.home__gallery__showcase__title')
-    const LEN = this.elms.length
+    this.createTitles()
 
-    this.createTitles(TITLES, TYPES)
-    this.createShowcase(TITLE, LEN, GRID)
+    if(this.device.desktop)
+    {
+      this.createShowcase()
+    }
   }
 
-  createTitles(TITLES, TYPES)
+  createTitles()
   {
     this.main = new Show(this.elements.title)
-    this.st = new Show(this.elements.showcase_title)
+    this.st = new Show(this.elements.showcase_title_text)
 
-    this.title = []
-    this.type = []
-    TITLES.forEach(
-      (t, i) => 
+    this.elements.showcase_elem_titles.forEach(
+      (t, idx) => 
       {
-        this.title.push(new Show(t))
-        this.type.push(new Show(TYPES[i]))
+        this.showcase.animations.titles.push(
+          new Show(t)
+        )
+
+        this.showcase.animations.types.push(
+          new Show(
+            this.elements.showcase_elem_types[idx]
+          )
+        )
       }
     )
   }
 
-  createShowcase(TITLE, LEN, GRID)
+  createShowcase()
   {
-    if(LEN > 1)
+    if(this.showcase.length > 1)
     {
-      const HALF = Math.floor( LEN / 2 ) 
-      const MID_EL = this.elms[HALF]
-      let state
+      this.half = Math.floor( this.showcase.length / 2 ) 
+      this.mid = this.showcase.elements[this.half]
   
-      this.active = MID_EL
-      this.onSelect(HALF)
+      this.active = this.mid
+      this.onSelect(this.half)
   
-      this.elms.forEach( 
-        (el, i) => 
-      { 
-        this.createGrid( el, i, LEN, TITLE, GRID ) 
-  
-        el.addEventListener('mouseenter', () => 
-        {
-          state = Flip.getState(this.elms)
-          this.createState( el, i, HALF, MID_EL, LEN )
-          Flip.from(state, { scale: true, nested: true, duration: 0.5, ease: 'power2.inOut' })
-        } ) 
-      })
+      this.showcase.elements.forEach( 
+        (el, idx) => 
+        { 
+          this.createGrid( el, idx ) 
+        }
+      )
     }
     else 
     {
-      this.active = this.elms[0]
-      this.createGrid( this.elms[0], 0, LEN, TITLE ) 
+      this.active = this.showcase.elements[0]
+      this.createGrid( this.showcase.elements[0], 0 ) 
       this.onSelect(0)
     }
   }
 
-  createGrid(el, i, LEN, TITLE, GRID )
+  createGrid(el, idx )
   {
-    TITLE.classList.add('grid__title')
-    el.classList.add(`grid__${i}`)
+    this.elements.showcase_title.classList.add('grid__title')
+    el.classList.add(`grid__${idx}`)
 
-    TITLE.dataset.grid=LEN
-    el.dataset.grid=LEN
+    this.elements.showcase_title.dataset.grid=this.showcase.length
+    el.dataset.grid=this.showcase.length
 
-    if(LEN > 2)
-      GRID.dataset.grid=LEN
+    if(this.showcase.length > 2)
+      this.elements.showcase.dataset.grid=this.showcase.length
 
     if(el !== this.active)
     {
@@ -116,49 +124,77 @@ export default class Home extends Page
     }
   }
 
-  createState(el, i, HALF, MID_EL, LEN )
+  createState(el, idx)
   {
     if(el === this.active) return
 
     let former = this.active
-    let formerIdx = this.elms.indexOf(former)
+    let formerIdx = this.showcase.elements.indexOf(former)
     former.dataset.active = false
     former.firstChild.style.visibility = 'hidden'
 
-    if(LEN > 2)
+    if(this.showcase.length > 2)
     {
-      former === MID_EL
-        ? i < HALF
+      former === this.mid
+        ? idx < this.half
           ? former.dataset.state = 'btm'
           : former.dataset.state = 'top'
-        : MID_EL.dataset.state == 'btm'
-          ? MID_EL.dataset.state = 'top'
-          : MID_EL.dataset.state = 'btm'
+        : this.mid.dataset.state == 'btm'
+          ? this.mid.dataset.state = 'top'
+          : this.mid.dataset.state = 'btm'
     }
 
     this.active = el
-    let activeIdx = this.elms.indexOf(el)
+    let activeIdx = this.showcase.elements.indexOf(el)
     this.onSelect(activeIdx, formerIdx)
     this.active.dataset.active = true
     this.active.firstChild.style.visibility = 'visible'
   }
 
   /*
-    SHOW // HIDE - ANIMATIONS.
+    EVENTS.
   */
+
+  onMouseEnter(el, idx)
+  {
+    this.state = Flip.getState(this.showcase.elements)
+    this.createState(el, idx)
+    Flip.from(this.state, { scale: true, nested: true, duration: 0.5, ease: 'power2.inOut' })
+  }
 
   onSelect(aIdx, fIdx = null)
   {
     if(fIdx)
     {
-      this.title[fIdx].hide(true)
-      this.type[fIdx].hide(true)
+      this.showcase.animations.titles[fIdx].hide()
+      this.showcase.animations.types[fIdx].hide()
     }
 
-    fIdx === null
-      ? gsap.delayedCall(1.5, () => { this.title[aIdx].show(), this.type[aIdx].show() } )
-      : gsap.delayedCall(0.5, () => { this.title[aIdx].show(), this.type[aIdx].show() } )
+    if(fIdx === null)
+    {
+      gsap.delayedCall(
+        1.5, () => 
+        { 
+          this.showcase.animations.titles[aIdx].show() 
+          this.showcase.animations.types[aIdx].show() 
+        } 
+      )
+    }
+    else 
+    {
+      gsap.delayedCall(
+        0.5, () => 
+        { 
+          this.showcase.animations.titles[aIdx].show()
+          this.showcase.animations.types[aIdx].show() 
+        } 
+      )
+    }
   }
+
+  /* 
+    ANIMATIONS.
+  */
 
   show()
   {
@@ -175,7 +211,7 @@ export default class Home extends Page
     this.main.hide()
     this.st.hide()
 
-    this.title.forEach(
+    this.showcase.animations.titles.forEach(
       t => 
       {
         t.hide()
@@ -184,7 +220,36 @@ export default class Home extends Page
   }
 
   /* 
-    EVENTS.
+    EVENTLISTENERS.
   */  
 
+  addEventListeners()
+  {
+    super.addEventListeners()
+
+    if(this.device.desktop)
+    {
+      this.showcase.elements.forEach( 
+        (el, idx) => 
+        { 
+          el.addEventListener('mouseenter', this.onMouseEnter.bind(this, el, idx)) 
+        }
+      )
+    }
+  }
+
+  removeEventListeners()
+  {
+    super.removeEventListeners()
+
+    if(this.device.desktop)
+    {
+      this.showcase.elements.forEach( 
+        (el, idx) => 
+        { 
+          el.removeEventListener('mouseenter', this.onMouseEnter) 
+        }
+      )
+    }
+  }
 }
