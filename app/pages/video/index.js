@@ -302,6 +302,9 @@ export default class Video extends Page
     {
       this.controls.isCovered = true 
 
+      if(this.device.desktop)
+        this.enlargeControls.reverse()
+
       gsap.to(this.elements.video_cover, { background: this.background } )
 
       if(this.controls.isPlaying)
@@ -313,6 +316,9 @@ export default class Video extends Page
       if(this.controls.isCovered)
       {
         this.controls.isCovered = false
+
+        if(this.device.desktop)
+          this.enlargeControls.play()
 
         gsap.to(this.elements.video_cover, { background: 'transparent' } )
 

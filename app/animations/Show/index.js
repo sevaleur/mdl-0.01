@@ -56,8 +56,33 @@ export default class Show
     this.onShow.play()
   }
 
-  hide()
+  hide(wait=false)
   {
-    this.onShow.reverse()
+    if(wait)
+    {
+      gsap.set(
+        this.element, 
+        {
+          opacity: 0.0,
+        }
+      )
+
+      this.onShow.reverse()
+        .eventCallback(
+          'onReverseComplete', () => 
+          {
+            gsap.set(
+              this.element, 
+              {
+                opacity: 1.0
+              }
+            )
+          }
+        )
+    }
+    else
+    {
+      this.onShow.reverse()
+    } 
   }
 }

@@ -112,7 +112,7 @@ export default class Ray
         {
           x: this.hits.x, 
           y: this.hits.y, 
-          duration: 0.8, 
+          duration: 1.8, 
           delay: 0.2, 
           ease: 'linear',
         }

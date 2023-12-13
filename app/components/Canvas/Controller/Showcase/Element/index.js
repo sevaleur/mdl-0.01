@@ -77,7 +77,7 @@ export default class Element
     this.scene.add(this.plane)
   }
 
-  createBounds(active = false)
+  createBounds(active=false)
   {
     if(active)
     {
@@ -179,10 +179,10 @@ export default class Element
     this.link_pos = (this.y / (-this.viewport.height / 2))
     this.link_parent.style[this.l_prefix] = `translateY(${-this.link_pos}px)`
 
-    if(this.length > 2)
+    if(this.length > 2 && this.screen.desktop)
     {
       this.pos_viewport_y = this.plane.position.y + this.y / 100
-      this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height,  -0.35, 0.35, this.pos_viewport_y)
+      this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height,  -1., 1., this.pos_viewport_y)
     }
   }
 
@@ -191,7 +191,7 @@ export default class Element
     if(!this.bounds) return
 
     this.active = this.link_parent.dataset.active
-
+    
     if(this.active)
       this.createBounds(this.active)
 
