@@ -244,12 +244,6 @@ export default class Home extends Page
 
   onSelect(aIdx, fIdx = null)
   {
-    if(fIdx)
-    {
-      this.showcase.animations.titles[fIdx].hide(true)
-      this.showcase.animations.types[fIdx].hide(true)
-    }
-
     if(fIdx === null)
     {
       gsap.delayedCall(
@@ -262,6 +256,8 @@ export default class Home extends Page
     }
     else 
     {
+      this.showcase.animations.titles[fIdx].hide(true)
+      this.showcase.animations.types[fIdx].hide(true)
       this.showcase.animations.titles[aIdx].show()
       this.showcase.animations.types[aIdx].show() 
     }

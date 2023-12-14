@@ -35,7 +35,6 @@
 
   &__header
   {
-    padding-top: 10rem;
     display: grid;
     grid-template-columns: 1fr 70rem;
 
@@ -62,7 +61,7 @@
 
       &__text
       {
-        @extend %title-200;
+        @extend %titleBold-200;
 
         letter-spacing: 2rem;
 
@@ -144,9 +143,6 @@
 
         &__div
         {
-          height: 100%;
-          padding-top: 5rem;
-
           @include media('<=tablet')
           {
             padding: 5rem;
@@ -160,7 +156,7 @@
 
           &__text
           {
-            @extend %desc-40;
+            @extend %titleLight-40;
 
             height: 100%;
 
@@ -224,7 +220,7 @@
 
           &__text
           {
-            @extend %title-25;
+            @extend %titleBold-25;
 
             @include media('<=tablet')
             {
@@ -332,7 +328,6 @@
       {
         @extend %title-70;
 
-        letter-spacing: 2rem;
         padding: 12.7rem;
 
         @include media('<=tablet')
@@ -478,7 +473,7 @@
 
         &__text
         {
-          @extend %title-25;
+          @extend %titleBold-25;
 
           writing-mode: vertical-rl;
           transform: scale(-1, -1);
@@ -577,7 +572,7 @@
       
       &__text
       {
-        @extend %title-70;
+        @extend %titleBold-70;
 
         writing-mode: vertical-lr;
         transform: scale(1, 1);
@@ -624,7 +619,6 @@
         @extend %title-70;
 
         text-transform: uppercase;
-        letter-spacing: 1rem;
         padding: 12.7rem;
         padding-top: 0;
 
@@ -901,7 +895,7 @@
 
       &__text
       {
-        @extend %title-200;
+        @extend %titleBold-200;
 
         letter-spacing: 2rem;
 

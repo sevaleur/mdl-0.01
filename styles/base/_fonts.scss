@@ -1,26 +1,58 @@
+/* 
+  TITLES.
+*/
+
 @font-face {
-  font-family: $font-montserrat-light;
-  src: url('../fonts/Montserrat_Light.woff2') format('woff2'),
-      url('../fonts/Montserrat_Light.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+  font-family: $font-general-bold;
+  src: url('../fonts/titles/GeneralSans-Bold.woff2') format('woff2'),
+       url('../fonts/titles/GeneralSans-Bold.woff') format('woff'),
+       url('../fonts/titles/GeneralSans-Bold.ttf') format('truetype');
+       font-weight: 700;
+       font-display: swap;
+       font-style: normal;
 }
 
 @font-face {
-  font-family: $font-bodoni-moda;
-  src: url('../fonts/Bodoni_Moda.woff2') format('woff2'),
-      url('../fonts/Bodoni_Moda.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+  font-family: $font-general-light;
+  src: url('../fonts/titles/GeneralSans-Extralight.woff2') format('woff2'),
+       url('../fonts/titles/GeneralSans-Extralight.woff') format('woff'),
+       url('../fonts/titles/GeneralSans-Extralight.ttf') format('truetype');
+       font-weight: 200;
+       font-display: swap;
+       font-style: normal;
 }
 
 @font-face {
-  font-family: $font-bodoni-libre;
-  src: url('../fonts/Libre_Bodoni.woff2') format('woff2'),
-      url('../fonts/Libre_Bodoni.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+  font-family: $font-general-regular;
+  src: url('../fonts/titles/GeneralSans-Regular.woff2') format('woff2'),
+       url('../fonts/titles/GeneralSans-Regular.woff') format('woff'),
+       url('../fonts/titles/GeneralSans-Regular.ttf') format('truetype');
+       font-weight: 400;
+       font-display: swap;
+       font-style: normal;
+}
+
+/* 
+  DESC.
+*/
+
+@font-face {
+  font-family: $font-satoshi-regular;
+  src: url('../fonts/p/Satoshi-Regular.woff2') format('woff2'),
+       url('../fonts/p/Satoshi-Regular.woff') format('woff'),
+       url('../fonts/p/Satoshi-Regular.ttf') format('truetype');
+       font-weight: 400;
+       font-display: swap;
+       font-style: normal;
+}
+
+
+@font-face {
+  font-family: $font-satoshi-italic;
+  src: url('../fonts/p/Satoshi-Italic.woff2') format('woff2'),
+       url('../fonts/p/Satoshi-Italic.woff') format('woff'),
+       url('../fonts/p/Satoshi-Italic.ttf') format('truetype');
+       font-weight: 400;
+       font-display: swap;
+       font-style: italic;
 }

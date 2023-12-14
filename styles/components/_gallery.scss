@@ -24,7 +24,7 @@
 
     &__text 
     {
-      @extend %title-15; 
+      @extend %titleBold-15; 
 
       text-transform: uppercase;
 
@@ -32,8 +32,6 @@
       top:50%; 
       left: 50%; 
       transform: translate(-50%, -50%);
-
-      font-style: italic;
     }
 
     @include media('<=tablet')
@@ -206,11 +204,11 @@
 
     &__text 
     {
-      visibility: hidden;
+      display: none;
 
       @include media('<=tablet')
       {
-        visibility: visible;
+        display:block;
 
         position: absolute;
         bottom: 10rem;
@@ -469,7 +467,7 @@
 
     &__title
     {
-      @extend %title-30;
+      @extend %titleBold-30;
 
       text-transform: uppercase;
       letter-spacing: 2rem;

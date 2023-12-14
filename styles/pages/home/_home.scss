@@ -7,7 +7,7 @@
 
   &__title 
   {
-    @extend %desc-16; 
+    @extend %title-16; 
 
     position: absolute; 
     bottom: 3.5rem; 
@@ -110,10 +110,13 @@
 
         &__text 
         {
-          @extend %desc-16; 
+          @extend %titleBold-16; 
 
           writing-mode: vertical-lr;
           transform: scale(-1, -1);
+
+          word-spacing: 5rem;
+          text-transform: uppercase;
 
           @include media('<=tablet')
           {
@@ -165,16 +168,10 @@
   
           &__text 
           {
-            @extend %title-50; 
+            @extend %titleBold-80; 
   
             text-transform: uppercase;
             letter-spacing: 1rem;
-
-            text-shadow:
-            -1px -1px 0 $color-night,
-            1px -1px 0 $color-night,
-            -1px 1px 0 $color-night,
-            1px 1px 0 $color-night;
 
             @include media('<=tablet')
             {
@@ -204,12 +201,6 @@
           &__text 
           {
             @extend %desc-16;
-            
-            text-shadow:
-            -1px -1px 0 $color-night,
-            1px -1px 0 $color-night,
-            -1px 1px 0 $color-night,
-            1px 1px 0 $color-night;
 
             @include media('<=tablet')
             {

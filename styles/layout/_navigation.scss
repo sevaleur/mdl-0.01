@@ -195,7 +195,7 @@
 
           @include media('<=tablet')
           {
-            font-family: $font-bodoni-libre;
+            font-family: $font-general-bold;
             font-size: 4rem;
 
             text-transform: uppercase;
@@ -203,7 +203,6 @@
 
           @include media('<=phone')
           {
-            font-family: $font-bodoni-libre;
             font-size: 3rem;
 
             text-transform: uppercase;

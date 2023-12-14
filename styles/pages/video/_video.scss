@@ -441,12 +441,20 @@
 
     &__text 
     {
-      @extend %title-100; 
-
       text-transform: uppercase;
       letter-spacing: 1rem;
 
-      padding: 0 2rem;
+      padding: 0 1rem;
+
+      &:nth-child(odd)
+      {
+        @extend %titleLight-100; 
+      }
+
+      &:nth-child(even)
+      {
+        @extend %titleBold-100; 
+      }
 
       @include media('<=500px')
       {
@@ -504,9 +512,7 @@
 
     &__title 
     {
-      @extend %desc-18;
-
-      font-style: italic;
+      @extend %descItalic-18;
 
       @include media('<=500px')
       {
@@ -563,7 +569,7 @@
 
     &__text 
     {
-      @extend %title-100; 
+      @extend %titleBold-100; 
 
       writing-mode: vertical-lr;
       letter-spacing: 1rem;
@@ -921,11 +927,19 @@
   
         &__text 
         {
-          @extend %title-100;
-
           padding: 0 2rem;
 
           text-transform: uppercase;
+
+          &:nth-child(odd)
+          {
+            @extend %titleLight-100; 
+          }
+
+          &:nth-child(even)
+          {
+            @extend %titleBold-100; 
+          }
         }
       }
     }
@@ -962,11 +976,19 @@
 
         &__text 
         {
-          @extend %title-100;
-
           padding: 0 2rem;
 
           text-transform: uppercase;
+
+          &:nth-child(odd)
+          {
+            @extend %titleLight-100; 
+          }
+
+          &:nth-child(even)
+          {
+            @extend %titleBold-100; 
+          }
         }
       }
 

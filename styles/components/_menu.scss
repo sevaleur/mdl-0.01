@@ -70,7 +70,7 @@
 
         &__text 
         {
-          font-family: 'Montserrat';
+          font-family: 'Satoshi-Regular';
           font-size: 2.5rem;
 
           display: flex; 
@@ -127,15 +127,23 @@
 
     &__text
     {
-      @extend %title-70;
-
       text-transform: uppercase;
       letter-spacing: 1rem;
 
-      padding: 2rem 0; 
+      padding: 1rem 0; 
 
       writing-mode: vertical-rl;
       transform: scale(-1, -1);
+
+      &:nth-child(odd)
+      {
+        @extend %titleLight-70;
+      }
+
+      &:nth-child(even)
+      {
+        @extend %titleBold-70;
+      }
     }
   }
 
@@ -310,14 +318,9 @@
 
         &__text
         {
-          @extend %title-70;
+          @extend %titleBold-70;
 
           text-align: center;
-          text-shadow:
-            -1px -1px 0 $color-night,
-            1px -1px 0 $color-night,
-            -1px 1px 0 $color-night,
-            1px 1px 0 $color-night;
 
           width: 100%;
 
@@ -338,7 +341,7 @@
           {
             padding: 0;
 
-            font-family: 'Montserrat';
+            font-family: 'GeneralSans-Extralight';
             font-size: 3rem;
 
             display: flex; 
