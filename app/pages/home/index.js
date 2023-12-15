@@ -111,6 +111,7 @@ export default class Home extends Page
       this.mid = this.showcase.elements[this.half]
   
       this.active = this.mid
+      
       this.onSelect(this.half)
   
       this.showcase.elements.forEach( 
@@ -247,7 +248,7 @@ export default class Home extends Page
     if(fIdx === null)
     {
       gsap.delayedCall(
-        1.5, () => 
+        2.5, () => 
         { 
           this.showcase.animations.titles[aIdx].show() 
           this.showcase.animations.types[aIdx].show() 

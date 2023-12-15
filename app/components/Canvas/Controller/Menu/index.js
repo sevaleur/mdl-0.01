@@ -170,7 +170,7 @@ export default class Menu
 
     this.menu_wrapper.style[this.t_prefix] = `translateY(${this.scroll.current}px)`
 
-    if(this.screen.phone)
+    if(this.menu_phone_outer)
       this.menu_phone_outer.style[this.t_prefix] = `translateY(${this.scroll.current}px)`
 
     if(this.scroll.current > -0.01)

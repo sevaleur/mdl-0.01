@@ -57,6 +57,7 @@ export default class Gallery extends Page
     this.createMotion()
     this.createModal()
     this.onModalSelect()
+    this.onDeviceCheck()
   }
 
   createModal()
@@ -148,6 +149,21 @@ export default class Gallery extends Page
   /* 
     EVENTS.
   */
+
+  onDeviceCheck()
+  {
+    if(this.device.tablet)
+    {
+      this.break = this.elements.title.querySelector('br')
+      this.span = document.createElement('span')
+      this.span.className = 'whitespace'
+
+      if(this.break)
+      {
+        this.elements.title.replaceChild(this.span, this.break)
+      }
+    }
+  }
 
   onModalChangeSelection(idx)
   {

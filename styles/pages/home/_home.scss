@@ -110,7 +110,7 @@
 
         &__text 
         {
-          @extend %titleBold-16; 
+          @extend %desc-16; 
 
           writing-mode: vertical-lr;
           transform: scale(-1, -1);
@@ -172,21 +172,7 @@
   
             text-transform: uppercase;
             letter-spacing: 1rem;
-
-            @include media('<=tablet')
-            {
-              font-size: 6rem;
-            }
-
-            @include media('<=phone')
-            {
-              font-size: 5rem;
-            }
-
-            @include media('<=400px')
-            {
-              font-size: 6rem;
-            }
+            line-height: 7rem;
 
             .char 
             {
@@ -209,7 +195,7 @@
 
             @include media('<=phone')
             {
-              font-size: 2rem;
+              font-size: 2.5rem;
             }
 
             @include media('<=400px')

@@ -599,7 +599,7 @@
 
     @include media('<=500px')
     {
-      padding: 0; 
+      padding: 15rem 0; 
     }
 
     &__text 
@@ -695,14 +695,13 @@
 
         &__text 
         {
-          @extend %desc-14;
+          @extend %descItalic-14;
 
           position: absolute; 
           top: 0;
           right: -2.5%; 
 
-          writing-mode: vertical-lr;          
-          font-style: italic;
+          writing-mode: vertical-lr; 
 
           @include media('<=phone')
           {
@@ -725,7 +724,7 @@
         {
           grid-area: 3 / 1 / -1 / 4;
 
-          padding: 10rem 5rem;
+          padding: 15rem 5rem;
         }
 
         &__text 
@@ -804,14 +803,13 @@
 
         &__text 
         {
-          @extend %desc-14;
+          @extend %descItalic-14;
           position: absolute; 
           bottom: 0;
           left: -2.5%; 
 
           writing-mode: vertical-lr; 
-          transform: scale(-1, -1);         
-          font-style: italic;
+          transform: scale(-1, -1);  
 
           @include media('<=phone')
           {
@@ -893,7 +891,7 @@
         @include media('<=500px')
         {
           justify-self: normal;
-          padding: 10rem 5rem;
+          padding: 15rem 10rem;
         }
 
         &__text 
@@ -1002,6 +1000,7 @@
         @include media('<=500px')
         {
           justify-self: normal;
+          padding: 15rem 10rem; 
         }
 
         &__text 
@@ -1011,18 +1010,10 @@
           line-height: 3rem;
           letter-spacing: 0.2rem;
 
-          @include media('<=phone')
-          {
-            padding-top: 10rem; 
-            padding-bottom: 20rem; 
-          }
-
           @include media('<=500px')
           {
             font-size: 3rem;
             line-height: 4rem;
-
-            padding-left: 5rem;
           }
         }
       }

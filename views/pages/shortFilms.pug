@@ -32,7 +32,8 @@ block content
 
     if device === 'phone'
       .menu__right
-        .menu__right__wrapper 
-          each obj, index in shortFilms.showcase
-            .menu__right__title
-              h2.menu__right__title__text=obj.title
+        .menu__right__outer
+          .menu__right__inner 
+            each obj, index in shortFilms.showcase
+              .menu__right__title
+                h2.menu__right__title__text=obj.title

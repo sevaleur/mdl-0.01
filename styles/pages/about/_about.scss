@@ -326,7 +326,7 @@
 
       &__text
       {
-        @extend %title-70;
+        @extend %titleBold-70;
 
         padding: 12.7rem;
 
@@ -616,7 +616,7 @@
 
       &__text
       {
-        @extend %title-70;
+        @extend %titleBold-70;
 
         text-transform: uppercase;
         padding: 12.7rem;
@@ -727,7 +727,7 @@
 
       &__text
       {
-        @extend %title-100;
+        @extend %titleBold-70;
 
         text-transform: uppercase;
 

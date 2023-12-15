@@ -11,4 +11,22 @@ nav.navigation
           li.navigation__list__item
             a.navigation__list__item__link.hidden(href=Link(item) data-path=item._type)
               p.navigation__list__item__link__text=item.title.toLowerCase() 
+ 
+      .navigation__menu__social
+        .navigation__menu__social__title 
+          p.navigation__menu__social__title__text=footer.connect
+        .navigation__menu__social__div
+          .navigation__menu__social__div__link.outside__link
+            a.navigation__menu__social__div__link__href(href=`mailto:${footer.email_icon.email}`)
+            img.navigation__menu__social__div__link__icon(data-src=Build.image(footer.email_icon.asset._ref).url() alt=footer.email_icon.alt)
+        each icon in footer.top_links
+          .navigation__menu__social__div
+            .navigation__menu__social__div__link.outside__link
+              a.navigation__menu__social__div__link__href(href=(icon.url))
+              img.navigation__menu__social__div__link__icon(data-src=Build.image(icon.asset._ref).url())
+        each icon in footer.btm_links
+          .navigation__menu__social__div
+            .navigation__menu__social__div__link.outside__link
+              a.navigation__menu__social__div__link__href(href=(icon.url))
+              img.navigation__menu__social__div__link__icon(data-src=Build.image(icon.asset._ref).url())
         

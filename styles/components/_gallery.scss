@@ -303,7 +303,7 @@
 
         &__close
         {
-          @extend %desc-20; 
+          @extend %desc-40; 
 
           text-transform: uppercase;
         }
@@ -433,7 +433,6 @@
     opacity: 0.0;
 
     z-index: z('title');
-    mix-blend-mode: difference;
 
     @include media('<=tablet')
     {
@@ -467,10 +466,10 @@
 
     &__title
     {
-      @extend %titleBold-30;
+      @extend %titleBold-60;
 
+      line-height: 6rem;
       text-transform: uppercase;
-      letter-spacing: 2rem;
 
       .char 
       {
@@ -502,11 +501,13 @@
 
         padding-right: 0;
         font-size: 2rem;
+        line-height: 2rem;
       }
 
       @include media('<=500px')
       {
         font-size: 3rem;
+        line-height: 3rem;
       }
     }
 

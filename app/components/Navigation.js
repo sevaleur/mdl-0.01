@@ -17,6 +17,7 @@ export default class Navigation extends Component
         menu_list: '.navigation__list',
         menu_items: '.navigation__list__item',
         menu_links: '.navigation__list__item__link',
+        menu_social: '.navigation__menu__social',
         logo: '.navigation__logo',
         logo_image: '.navigation__logo__image'
       }, 
@@ -113,6 +114,19 @@ export default class Navigation extends Component
           paused: true
         }
       ) 
+
+      this.onSocialsShow = gsap.fromTo(
+        this.elements.menu_social, 
+        {
+          opacity: 0.0
+        }, 
+        {
+          opacity: 1.0, 
+          duration: 0.8, 
+          ease: 'power2.inOut', 
+          paused: true
+        }
+      )
     }
     else 
     {
@@ -209,6 +223,12 @@ export default class Navigation extends Component
       }
     )
 
+    if(!this.device.desktop)
+    {
+      this.elements.menu_social.style.display = 'none'
+      this.onSocialsShow.reverse()
+    }
+
     this.onMenuClick.reverse()
       .eventCallback(
         'onReverseComplete', () => 
@@ -248,6 +268,11 @@ export default class Navigation extends Component
               }
             )
             
+            if(!this.device.desktop)
+            {
+              this.elements.menu_social.style.display = 'flex'
+              this.onSocialsShow.play()
+            }
             link.show()
           }
         )
