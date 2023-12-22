@@ -2,6 +2,7 @@ import gsap from 'gsap'
 
 import Page from 'classes/Page'
 import Show from 'animations/Show'
+import Hover from 'animations/Hover'
 import Line from 'animations/Line'
 
 import { COLOR_CULTURED, COLOR_NIGHT } from 'utils/color_variables'
@@ -17,17 +18,24 @@ export default class Menu extends Page
       elements: {
         marquee: '.menu__title',
         marquee_title: '.menu__title__text', 
-        right: '.menu__right', 
+        right: '.menu__right',
+        desktop_right: '.menu__right__desktop', 
+        phone_right: '.menu__right__phone', 
         menu_images: '.menu__gallery__image', 
         menu_links: '.menu__gallery__image__link', 
-        menu_image_type: '.menu__gallery__image__type__text',
-        menu_image_index: '.menu__gallery__image__index__text', 
-        menu_image_title: '.menu__gallery__image__title__text', 
-        menu_left_lines: 'span.menu__gallery__image__left', 
-        menu_right_lines: 'span.menu__gallery__image__right', 
-        menu_phone_titles: '.menu__right__title',
-        menu_phone_title_text: '.menu__right__title__text',
-        nav: '.navigation__logo' 
+        menu_image_type: '.menu__right__desktop__type__text',
+        menu_desktop_images: '.menu__right__desktop__images',
+        menu_image_objects: '.menu__right__desktop__object',
+        menu_image_index: '.menu__right__desktop__index__text', 
+        menu_image_zero: '.menu__right__desktop__index__zero', 
+        menu_image_title: '.menu__right__desktop__title__text', 
+        menu_image_length: '.menu__right__desktop__length__text',
+        menu_image_photos: '.menu__right__desktop__length__photos',
+        menu_top_lines: 'span.menu__gallery__image__top', 
+        menu_bottom_lines: 'span.menu__gallery__image__bottom', 
+        menu_phone_titles: '.menu__right__phone__title',
+        menu_phone_title_text: '.menu__right__phone__title__text',
+        nav: '.navigation__menu' 
       },
       background: COLOR_NIGHT, 
       color: COLOR_CULTURED, 
@@ -45,13 +53,15 @@ export default class Menu extends Page
 
     this.menu = {
       ready: false,
+      aIdx: 0,
+      fIdx: null, 
       animations: {
         links: [],
-        type: [],
+        length: [],
         index: [],
         title: [],
-        left_lines: [],
-        right_lines: [],
+        top_lines: [],
+        bottom_lines: [],
       }
     }
     
@@ -68,13 +78,61 @@ export default class Menu extends Page
 
     this.elements.marquee.style.height = `${calc}px`
 
-    if(this.elements.right)
+    if(this.device.desktop)
+    {
+      this.elements.right.style.width = `${nav_bounds.width}px`
+    }
+    else
+    {
       this.elements.right.style.height = `${calc - nav_bounds.height}px`
+    }
   }
 
   createMenuInteraction()
   {
-    if(this.device.phone)
+    if(this.device.desktop)
+    {
+      this.elements.menu_image_title.forEach(
+        (t, idx) => 
+        {
+          this.elements.menu_image_zero[idx].style.visibility = 'hidden'
+
+          if(this.elements.menu_image_photos)
+            this.elements.menu_image_photos[idx].style.visibility = 'hidden'
+
+          this.menu.animations.top_lines.push(
+            new Line(
+              this.elements.menu_top_lines[idx],
+              true
+            )
+          )
+    
+          this.menu.animations.bottom_lines.push(
+            new Line(
+              this.elements.menu_bottom_lines[idx],
+              true
+            )
+          )
+  
+          this.menu.animations.title.push(
+            new Hover(t)
+          )
+  
+          this.menu.animations.length.push(
+            new Hover(
+              this.elements.menu_image_length[idx]
+            )
+          )
+  
+          this.menu.animations.index.push(
+            new Hover(
+              this.elements.menu_image_index[idx]
+            )
+          )
+        }
+      )
+    }
+    else 
     {
       this.elements.menu_phone_titles.forEach(
         t => 
@@ -84,44 +142,6 @@ export default class Menu extends Page
               t
             )
           )
-        }
-      )
-    }
-    else 
-    {
-      this.elements.menu_image_title.forEach(
-        (t, idx) => 
-        {
-          this.menu.animations.left_lines.push(
-            new Line(
-              this.elements.menu_left_lines[idx]
-            )
-          )
-    
-          this.menu.animations.right_lines.push(
-            new Line(
-              this.elements.menu_right_lines[idx]
-            )
-          )
-
-          this.menu.animations.title.push(
-            new Show(t)
-          )
-  
-          if(this.device.desktop)
-          {
-            this.menu.animations.type.push(
-              new Show(
-                this.elements.menu_image_type[idx]
-              )
-            )
-    
-            this.menu.animations.index.push(
-              new Show(
-                this.elements.menu_image_index[idx]
-              )
-            )
-          }
         }
       )
     }
@@ -156,22 +176,19 @@ export default class Menu extends Page
       draggable: false,
       inertia: false
     })
-    
-    if(this.elements.right)
-    {
-      this.showRightTitles = gsap.fromTo(
-        this.elements.right,
-        {
-          x: '100%',
-        },
-        {
-          x: '0',
-          duration: 1.0,
-          ease: 'power2.inOut',
-          paused: true
-        }
-      )
-    }
+  
+    this.showRightTitles = gsap.fromTo(
+      this.elements.right,
+      {
+        x: '110%',
+      },
+      {
+        x: '0',
+        duration: 1.0,
+        ease: 'power2.inOut',
+        paused: true
+      }
+    )
   }
 
   createMotionElement(element)
@@ -204,23 +221,83 @@ export default class Menu extends Page
     {
       element.style.cursor = 'pointer'
 
-      this.menu.animations.links[idx].play()
-      this.menu.animations.left_lines[idx].show()
-      this.menu.animations.right_lines[idx].show()
-      this.menu.animations.type[idx].show()
-      this.menu.animations.index[idx].show()
-      this.menu.animations.title[idx].show()
+      if(idx !== this.menu.aIdx)
+      {
+        this.menu.fIdx = this.menu.aIdx
+
+        if(this.menu.fIdx !== null)
+        {
+          this.menu.animations.top_lines[this.menu.fIdx].hide(true)
+          this.menu.animations.bottom_lines[this.menu.fIdx].hide(true)
+          this.menu.animations.index[this.menu.fIdx].hide()
+          this.menu.animations.length[this.menu.fIdx].hide()
+          this.menu.animations.title[this.menu.fIdx].hide()
+
+          if(this.elements.menu_desktop_images)
+          {
+            this.elements.menu_desktop_images[this.menu.fIdx].childNodes.forEach(
+              (child, idx) => 
+              {
+                gsap.to(
+                  child,
+                  {
+                    opacity: 0.0, 
+                    xPercent: 50 * 5,
+                    yPercent: 10 * -idx,
+                    zIndex: -idx,
+                    duration: 1.0, 
+                    ease: 'power2.inOut', 
+                    onComplete: () => 
+                    {
+                      this.elements.menu_desktop_images[this.menu.fIdx].style.display = 'none'
+                    }
+                  }
+                )
+              }
+            )
+          }
+        }
+
+        if(this.elements.menu_desktop_images)
+        {
+          this.elements.menu_desktop_images[idx].style.display = 'flex'
+          this.elements.menu_desktop_images[idx].childNodes.forEach(
+            (child, idx) => 
+            {
+              gsap.set(
+                child, 
+                {
+                  xPercent: 0,
+                  opacity: 0.0,
+                  zIndex: -idx
+                }
+              )
+
+              gsap.to(
+                child,
+                {
+                  opacity: 1.0, 
+                  xPercent: 50 * idx,
+                  yPercent: 10 * -idx,
+                  duration: 1.0, 
+                  ease: 'power2.inOut', 
+                }
+              )
+            }
+          )
+        }
+
+        this.menu.animations.links[idx].play()
+        this.menu.animations.top_lines[idx].show(true)
+        this.menu.animations.bottom_lines[idx].show(true)
+        this.menu.animations.index[idx].show()
+        this.menu.animations.length[idx].show()
+        this.menu.animations.title[idx].show()
+
+
+        this.menu.aIdx = idx
+      }
     }
-
-  }
-
-  onMouseLeave(idx)
-  {   
-    this.menu.animations.left_lines[idx].hide()
-    this.menu.animations.right_lines[idx].hide()
-    this.menu.animations.type[idx].hide()
-    this.menu.animations.index[idx].hide()
-    this.menu.animations.title[idx].hide()
   }
 
   onLeave()
@@ -238,10 +315,33 @@ export default class Menu extends Page
         
         if(this.device.desktop)
         {
-          this.menu.animations.left_lines[idx].hide()
-          this.menu.animations.right_lines[idx].hide()
-          this.menu.animations.type[idx].hide()
+          this.menu.animations.top_lines[idx].hide(true)
+          this.menu.animations.bottom_lines[idx].hide(true)
           this.menu.animations.index[idx].hide()
+          this.menu.animations.length[idx].hide()
+
+          if(this.elements.menu_desktop_images)
+          {
+            this.elements.menu_desktop_images[idx].childNodes.forEach(
+              (child, idx) => 
+              {
+                gsap.to(
+                  child,
+                  {
+                    opacity: 0.0, 
+                    xPercent: 50 * 5,
+                    yPercent: 10 * -idx,
+                    duration: 1.0, 
+                    ease: 'power2.inOut', 
+                    onComplete: () => 
+                    {
+                      this.elements.menu_desktop_images[idx].style.display = 'none'
+                    }
+                  }
+                )
+              }
+            )
+          }
         }
       }
     )
@@ -280,6 +380,53 @@ export default class Menu extends Page
         }
       )
     }
+    else 
+    {
+      this.showRightTitles.play()
+        .eventCallback('onComplete', () => 
+        {
+          this.elements.menu_image_zero[0].style.visibility = 'visible'
+
+          if(this.elements.menu_image_photos)
+            this.elements.menu_image_photos[0].style.visibility = 'visible'
+
+          if(this.elements.menu_desktop_images)
+          {
+            this.elements.menu_desktop_images[this.menu.aIdx].style.display = 'flex'
+            this.elements.menu_desktop_images[this.menu.aIdx].childNodes.forEach(
+              (child, idx) => 
+              {
+                gsap.set(
+                  child, 
+                  {
+                    xPercent: 0,
+                    opacity: 0.0,
+                    zIndex: -idx
+                  }
+                )
+  
+                gsap.to(
+                  child,
+                  {
+                    opacity: 1.0, 
+                    xPercent: 50 * idx,
+                    yPercent: 10 * -idx,
+                    duration: 1.0, 
+                    ease: 'power2.inOut', 
+                  }
+                )
+              }
+            )
+          }
+          
+          this.menu.animations.links[this.menu.aIdx].play()
+          this.menu.animations.top_lines[this.menu.aIdx].show(true)
+          this.menu.animations.bottom_lines[this.menu.aIdx].show(true)
+          this.menu.animations.index[this.menu.aIdx].show()
+          this.menu.animations.length[this.menu.aIdx].show()
+          this.menu.animations.title[this.menu.aIdx].show()
+        })
+    }
   }
 
   hide()
@@ -296,8 +443,7 @@ export default class Menu extends Page
           'onReverseComplete', 
           () => 
           {
-            if(window.innerWidth<=500) 
-              this.showRightTitles.reverse()
+            this.showRightTitles.reverse()
 
             gsap.delayedCall(0.2, () => { resolve() } ) 
           } 
@@ -321,7 +467,6 @@ export default class Menu extends Page
         if(this.device.desktop)
         {
           link.addEventListener('mouseenter', this.onMouseEnter.bind(this, link, idx))
-          link.addEventListener('mouseleave', this.onMouseLeave.bind(this, idx))
         }
       }
     )
@@ -337,7 +482,6 @@ export default class Menu extends Page
         if(this.device.desktop)
         {
           link.removeEventListener('mouseenter', this.onMouseEnter)
-          link.removeEventListener('mouseleave', this.onMouseLeave)
         }
       }
     )

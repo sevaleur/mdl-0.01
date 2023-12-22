@@ -52,7 +52,7 @@ export default class Menu
     this.menu_gallery = document.querySelector('.menu__gallery')
 
     if(this.screen.phone)
-      this.menu_phone_outer = document.querySelector('.menu__right__outer')
+      this.menu_phone_outer = document.querySelector('.menu__right__phone__outer')
 
     this.images = document.querySelectorAll('img.menu__gallery__image__figure__image')
     this.img_links = document.querySelectorAll('.menu__gallery__image__link')

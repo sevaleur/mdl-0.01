@@ -5,14 +5,131 @@
 
   overflow: hidden;
 
+
   &__right 
   {
-    display: none; 
+    position: absolute; 
+    top: 50%; 
+    right: 2rem; 
 
-    @include media('<=500px')
+    transform: translateY(-50%); 
+    
+    height: 70rem; 
+    width: 0px; 
+
+    border: 1px solid $color-grey;
+
+    overflow: hidden;
+
+    &__desktop 
     {
-      display: block;
+      height: 100%; 
+      width: 100%; 
 
+      position: relative; 
+
+      &__object 
+      {
+        height: 100%; 
+        width: 100%; 
+
+        position: absolute;
+        top: 0; 
+        left: 0; 
+      }
+
+      &__images 
+      {
+        position: absolute; 
+        top: 30%; 
+        right: 30rem; 
+
+        transform: translateY(-50%);
+
+        width:fit-content;
+        display: none;
+      }
+
+      &__image 
+      {
+        position: absolute; 
+        top: 0; 
+        left: 2rem;
+
+        height: 10rem; 
+        width: 10rem; 
+
+        &__figure 
+        {
+          height: 100%; 
+          width: 100%; 
+
+          position: relative;
+
+          &__image 
+          {
+            @extend %cover; 
+
+            object-fit: cover;
+          }
+        }
+      }
+
+      &__comp 
+      {
+        position: absolute;
+        top: 3.2rem; 
+        left: 10rem;
+
+        width: 10rem;
+
+        display: flex; 
+        justify-content: space-between;
+      }
+
+      &__index 
+      {
+        position: absolute; 
+        top: 3.2rem; 
+        left: 2rem; 
+
+        display: flex; 
+      }
+
+      &__length 
+      {
+        position: absolute; 
+        top: 10rem; 
+        right: 3rem; 
+
+        display: flex; 
+        align-items: center;
+        z-index: 1;
+        mix-blend-mode: difference;
+
+        &__text 
+        {
+          @extend %desc-50; 
+        }
+      }
+
+      &__title 
+      {
+        position: absolute; 
+        bottom: 2rem; 
+        left: 2rem; 
+
+        &__text 
+        {
+          @extend %titleBold-110;
+          
+          line-height: 12.5rem;
+        }
+      }
+    }
+
+    @include media('<=phone')
+    {
       position: absolute; 
       top: 50%; 
       right: 0rem; 
@@ -24,6 +141,15 @@
   
       border: 1px solid $color-grey;
       border-right: none;
+    }
+
+    &__phone 
+    {
+      height: 100%; 
+      width: 100%; 
+
+      position: relative; 
+
 
       &__outer 
       {
@@ -157,10 +283,16 @@
   &__gallery
   {
     position: absolute;
-    left: 50%;
+    left: 20rem;
     top: 50%;
 
-    transform: translate(-50%, -30rem * 0.5);
+    transform: translateY(-30rem * 0.5);
+
+    @include media('<=phone')
+    {
+      left: 50%; 
+      transform: translate(-50%, -30rem * 0.5);
+    }
 
     &__image
     {
@@ -175,19 +307,19 @@
         padding-bottom: 5rem;
       }
 
-      &__left
+      &__top
       {
-        height: 100%;
-        width: 0.5rem; 
+        height: 1rem;
+        width: 100%; 
 
         position: absolute; 
-        bottom: 0;
-        left: 1.8rem; 
+        top: -1.5rem;
+        left: 0; 
 
         background: $color-cultured;
 
-        transform-origin: bottom;
-        transform: scaleY(0.0);
+        transform-origin: left;
+        transform: scaleX(0.0);
 
         margin: 2rem 0;
 
@@ -197,19 +329,19 @@
         }
       }
 
-      &__right
+      &__bottom
       {
-        height: 100%;
-        width: 0.5rem; 
+        height: 1rem;
+        width: 100%; 
 
         position: absolute; 
-        top: 0;
-        right: 1.8rem; 
+        bottom: -1.5rem;
+        right: 0; 
 
         background: $color-cultured;
 
-        transform-origin: top;
-        transform: scaleY(0.0);
+        transform-origin: right;
+        transform: scaleX(0.0);
 
         margin: 2rem 0;
 
@@ -230,7 +362,7 @@
       &__figure
       {
         height: 20rem;
-        width: 100rem;
+        width: 90rem;
         position: relative;
 
         visibility: hidden;
@@ -252,108 +384,6 @@
           @extend %cover;
 
           object-fit: cover;
-        }
-      }
-
-      &__type
-      {
-        align-self: flex-start;
-        padding: 2rem 0.5rem;
-
-        @include media('<=tablet')
-        {
-          display:none;
-        }
-
-        &__text
-        {
-          @extend %desc-20;
-
-          writing-mode: vertical-rl;
-          transform: scale(-1, -1);
-          word-spacing: 2rem;
-          overflow: hidden;
-
-          .char 
-          {
-            opacity: 0.0;
-          }
-        }
-      }
-
-      &__index
-      {
-        align-self: flex-end;
-        padding: 2rem 0.5rem;
-
-        @include media('<=tablet')
-        {
-          display: none;
-        }
-
-        &__text
-        {
-          @extend %desc-20;
-
-          writing-mode: vertical-rl;
-          transform: scale(1, 1);
-          word-spacing: 2rem;
-          overflow: hidden;
-
-          .char 
-          {
-            opacity: 0.0;
-          }
-        }
-      }
-
-      &__title
-      {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-
-        width: 100%; 
-
-        &__text
-        {
-          @extend %titleBold-70;
-
-          text-align: center;
-
-          width: 100%;
-
-          padding: 0 1rem;
-          overflow: hidden;
-
-          @include media('<=tablet')
-          {
-            font-size: 5rem;
-          }
-
-          @include media('<=phone')
-          {
-            font-size: 4rem;
-          }
-
-          @include media('<=500px')
-          {
-            padding: 0;
-
-            font-family: 'GeneralSans-Extralight';
-            font-size: 3rem;
-
-            display: flex; 
-            gap: 1rem; 
-            align-items: center; 
-            justify-content: center
-          }
-
-          .char 
-          {
-            opacity: 0.0;
-          }
         }
       }
     }

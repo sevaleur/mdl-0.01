@@ -7,7 +7,7 @@ module.exports = merge(config, {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
-    hot: false, 
+    hot: false,
     devMiddleware:
     {
       writeToDisk: true

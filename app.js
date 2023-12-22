@@ -93,7 +93,7 @@ const linkResolver = doc =>
 app.use((req, res, next) => {
   res.locals.Link = linkResolver
   res.locals.Build = build
-  
+
   next()
 })
 
@@ -130,6 +130,28 @@ const handleReq = async(req) =>
       )
     )
     all_adverts.result.forEach(
+      ad => 
+      {
+        this.assets.push(build.image(ad.preview.asset._ref).url())
+        
+        if(ad.photo)
+          this.assets.push(build.image(ad.photo.asset._ref).url())
+
+        if(ad.photo2)
+          this.assets.push(build.image(ad.photo2.asset._ref).url())
+      }
+    )
+  
+    const all_films = await url(
+      encodeURIComponent(
+        `*[_type == "film"]{
+          preview,
+          "photo": inDepth.photo, 
+          "photo2": inDepth.photoTwo
+        }`
+      )
+    )
+    all_films.result.forEach(
       ad => 
       {
         this.assets.push(build.image(ad.preview.asset._ref).url())
@@ -262,6 +284,7 @@ app.get('/advertising', async(req, res) =>
         showcase[]-> {
           _type, 
           title, 
+          duration,
           preview, 
           "slug": slug.current
         }
@@ -310,6 +333,7 @@ app.get('/shortFilms', async(req, res) =>
         showcase[]-> {
           _type, 
           title, 
+          duration,
           preview, 
           "slug": slug.current
         }

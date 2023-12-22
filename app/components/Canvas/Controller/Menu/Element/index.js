@@ -176,9 +176,7 @@ export default class Element
 
   updateLink()
   {
-    this.x = this.plane.position.x * this.screen.width
-
-    this.link_pos = (this.x / (-this.viewport.width / 2))
+    this.link_pos = (this.x / (this.viewport.width / 2))
     this.link_parent.style[this.l_prefix] = `translateX(${this.link_pos}px)`
   }
 
