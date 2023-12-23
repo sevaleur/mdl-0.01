@@ -9,12 +9,11 @@
 
   &__number
   {
-    @extend %titleLight-100;
+    @extend %titleLight-200;
 
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    right: 5rem;
+    bottom: 5rem;
     overflow: hidden;
 
     mix-blend-mode: difference;

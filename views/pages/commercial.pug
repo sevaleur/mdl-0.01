@@ -30,22 +30,23 @@ block content
           .menu__right__desktop__comp
             p.menu__right__desktop__comp__slash=`|`           
             p.menu__right__desktop__comp__length=`00.${commercial.showcase.length - 1}` 
-          each obj, index in commercial.showcase
-            .menu__right__desktop__object
-              .menu__right__desktop__index
-                p.menu__right__desktop__index__zero=`00.`                  
-                p.menu__right__desktop__index__text=`${index}`                  
-              .menu__right__desktop__length 
-                p.menu__right__desktop__length__text=`${obj.images.length}`
-              .menu__right__desktop__title
-                h2.menu__right__desktop__title__text!=obj.title.replace(/\s/, '<br>')
-              .menu__right__desktop__images
-                each img, idx in obj.images 
-                  if idx > 0 && idx < 5
-                    .menu__right__desktop__image 
-                      figure.menu__right__desktop__image__figure
-                        img.menu__right__desktop__image__figure__image(alt=img.alt data-src=Build.image(img.asset._ref).url())
-      if device === 'phone'
+          .menu__right__desktop__objects
+            each obj, index in commercial.showcase
+              .menu__right__desktop__object
+                .menu__right__desktop__index
+                  p.menu__right__desktop__index__zero=`00.`                  
+                  p.menu__right__desktop__index__text=`${index}`                  
+                .menu__right__desktop__length 
+                  p.menu__right__desktop__length__text=`${obj.images.length}`
+                .menu__right__desktop__title
+                  h2.menu__right__desktop__title__text!=obj.title.replace(/\s/, '<br>')
+                .menu__right__desktop__images
+                  each img, idx in obj.images 
+                    if idx > 0 && idx < 5
+                      .menu__right__desktop__image 
+                        figure.menu__right__desktop__image__figure
+                          img.menu__right__desktop__image__figure__image(alt=img.alt data-src=Build.image(img.asset._ref).url())
+      else
         .menu__right__phone
           .menu__right__phone__outer
             .menu__right__phone__inner

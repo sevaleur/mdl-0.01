@@ -90,7 +90,7 @@ export default class Menu extends Page
 
   createMenuInteraction()
   {
-    if(this.device.desktop)
+    if(this.device.desktop || this.device.tablet)
     {
       this.elements.menu_image_title.forEach(
         (t, idx) => 
@@ -356,7 +356,7 @@ export default class Menu extends Page
     super.show()
     this.showMarquee.play()
 
-    if(window.innerWidth<=500) 
+    if(!this.device.desktop) 
     {
       this.showRightTitles.play()
         .eventCallback(
@@ -370,15 +370,6 @@ export default class Menu extends Page
             )
           }
         )
-    }
-    else if(this.device.tablet)
-    {
-      this.menu.animations.title.forEach(
-        t => 
-        {
-          t.show()
-        }
-      )
     }
     else 
     {

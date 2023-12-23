@@ -1,8 +1,32 @@
-extends ../base.pug
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF=8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
 
-block variables
-    - var template = '404'
+    base(href='/')
 
-block content
-  .notfound 
-    h1.notfound__title 404 not found
+    title='Micah Daniel Lewis'
+    meta(name='description' content='photographer & director')
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0d0d0d">
+    <meta name="msapplication-TileColor" content="#0d0d0d">
+    <meta name="theme-color" content="#0d0d0d">
+
+    link(href='main.css' rel='stylesheet')
+
+  body
+    .notfound 
+      .notfound__nav 
+        a.notfound__nav__text(href='/') itsforgotham
+      .notfound__title 
+        p.notfound__title__text we couldn't find what you're looking for.
+      .notfound__number
+        p.notfound__number__text 4O4
+      .notfound__return
+        p.notfound__return__p do you want to 
+        a.notfound__return__a(href='/') go back? 

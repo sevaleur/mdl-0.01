@@ -466,15 +466,10 @@ app.get('/about', async(req, res) =>
     })
 })
 
-
-/* 
-  error handling
-*/
-
-/* app.use((err, req, res, next) => {
-  console.error(err.stack)
-  res.status(404).render('pages/404')
-}) */
+app.get('*', (req, res) => 
+{
+  res.render('pages/404')
+})
 
 /*
 *

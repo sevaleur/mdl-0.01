@@ -169,6 +169,7 @@ export default class App
       this.content.innerHTML = divContent.innerHTML
 
       this.canvas.onChange(this.template)
+      this.navigation.onChange(this.template)
 
       this.page = this.pages[this.template]
       this.page.create()

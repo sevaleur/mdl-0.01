@@ -248,10 +248,13 @@ export default class Gallery extends Page
     this.onBackShow.play()
 
     this.title = new Show(this.elements.title)
-    this.desc = new Show(this.elements.desc)
-
     this.title.show()
-    this.desc.show()
+
+    if(this.elements.desc)
+    {
+      this.desc = new Show(this.elements.desc)
+      this.desc.show()
+    }
   }
 
   hide()
@@ -259,7 +262,10 @@ export default class Gallery extends Page
     super.hide(true)
 
     this.title.hide()
-    this.desc.hide()
+
+    if(this.desc)
+      this.desc.hide()
+    
     this.onInfo.reverse()
 
     return new Promise(

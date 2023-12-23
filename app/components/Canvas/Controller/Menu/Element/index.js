@@ -66,7 +66,7 @@ export default class Element
       this.texture.image.naturalHeight
     ]
 
-    if(this.screen.phone)
+    if(!this.screen.desktop)
       this.material.uniforms.u_phone.value = 1.0
 
     this.plane = new Mesh( this.geo, this.material )
@@ -167,7 +167,7 @@ export default class Element
     this.y = ((this.bounds.top + current) / this.screen.height) * this.viewport.height
     this.plane.position.y = (this.viewport.height / 2) - (this.plane.scale.y / 2) - this.y
 
-    if(!this.screen.phone)
+    if(this.screen.desktop)
     {
       this.pos_viewport_y = this.plane.position.y + this.y / 100
       this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height, -0.35, 0.35, this.pos_viewport_y)

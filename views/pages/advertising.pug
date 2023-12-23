@@ -30,16 +30,17 @@ block content
           .menu__right__desktop__comp
             p.menu__right__desktop__comp__slash=`|`           
             p.menu__right__desktop__comp__length=`00.${advertising.showcase.length - 1}` 
-          each obj, index in advertising.showcase
-            .menu__right__desktop__object
-              .menu__right__desktop__index
-                p.menu__right__desktop__index__zero=`00.`                  
-                p.menu__right__desktop__index__text=`${index}`                  
-              .menu__right__desktop__length 
-                p.menu__right__desktop__length__text=obj.duration
-              .menu__right__desktop__title
-                h2.menu__right__desktop__title__text=obj.title
-      if device === 'phone'
+          .menu__right__desktop__objects
+            each obj, index in advertising.showcase
+              .menu__right__desktop__object
+                .menu__right__desktop__index
+                  p.menu__right__desktop__index__zero=`00.`                  
+                  p.menu__right__desktop__index__text=`${index}`                  
+                .menu__right__desktop__length 
+                  p.menu__right__desktop__length__text=obj.duration
+                .menu__right__desktop__title
+                  h2.menu__right__desktop__title__text=obj.title
+      else
         .menu__right__phone
           .menu__right__phone__outer
             .menu__right__phone__inner

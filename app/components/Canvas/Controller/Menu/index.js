@@ -51,8 +51,12 @@ export default class Menu
     this.menu_wrapper = document.querySelector('.menu__wrapper')
     this.menu_gallery = document.querySelector('.menu__gallery')
 
+    if(this.screen.tablet)
+      this.menu_right_tablet = document.querySelector('.menu__right__desktop')
+
     if(this.screen.phone)
       this.menu_phone_outer = document.querySelector('.menu__right__phone__outer')
+
 
     this.images = document.querySelectorAll('img.menu__gallery__image__figure__image')
     this.img_links = document.querySelectorAll('.menu__gallery__image__link')
@@ -169,6 +173,9 @@ export default class Menu
     this.scroll.current = gsap.utils.interpolate(this.scroll.current, this.scroll.target, this.scroll.ease)
 
     this.menu_wrapper.style[this.t_prefix] = `translateY(${this.scroll.current}px)`
+
+    if(this.menu_right_tablet)
+      this.menu_right_tablet.style[this.t_prefix] = `translateY(${this.scroll.current}px)`
 
     if(this.menu_phone_outer)
       this.menu_phone_outer.style[this.t_prefix] = `translateY(${this.scroll.current}px)`

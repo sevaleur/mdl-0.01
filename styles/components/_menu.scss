@@ -28,6 +28,33 @@
 
       position: relative; 
 
+      @include media('<=tablet')
+      {
+        position: absolute; 
+        top: 0%;
+        left: 0%;  
+      }
+
+      &__objects 
+      {
+        height: 100%; 
+        width: 100%; 
+
+        position: relative; 
+
+        @include media('<=tablet')
+        {
+          height: 100%; 
+          width: 100%; 
+
+          position: absolute; 
+          top: 50%; 
+          left: 50%; 
+
+          transform: translate(-50%, -13rem);
+        }
+      }
+
       &__object 
       {
         height: 100%; 
@@ -36,6 +63,18 @@
         position: absolute;
         top: 0; 
         left: 0; 
+
+        @include media('<=tablet')
+        {
+          position: initial;
+          height:49rem;
+          width:100%;
+
+          padding: 7rem 0; 
+
+          border-bottom: 1px solid $color-grey;
+          border-top: 1px solid $color-grey;
+        }
       }
 
       &__images 
@@ -48,6 +87,11 @@
 
         width:fit-content;
         display: none;
+
+        @include media ('<=tablet')
+        {
+          display: none; 
+        }
       }
 
       &__image 
@@ -85,6 +129,11 @@
 
         display: flex; 
         justify-content: space-between;
+
+        @include media ('<=tablet')
+        {
+          display: none; 
+        }
       }
 
       &__index 
@@ -94,6 +143,11 @@
         left: 2rem; 
 
         display: flex; 
+
+        @include media ('<=tablet')
+        {
+          display: none; 
+        }
       }
 
       &__length 
@@ -102,10 +156,13 @@
         top: 10rem; 
         right: 3rem; 
 
-        display: flex; 
-        align-items: center;
         z-index: 1;
         mix-blend-mode: difference;
+
+        @include media ('<=tablet')
+        {
+          display: none; 
+        }
 
         &__text 
         {
@@ -119,16 +176,50 @@
         bottom: 2rem; 
         left: 2rem; 
 
+        @include media('<=tablet')
+        {
+          position:initial;
+
+          height: 100%; 
+          width: 100%;
+          
+          display: grid; 
+          place-content: center;
+          
+          writing-mode: vertical-lr;
+          white-space: nowrap;
+          letter-spacing: 0.4rem;
+          text-align: center;
+        }
+
         &__text 
         {
           @extend %titleBold-110;
           
           line-height: 12.5rem;
+
+          @include media ('<=tablet')
+          {
+            font-family: 'Satoshi-Regular';
+            font-size: 2.5rem;
+
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+
+            .word 
+            {
+              display: flex; 
+              align-items: center;
+              justify-content: center;
+            }
+          }
         }
       }
     }
 
-    @include media('<=phone')
+    @include media('<=tablet')
     {
       position: absolute; 
       top: 50%; 
@@ -369,8 +460,8 @@
 
         @include media('<=tablet')
         {
-          height: 15rem; 
-          width: 70rem; 
+          height: 40rem; 
+          width: 60rem; 
         }
 
         @include media('<=phone')

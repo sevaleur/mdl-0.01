@@ -195,6 +195,18 @@ export default class Navigation extends Component
     : (link.classList.add('hidden'), link.classList.remove('selected'))
   }
 
+  onChange(template)
+  {
+    this.elements.menu_links.forEach(
+      link => 
+      {
+        link.dataset.path === template
+          ? (link.classList.add('selected'), link.classList.remove('hidden'), this.former = link)
+          : (link.classList.add('hidden'), link.classList.remove('selected'))
+      }
+    )
+  }
+
   onMenuInteraction()
   {
     if(!this.menuClick)
