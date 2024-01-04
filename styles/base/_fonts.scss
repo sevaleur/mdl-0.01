@@ -32,6 +32,16 @@
        font-style: normal;
 }
 
+@font-face {
+  font-family: $font-merchant-black;
+  src: url('../fonts/titles/Merchant-Black.woff2') format('woff2'),
+       url('../fonts/titles/Merchant-Black.woff') format('woff'),
+       url('../fonts/titles/Merchant-Black.ttf') format('truetype');
+      font-style: normal;
+      font-weight: normal;
+      text-rendering: optimizeLegibility;
+}
+
 /* 
   DESC.
 */

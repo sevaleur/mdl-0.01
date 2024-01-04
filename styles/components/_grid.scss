@@ -25,7 +25,7 @@
 
   @include media('<=400px')
   {
-    grid-template-rows: 20rem 1fr 20rem 1fr 35rem;
+    grid-template-rows: 20rem 80rem 20rem 1fr 35rem;
     gap: 10rem; 
     padding-bottom: 10rem;
   }

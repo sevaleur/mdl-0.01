@@ -360,6 +360,8 @@
       &:nth-child(even)
       {
         @extend %titleBold-70;
+
+        padding-right: 2rem;
       }
     }
   }

@@ -446,14 +446,20 @@
 
       padding: 0 1rem;
 
+      text-align: center;
+
+      width: 100rem; 
+
       &:nth-child(odd)
       {
-        @extend %titleLight-100; 
+        @extend %titleLight-100;
       }
 
       &:nth-child(even)
       {
         @extend %titleBold-100; 
+
+        padding-top: 2rem; 
       }
 
       @include media('<=500px')
@@ -928,15 +934,20 @@
           padding: 0 2rem;
 
           text-transform: uppercase;
+          text-align: center;
+
+          width: 100rem; 
 
           &:nth-child(odd)
           {
-            @extend %titleLight-100; 
+            @extend %titleLight-100;
           }
 
           &:nth-child(even)
           {
             @extend %titleBold-100; 
+
+            padding-top: 2rem;
           }
         }
       }
@@ -977,6 +988,9 @@
           padding: 0 2rem;
 
           text-transform: uppercase;
+          text-align: center;
+
+          width: 100rem; 
 
           &:nth-child(odd)
           {
@@ -986,6 +1000,8 @@
           &:nth-child(even)
           {
             @extend %titleBold-100; 
+
+            padding-top: 2rem;
           }
         }
       }

@@ -64,10 +64,16 @@ export default class Menu extends Page
         bottom_lines: [],
       }
     }
+
+    verticalLoop(
+      this.elements.marquee_title, 
+    {
+      repeat: -1, 
+      speed: 0.5,
+    })
     
     this.createBounds()
     this.createMotion()
-
     this.createMenuInteraction()
   }
 
@@ -165,17 +171,6 @@ export default class Menu extends Page
         }
       }
     )
-
-    verticalLoop(
-      this.elements.marquee_title, 
-    {
-      repeat: -1, 
-      speed: 0.5,
-      paused: false, 
-      center: true, 
-      draggable: false,
-      inertia: false
-    })
   
     this.showRightTitles = gsap.fromTo(
       this.elements.right,
