@@ -64,13 +64,6 @@ export default class Menu extends Page
         bottom_lines: [],
       }
     }
-
-    verticalLoop(
-      this.elements.marquee_title, 
-    {
-      repeat: -1, 
-      speed: 0.5,
-    })
     
     this.createBounds()
     this.createMotion()
@@ -155,6 +148,13 @@ export default class Menu extends Page
 
   createMotion()
   {
+    verticalLoop(
+      this.elements.marquee_title, 
+    {
+      repeat: -1, 
+      speed: 0.5,
+    })
+    
     this.showMarquee = gsap.fromTo(
       this.elements.marquee,
       {

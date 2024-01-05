@@ -99,6 +99,39 @@ export default class Video extends Page
 
   createMotion()
   {
+    horizontalLoop(
+      this.elements.title, 
+      { 
+        paused: false, 
+        reversed: true, 
+        repeat: -1, 
+        speed: 0.5 
+      }
+    )
+
+    if(this.elements.credits && this.elements.thanks)
+    {
+      horizontalLoop(
+        this.elements.credits, 
+        { 
+          paused: false, 
+          reversed: true, 
+          repeat: -1, 
+          speed: 0.5 
+        }
+      )
+
+      horizontalLoop(
+        this.elements.thanks, 
+        { 
+          paused: false, 
+          reversed: false, 
+          repeat: -1, 
+          speed: 0.5 
+        }
+      )
+    }
+    
     if(!this.device.phone)
     {
       this.onTitleShow = gsap.fromTo(
@@ -217,39 +250,6 @@ export default class Video extends Page
         paused: true
       }
     )
-
-    horizontalLoop(
-      this.elements.title, 
-      { 
-        paused: false, 
-        reversed: true, 
-        repeat: -1, 
-        speed: 0.5 
-      }
-    )
-
-    if(this.elements.credits && this.elements.thanks)
-    {
-      horizontalLoop(
-        this.elements.credits, 
-        { 
-          paused: false, 
-          reversed: true, 
-          repeat: -1, 
-          speed: 0.5 
-        }
-      )
-
-      horizontalLoop(
-        this.elements.thanks, 
-        { 
-          paused: false, 
-          reversed: false, 
-          repeat: -1, 
-          speed: 0.5 
-        }
-      )
-    }
   }
 
   /* 
@@ -291,10 +291,46 @@ export default class Video extends Page
     this.enlargePlayButton.reverse()
   }
 
+  onTouchMove(e)
+  {
+    super.onTouchMove(e)
+
+    this.onIsCovered()
+  }
+
   onWheel(e)
   {
     super.onWheel(e)
 
+    this.onIsCovered()
+  }
+
+  onMove(e)
+  {
+    super.onMove(e)
+  }
+
+  onBack()
+  {
+    window.history.back()
+  }
+
+  onPlay()
+  {
+    this.controls.isPlaying = true
+    this.elements.controls_play_btn.classList.add('active')
+    this.vid.play()
+  }
+
+  onPause()
+  {
+    this.controls.isPlaying = false 
+    this.elements.controls_play_btn.classList.remove('active')
+    this.vid.pause()
+  }
+
+  onIsCovered()
+  {
     let location = (window.innerHeight - this.titleBounds.height) - this.scroll.current
     let scrollPos = (this.scroll.current + this.titleBounds.height) - window.innerHeight
 
@@ -325,30 +361,6 @@ export default class Video extends Page
         this.onPlay()  
       }
     }
-  }
-
-  onMove(e)
-  {
-    super.onMove(e)
-  }
-
-  onBack()
-  {
-    window.history.back()
-  }
-
-  onPlay()
-  {
-    this.controls.isPlaying = true
-    this.elements.controls_play_btn.classList.add('active')
-    this.vid.play()
-  }
-
-  onPause()
-  {
-    this.controls.isPlaying = false 
-    this.elements.controls_play_btn.classList.remove('active')
-    this.vid.pause()
   }
 
 /* 

@@ -445,12 +445,13 @@
       justify-content: center;
       align-items: center;
       gap: 2rem;
+
+      gap: 0; 
     }
 
     @include media('<=phone')
     {
       top: 2.5rem; 
-      gap: 2rem; 
 
       transform: none;
 
@@ -500,14 +501,8 @@
         border-right: none;
 
         padding-right: 0;
-        font-size: 2rem;
-        line-height: 2rem;
-      }
-
-      @include media('<=500px')
-      {
-        font-size: 3rem;
-        line-height: 3rem;
+        font-size: 5rem;
+        line-height:5rem;
       }
     }
 

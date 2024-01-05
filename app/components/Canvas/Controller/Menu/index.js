@@ -129,10 +129,7 @@ export default class Menu
 
   onTouchMove({ y, x })
   {
-    const x_dist = x.start - x.end
-    const y_dist = y.start - y.end
-
-    const dist = x_dist + y_dist
+    const dist = y.start - y.end
 
     this.scroll.target = this.scroll.position - dist
   }
@@ -144,7 +141,6 @@ export default class Menu
 
   onWheel({ pixelY, pixelX })
   {
-    this.scroll.target -= pixelX * 0.5
     this.scroll.target -= pixelY * 0.5
   }
 

@@ -187,26 +187,6 @@ export default class App
 
   onResize()
   {
-    this.device.desktop = window.innerWidth > 1024 ? true : false
-    this.device.tablet = window.innerWidth <= 1024 && window.innerWidth > 768 ? true : false
-    this.device.phone = window.innerWidth <= 768 ? true : false
-
-    if(this.device.desktop)
-    {
-      this.device.tablet = false
-      this.device.phone = false
-    }
-    else if(this.device.tablet)
-    {
-      this.device.desktop = false 
-      this.device.phone = false 
-    }
-    else 
-    {
-      this.device.desktop = false 
-      this.device.tablet = false
-    }
-
     if(this.page && this.page.onResize)
       this.page.onResize()
 

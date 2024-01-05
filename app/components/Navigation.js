@@ -369,7 +369,7 @@ export default class Navigation extends Component
 
     if(!this.device.desktop)
     {
-      this.elements.menu.addEventListener('click', this.onMenuInteraction.bind(this))
+      this.elements.menu_icon.addEventListener('click', this.onMenuInteraction.bind(this))
     }
   }
 }

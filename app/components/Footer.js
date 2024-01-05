@@ -45,6 +45,11 @@ export default class Footer extends Component
       bounds: this.element.getBoundingClientRect()
     }
 
+    if(this.device.phone)
+    {
+      this.elements.close.style.fontSize = '5rem'
+    }
+
     this.createMotion()
   }
 

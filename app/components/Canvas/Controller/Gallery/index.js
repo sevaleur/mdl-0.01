@@ -389,14 +389,12 @@ export default class Gallery
   onTouchMove({ y, x })
   {
     if(this.enlarged) return
-    if(this.tranistion && !this.transition.finished) return
+    if(this.transition && !this.transition.finished) return
 
-    const x_dist = x.start - x.end
-    const y_dist = y.start - y.end
+    const dist = y.start - y.end
 
-    const dist = x_dist + y_dist
     
-    this.scroll.target = this.scroll.position - dist
+    this.scroll.target = this.scroll.position - dist * 1.25
   }
 
   onTouchUp({ y })
