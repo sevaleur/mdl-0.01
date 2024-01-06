@@ -83,6 +83,7 @@ export default class Video extends Page
       : this.elements.controls_mute_icon.classList.remove('on')
 
     this.iframe = document.querySelector('.plyr__video-embed')
+    this.iframeContainer = document.querySelector('.plyr__video-embed__container')
   }
 
   createBounds()
@@ -102,8 +103,6 @@ export default class Video extends Page
 
     if(this.device.phone)
     {
-      this.iframe.style.height = `${calcVideo}px`
-
       this.elements.wrap.style.height = `${calcVideo}px`
       this.elements.wrap.style.top = `${this.backBounds.height}px`
 
@@ -115,6 +114,10 @@ export default class Video extends Page
       this.elements.iframe.style.height = `${calcHeight - 1}px`
     }
 
+    if(!this.device.desktop)
+    {
+      this.iframe.style.top = `${(calcVideo / 3) + 5}px`
+    }
   }
 
   createMotion()

@@ -3,7 +3,7 @@
   --plyr-color-main: $color-night;
 }
 
-.plyr__controls 
+.plyr__control, .plyr__controls 
 {
   display: none; 
 }
@@ -24,33 +24,7 @@
 
   @include media('<=tablet')
   {
-    transform: scale(2);
-  }
-
-  @include media('<=phone')
-  {
-    transform: scale(2) translateY(-42rem);
-  }
-
-  @include media('<=500px')
-  {
-    transform-origin: initial;
-    transform: scale(3) translateY(-5rem);
-  }
-
-  @include media('<=400px')
-  {
-    transform: scale(3) translateY(-8rem);
-  }
-
-  @include media('<=380px')
-  {
-    transform: scale(2) translateY(-22rem);
-  }
-
-  @include media('<=360px')
-  {
-    transform: scale(3) translateY(-7rem);
+    transform: scale(3.0);
   }
 }
 
