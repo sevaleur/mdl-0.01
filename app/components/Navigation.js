@@ -90,7 +90,7 @@ export default class Navigation extends Component
         }, 
         {
           width: '100%', 
-          height: '100vh',
+          height: `${window.innerHeight}px`,
           duration: 0.8, 
           ease: 'power2.inOut', 
           paused: true
@@ -282,7 +282,7 @@ export default class Navigation extends Component
             
             if(!this.device.desktop)
             {
-              this.elements.menu_social.style.display = 'flex'
+              this.elements.menu_social.style.display = 'grid'
               this.onSocialsShow.play()
             }
             link.show()
@@ -369,7 +369,7 @@ export default class Navigation extends Component
 
     if(!this.device.desktop)
     {
-      this.elements.menu_icon.addEventListener('click', this.onMenuInteraction.bind(this))
+      this.elements.menu.addEventListener('click', this.onMenuInteraction.bind(this))
     }
   }
 }

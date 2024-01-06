@@ -29,30 +29,29 @@ block content
         .video__media__cover
         .video__selected#plyr
           iframe.video__selected__video.plyr__video-embed(src=film.selected_video)
-    .video__wrapper
-      .video__ghost 
-        if device !== 'desktop'
-          .video__controls 
-            .video__controls__mute 
-              .video__controls__mute__icon
-                span
-            .video__controls__play
-              .video__btn
-                .video__btn__icon
-                  .part.part__left
-                  .part.part__right
-        .video__ghost__div
-        if device === 'desktop'
-          .video__title
-            .video__title__wrapper
-              h1.video__title__text=film.title
-              span.video__title__text=film.title 
-              span.video__title__text=film.title 
-              span.video__title__text=film.title 
-              span.video__title__text=film.title 
-              span.video__title__text=film.title 
-              span.video__title__text=film.title 
-              span.video__title__text=film.title 
+    .video__wrapper 
+      .video__iframe
+      if device !== 'desktop'
+        .video__controls 
+          .video__controls__mute 
+            .video__controls__mute__icon
+              span
+          .video__controls__play
+            .video__btn
+              .video__btn__icon
+                .part.part__left
+                .part.part__right
+      if device === 'desktop'
+        .video__title
+          .video__title__wrapper
+            h1.video__title__text=film.title
+            span.video__title__text=film.title 
+            span.video__title__text=film.title 
+            span.video__title__text=film.title 
+            span.video__title__text=film.title 
+            span.video__title__text=film.title 
+            span.video__title__text=film.title 
+            span.video__title__text=film.title 
 
       section.video__grid
         .video__info

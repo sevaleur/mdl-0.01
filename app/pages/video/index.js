@@ -14,10 +14,11 @@ export default class Video extends Page
       id: 'video',
       element: '.video',
       elements: {
+        iframe: '.video__iframe',
         title_div: '.video__title',
         title: '.video__title__text',
         wrapper: '.video__wrapper', 
-        ghost: '.video__ghost__div',
+        wrap: '.video__wrap',
         credits: 'h3.video__footer__credits__title__text',
         thanks: 'h3.video__footer__thanks__title__text',
         video_cover: '.video__media__cover', 
@@ -87,14 +88,24 @@ export default class Video extends Page
     this.titleBounds = this.elements.title_div.getBoundingClientRect()
     this.controlBounds = this.elements.controls.getBoundingClientRect()
 
-    if(this.device.phone)
-      this.createWidth()
+    this.createWidth()
   }
 
   createWidth()
   {
-    let calc = window.innerWidth - (this.backBounds.width * 2) + 2
-    this.elements.title_div.style.width = `${calc}px`
+    let calcWidth = window.innerWidth - (this.backBounds.width * 2) + 2
+    let calcHeight = window.innerHeight - this.backBounds.height
+
+    if(this.device.phone)
+    {
+      this.elements.title_div.style.width = `${calcWidth}px`
+      this.elements.iframe.style.height = `${calcHeight - this.backBounds.height}px`
+    }
+    else 
+    {
+      this.elements.iframe.style.height = `${calcHeight - 1}px`
+    }
+
   }
 
   createMotion()
@@ -338,7 +349,7 @@ export default class Video extends Page
     {
       this.controls.isCovered = true 
 
-      if(this.device.desktop)
+      if(!this.device.phone)
         this.enlargeControls.reverse()
 
       gsap.to(this.elements.video_cover, { background: this.background } )
@@ -353,7 +364,7 @@ export default class Video extends Page
       {
         this.controls.isCovered = false
 
-        if(this.device.desktop)
+        if(!this.device.phone)
           this.enlargeControls.play()
 
         gsap.to(this.elements.video_cover, { background: 'transparent' } )
@@ -463,8 +474,8 @@ export default class Video extends Page
 
     if(!this.device.phone)
     {
-      this.elements.ghost.addEventListener('mouseenter', this.onMouseEnter.bind(this))
-      this.elements.ghost.addEventListener('mouseleave', this.onMouseLeave.bind(this))
+      this.elements.iframe.addEventListener('mouseenter', this.onMouseEnter.bind(this))
+      this.elements.iframe.addEventListener('mouseleave', this.onMouseLeave.bind(this))
     }
     else
     {
@@ -472,7 +483,7 @@ export default class Video extends Page
     }
 
     this.elements.controls_mute.addEventListener('click', this.onMute.bind(this))
-    this.elements.ghost.addEventListener('click', this.onClickInteraction.bind(this))
+    this.elements.iframe.addEventListener('click', this.onClickInteraction.bind(this))
     this.elements.back.addEventListener('click', this.onBack)
   }
 
@@ -482,8 +493,8 @@ export default class Video extends Page
 
     if(!this.device.phone)
     {
-      this.elements.ghost.removeEventListener('mouseenter', this.onMouseEnter)
-      this.elements.ghost.removeEventListener('mouseleave', this.onMouseLeave)
+      this.elements.iframe.removeEventListener('mouseenter', this.onMouseEnter)
+      this.elements.iframe.removeEventListener('mouseleave', this.onMouseLeave)
     }
     else 
     {
@@ -491,7 +502,7 @@ export default class Video extends Page
     }
 
     this.elements.controls_mute.removeEventListener('click', this.onMute)
-    this.elements.ghost.removeEventListener('click', this.onClickInteraction)
+    this.elements.iframe.removeEventListener('click', this.onClickInteraction)
     this.elements.back.removeEventListener('click', this.onBack)
   }
 }

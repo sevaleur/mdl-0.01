@@ -254,7 +254,7 @@
 
         @include media('<=500px')
         {
-          font-size: 2.5rem;
+          font-size: 3rem;
         }
 
         .char 
@@ -266,24 +266,14 @@
 
     &__selected
     {
-      height: 60rem;
       width: 60rem;
+      height: 60rem;
 
       cursor: none;
 
-      @include media('<=phone')
+      @include media('<=tablet')
       {
-        height: 50rem; 
-      }
-
-      @include media('<=500px')
-      {
-        height: 100rem; 
-      }
-
-      @include media('<=400px')
-      {
-        height: 70rem; 
+        padding-bottom: 15rem;
       }
 
       &__text
@@ -445,8 +435,6 @@
       justify-content: center;
       align-items: center;
       gap: 2rem;
-
-      gap: 0; 
     }
 
     @include media('<=phone')
@@ -456,6 +444,8 @@
       transform: none;
 
       flex-direction: column;
+
+      gap: 0;
     }
 
     @include media('<=500px')

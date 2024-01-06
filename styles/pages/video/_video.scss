@@ -34,12 +34,12 @@
 
   @include media('<=380px')
   {
-    transform: scale(2) translateY(-5rem);
+    transform: scale(2) translateY(-3rem);
   }
 
   @include media('<=360px')
   {
-    transform: scale(2) translateY(-1.5rem);
+    transform: scale(2) translateY(2rem);
   }
 }
 
@@ -82,6 +82,14 @@
 .video
 {
   @extend %page;
+
+  &__iframe 
+  {
+    height: 0px; 
+    width: 100%; 
+
+    background-color: transparent;
+  }
 
   &__back
   {
@@ -193,18 +201,11 @@
 
     @include media('<=phone')
     {
-      grid-area: 2 / 1 / -1 / -1;
+      position: static;
 
-      height: 100%;
       width: 100%; 
 
-      top: auto;
-      bottom: 0;  
-      left: 50%;
-      transform: translateX(-50%);
-
       flex-direction: row;
-
       border-right: none;
     }
 
@@ -310,36 +311,6 @@
     }
   }
 
-  &__ghost 
-  {
-    height: 100%; 
-    width: 100%; 
-
-    display: grid; 
-    grid-template-rows: 85vh 15vh;
-
-    @include media('<=phone')
-    {
-      position: relative;
-      grid-template-rows: 78vh 15rem;
-    }
-
-    @include media('<=400px')
-    {
-      grid-template-rows: 76vh 13rem;
-    }
-
-    &__div 
-    {
-      grid-area: 1 / 1 / 2 / -1;
-
-      background: transparent;
-
-      height: 100%; 
-      width: 100%; 
-    }
-  }
-
   &__wrap
   {
     position: fixed; 
@@ -393,7 +364,7 @@
     align-self: center;
     justify-self: center;
 
-    height: 101%; 
+    height: 10rem; 
     width: 100%;
 
     border: 1px solid $color-grey;
@@ -404,6 +375,11 @@
 
     position: relative; 
 
+    @include media('<=tablet')
+    {
+      height: 13rem;
+    }
+
     @include media('<=phone')
     {
       position: absolute; 
@@ -411,8 +387,6 @@
       left: 50%; 
 
       transform: translateX(-50%);
-
-      height: 13rem; 
 
       z-index: z('content');
     }
@@ -507,6 +481,12 @@
     {
       grid-area: 1 / 1 / 2 / 2;
       border-bottom: 1px solid $color-grey;
+      border-right: 1px solid $color-grey;
+    }
+
+    @include media('<=500px')
+    {
+      border-right: none;
     }
 
     &__title 
@@ -897,10 +877,14 @@
 
         padding: 10rem 0;
 
+        @include media('<=tablet')
+        {
+          padding: 15rem 10rem; 
+        }
+
         @include media('<=500px')
         {
           justify-self: normal;
-          padding: 15rem 10rem;
         }
 
         &__text 
@@ -1012,10 +996,14 @@
         align-self: center;
         justify-self: center;
 
+        @include media('<=tablet')
+        {
+          padding: 15rem 10rem; 
+        }
+
         @include media('<=500px')
         {
           justify-self: normal;
-          padding: 15rem 10rem; 
         }
 
         &__text 

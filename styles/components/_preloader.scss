@@ -9,7 +9,7 @@
 
   &__number
   {
-    @extend %titleLight-200;
+    @extend %titleBold-200;
 
     position: absolute;
     right: 5rem;
@@ -18,23 +18,23 @@
 
     mix-blend-mode: difference;
 
+    @include media('<=tablet')
+    {
+      bottom: auto; 
+      right: auto; 
+
+      top: 50%; 
+      left: 50%; 
+      transform: translate(-50%, -50%);
+    }
+
     &__text
     {
       display: inline-block;
 
       @include media('<=tablet')
       {
-        font-size: 4rem;
-      }
-
-      @include media('<=phone')
-      {
-        font-size: 2.5rem;
-      }
-
-      @include media('<=500px')
-      {
-        font-size: 5rem;
+        font-size: 10rem;
       }
     }
   }

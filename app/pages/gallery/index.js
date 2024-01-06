@@ -85,6 +85,9 @@ export default class Gallery extends Page
     let calc = window.innerWidth - bounds.width
 
     this.elements.modal_images.style.width = `${calc}px`  
+
+    if(!this.device.desktop)
+      this.elements.modal_selected.style.height = `${window.innerHeight - (bounds.height * 3)}px`
   }
 
   createMotion()
