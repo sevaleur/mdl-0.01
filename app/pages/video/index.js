@@ -55,7 +55,8 @@ export default class Video extends Page
       isPlaying: false, 
       isClicked: false,
       isCovered: false,
-      isInactive: false
+      isInactive: false,
+      isFullscreen: false, 
     }
   }
 
@@ -80,6 +81,8 @@ export default class Video extends Page
     this.vid.muted
       ? this.elements.controls_mute_icon.classList.add('on')
       : this.elements.controls_mute_icon.classList.remove('on')
+
+    this.iframe = document.querySelector('.plyr__video-embed')
   }
 
   createBounds()
@@ -95,9 +98,15 @@ export default class Video extends Page
   {
     let calcWidth = window.innerWidth - (this.backBounds.width * 2) + 2
     let calcHeight = window.innerHeight - this.backBounds.height
+    let calcVideo = window.innerHeight - (this.backBounds.height * 3)
 
     if(this.device.phone)
     {
+      this.iframe.style.height = `${calcVideo}px`
+
+      this.elements.wrap.style.height = `${calcVideo}px`
+      this.elements.wrap.style.top = `${this.backBounds.height}px`
+
       this.elements.title_div.style.width = `${calcWidth}px`
       this.elements.iframe.style.height = `${calcHeight - this.backBounds.height}px`
     }

@@ -252,7 +252,10 @@ export default class Gallery
       this.onModalSelect.reverse()
 
       if(this.screen.desktop)
+      {
         this.show_close.reverse()
+        this.titleSwitch.reverse()
+      }
 
       if(this.screen.tablet || this.screen.mobile)
         this.onModalMobile.reverse()
