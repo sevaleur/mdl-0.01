@@ -269,7 +269,6 @@
           opacity: 0;
         }
       }
-
     }
 
     &__play
@@ -320,8 +319,6 @@
       @extend %cover;
 
       background: transparent;
-
-      border: 1px solid $color-grey;
 
       z-index: z('content');
     }
@@ -578,6 +575,11 @@
       letter-spacing: 0.2rem;
       line-height: 3rem;
 
+      @include media('<=tablet')
+      {
+        font-size: 2rem;
+      }
+
       @include media('<=500px')
       {
         font-size: 3rem;
@@ -702,6 +704,11 @@
 
           letter-spacing: 0.1rem;
 
+          @include media('<=tablet')
+          {
+            font-size: 2rem;
+          }
+
           @include media('<=500px')
           {
             font-size: 3rem;
@@ -800,6 +807,11 @@
 
           letter-spacing: 0.1rem;
 
+          @include media('<=tablet')
+          {
+            font-size: 2rem;
+          }
+
           @include media('<=500px')
           {
             font-size: 3rem;
@@ -878,6 +890,11 @@
           
           line-height: 3rem;
           letter-spacing: 0.2rem;
+
+          @include media('<=tablet')
+          {
+            font-size: 2rem;
+          }
 
           @include media('<=500px')
           {
@@ -997,6 +1014,11 @@
 
           line-height: 3rem;
           letter-spacing: 0.2rem;
+
+          @include media('<=tablet')
+          {
+            font-size: 2rem;
+          }
 
           @include media('<=500px')
           {

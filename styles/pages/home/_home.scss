@@ -27,17 +27,12 @@
 
     @include media('<=phone')
     {
-      font-size: 2rem;
+      font-size: 2.5rem;
 
       bottom: 3.5rem; 
       left: 4rem; 
 
       writing-mode: horizontal-tb;
-    }
-
-    @include media('<=400px')
-    {
-      font-size: 2.5rem;
     }
   }
 
@@ -126,14 +121,6 @@
 
           @include media('<=phone')
           {
-            font-size: 2rem;
-            writing-mode: horizontal-tb;
-            transform: none;
-          }
-
-          @include media('<=400px')
-          {
-            font-size: 2.5rem;
             writing-mode: horizontal-tb;
             transform: none;
           }

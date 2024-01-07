@@ -18,7 +18,9 @@ export default class Footer extends Component
         contact: '.footer__contact', 
         media: '.footer__icons__media', 
         top: '.footer__top', 
-        btm: '.footer__btm'
+        btm: '.footer__btm', 
+        phone: '.footer__title__media',
+        phone_icon: '.footer__title__media__image'
       }, 
       device: device
     })
@@ -34,9 +36,12 @@ export default class Footer extends Component
   {
     super.create()
 
-    this.con = new Direction(this.elements.connect)
-    this.exp = new Direction(this.elements.expand)
-    this.cls = new Direction(this.elements.close)
+    if(!this.device.phone)
+    {
+      this.con = new Direction(this.elements.connect)
+      this.exp = new Direction(this.elements.expand)
+      this.cls = new Direction(this.elements.close)
+    }
 
     this.footer = {
       isClicked: false, 
@@ -63,6 +68,22 @@ export default class Footer extends Component
         paused: true
       }
     )
+
+    if(this.device.phone)
+    {
+      this.onPhoneAnimation = gsap.fromTo(
+        this.elements.phone_icon, 
+        {
+          transform: 'rotate(315deg)'
+        }, 
+        {
+          transform: 'rotate(135deg)', 
+          duration: 0.5, 
+          ease: 'power2.inOut', 
+          paused: true
+        }
+      )
+    }
   }
 
   createEnlargeTimeline()
@@ -195,8 +216,11 @@ export default class Footer extends Component
 
     this.footer.isHovered = true 
 
-    this.con.hide()
-    this.exp.show()
+    if(!this.device.phone)
+    {
+      this.con.hide()
+      this.exp.show()
+    }
   }
 
   onMouseLeave()
@@ -205,8 +229,11 @@ export default class Footer extends Component
 
     this.footer.isHovered = false
 
-    this.exp.hide()
-    this.con.show()
+    if(!this.device.phone)
+    {
+      this.exp.hide()
+      this.con.show()
+    }
   }
 
   onInteraction()
@@ -219,15 +246,22 @@ export default class Footer extends Component
     this.elements.top.style.display = 'block'
     this.elements.btm.style.display = 'block'
 
-    if(!this.footer.isHovered)
+    if(!this.device.phone)
     {
-      this.con.hide()
-      this.cls.show()
+      if(!this.footer.isHovered)
+      {
+        this.con.hide()
+        this.cls.show()
+      }
+      else 
+      {
+        this.exp.hide()
+        this.cls.show()
+      }
     }
     else 
     {
-      this.exp.hide()
-      this.cls.show()
+      this.onPhoneAnimation.play()
     }
 
     this.createEnlargeTimeline()
@@ -247,8 +281,15 @@ export default class Footer extends Component
   {
     if(!this.footer.isClicked) return 
 
-    this.cls.hide()
-    this.con.show()
+    if(!this.device.phone)
+    {
+      this.cls.hide()
+      this.con.show()
+    }
+    else 
+    {
+      this.onPhoneAnimation.reverse()
+    }
 
     this.createShrinkTimeline()
 
@@ -271,7 +312,11 @@ export default class Footer extends Component
   show()
   {
     this.footerShow.play()
-    this.con.show()
+
+    if(!this.device.phone)
+    {
+      this.con.show()
+    }
   }
 
   hide()
@@ -290,6 +335,14 @@ export default class Footer extends Component
     this.element.addEventListener('mouseenter', this.onMouseEnter.bind(this))
     this.element.addEventListener('mouseleave', this.onMouseLeave.bind(this))
     this.element.addEventListener('click', this.onInteraction.bind(this))
-    this.elements.close.addEventListener('click', this.onInteractionClose.bind(this))
+
+    if(!this.device.phone)
+    {
+      this.elements.close.addEventListener('click', this.onInteractionClose.bind(this))
+    }
+    else 
+    {
+      this.elements.title.addEventListener('click', this.onInteractionClose.bind(this))
+    }
   }
 }

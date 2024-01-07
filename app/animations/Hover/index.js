@@ -48,15 +48,6 @@ export default class Hover
       xPercent: 0,
       paused: true
     })
-
-    this.onHide = gsap.to(
-      this.chars,
-    {
-      duration: 0.8,
-      ease: 'power2.inOut',
-      xPercent: 150,
-      paused: true,
-    })
   }
 
   show()
@@ -73,27 +64,6 @@ export default class Hover
 
   hide()
   {
-    this.onHide.play()
-      .eventCallback('onComplete', () => 
-      {
-        this.chars.forEach(
-          char => 
-          {
-            char.style.display = 'none'
-          }
-        )
-
-        this.onHide.reverse()
-        this.onShow.reverse()
-          .eventCallback('onReverseComplete', () => 
-          {
-            gsap.set(
-              this.chars, 
-              {
-                xPercent: -150
-              }
-            )
-          })
-      })
+    this.onShow.reverse() 
   }
 }

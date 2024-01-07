@@ -247,6 +247,11 @@
 
         cursor: pointer;
 
+        @include media('<=tablet')
+        {
+          font-size: 2.5rem;
+        }
+
         @include media('<=phone')
         {
           font-size: 2rem;
@@ -451,7 +456,7 @@
     @include media('<=500px')
     {
       display: grid; 
-      grid-template-rows: 13rem 1fr; 
+      grid-template-rows: 20rem 1fr; 
       justify-items: center;
     }
 
@@ -502,9 +507,9 @@
 
       @extend %desc-16;
 
-      @include media('<=500px')
+      @include media('<=tablet')
       {
-        font-size: 2.5rem;
+        font-size: 2rem;
       }
 
       .char 

@@ -402,7 +402,8 @@ export default class Gallery
 
   onTouchUp({ y })
   {
-
+    if(this.enlarged) return
+    if(this.transition && !this.transition.finished) return
   }
 
   onWheel({ pixelY, pixelX })

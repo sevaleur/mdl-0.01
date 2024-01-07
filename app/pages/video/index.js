@@ -26,8 +26,9 @@ export default class Video extends Page
         controls: '.video__controls',
         controls_play: '.video__controls__play',
         controls_play_btn: '.video__btn',
+        controls_play_icon: '.video__btn__icon',
         controls_mute: '.video__controls__mute',
-        controls_mute_icon: '.video__controls__mute__icon'
+        controls_mute_icon: '.video__controls__mute__icon',
       }, 
       background: COLOR_NIGHT, 
       color: COLOR_CULTURED,
@@ -116,7 +117,14 @@ export default class Video extends Page
 
     if(!this.device.desktop)
     {
-      this.iframe.style.top = `${(calcVideo / 3) + 5}px`
+      if(this.iframe.firstChild.src.indexOf('vimeo') > 1)
+      {
+        this.iframe.style.top = `${(calcVideo / 3) + 5}px`
+      }
+      else 
+      {
+        this.iframe.style.top = `-${(this.backBounds.height / 3) + 5}px`
+      }
     }
   }
 
@@ -126,9 +134,9 @@ export default class Video extends Page
       this.elements.title, 
       { 
         paused: false, 
-        reversed: true, 
+        reversed: false, 
         repeat: -1, 
-        speed: 0.5 
+        speed: 0.25 
       }
     )
 
@@ -140,7 +148,7 @@ export default class Video extends Page
           paused: false, 
           reversed: true, 
           repeat: -1, 
-          speed: 0.5 
+          speed: 0.25 
         }
       )
 
@@ -150,7 +158,7 @@ export default class Video extends Page
           paused: false, 
           reversed: false, 
           repeat: -1, 
-          speed: 0.5 
+          speed: 0.25 
         }
       )
     }
@@ -249,7 +257,7 @@ export default class Video extends Page
     )
 
     this.enlargeMuteButton = gsap.fromTo(
-      this.elements.controls_mute, 
+      this.elements.controls_mute,
       {
         scale: 0
       },

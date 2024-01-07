@@ -33,6 +33,8 @@ export default class Menu extends Page
         menu_image_photos: '.menu__right__desktop__length__photos',
         menu_top_lines: 'span.menu__gallery__image__top', 
         menu_bottom_lines: 'span.menu__gallery__image__bottom', 
+        menu_right_lines: 'span.menu__gallery__image__right', 
+        menu_left_lines: 'span.menu__gallery__image__left', 
         menu_phone_titles: '.menu__right__phone__title',
         menu_phone_title_text: '.menu__right__phone__title__text',
         nav: '.navigation__menu' 
@@ -62,6 +64,8 @@ export default class Menu extends Page
         title: [],
         top_lines: [],
         bottom_lines: [],
+        right_lines: [], 
+        left_lines: []
       }
     }
     
@@ -102,14 +106,30 @@ export default class Menu extends Page
           this.menu.animations.top_lines.push(
             new Line(
               this.elements.menu_top_lines[idx],
-              true
+              false
+            )
+          )
+
+          this.menu.animations.right_lines.push(
+            new Line(
+              this.elements.menu_right_lines[idx],
+              true, 
+              0.06
+            )
+          )
+
+          this.menu.animations.left_lines.push(
+            new Line(
+              this.elements.menu_left_lines[idx],
+              true, 
+              0.06
             )
           )
     
           this.menu.animations.bottom_lines.push(
             new Line(
               this.elements.menu_bottom_lines[idx],
-              true
+              false
             )
           )
   
@@ -152,7 +172,7 @@ export default class Menu extends Page
       this.elements.marquee_title, 
     {
       repeat: -1, 
-      speed: 0.5,
+      speed: 0.25,
     })
     
     this.showMarquee = gsap.fromTo(
@@ -222,8 +242,10 @@ export default class Menu extends Page
 
         if(this.menu.fIdx !== null)
         {
-          this.menu.animations.top_lines[this.menu.fIdx].hide(true)
-          this.menu.animations.bottom_lines[this.menu.fIdx].hide(true)
+          this.menu.animations.top_lines[this.menu.fIdx].hide(false)
+          this.menu.animations.bottom_lines[this.menu.fIdx].hide(false)
+          this.menu.animations.left_lines[this.menu.fIdx].hide(true)
+          this.menu.animations.right_lines[this.menu.fIdx].hide(true)
           this.menu.animations.index[this.menu.fIdx].hide()
           this.menu.animations.length[this.menu.fIdx].hide()
           this.menu.animations.title[this.menu.fIdx].hide()
@@ -283,8 +305,10 @@ export default class Menu extends Page
         }
 
         this.menu.animations.links[idx].play()
-        this.menu.animations.top_lines[idx].show(true)
-        this.menu.animations.bottom_lines[idx].show(true)
+        this.menu.animations.top_lines[idx].show(false)
+        this.menu.animations.left_lines[idx].show(true)
+        this.menu.animations.right_lines[idx].show(true)
+        this.menu.animations.bottom_lines[idx].show(false)
         this.menu.animations.index[idx].show()
         this.menu.animations.length[idx].show()
         this.menu.animations.title[idx].show()
@@ -310,8 +334,10 @@ export default class Menu extends Page
         
         if(this.device.desktop)
         {
-          this.menu.animations.top_lines[idx].hide(true)
-          this.menu.animations.bottom_lines[idx].hide(true)
+          this.menu.animations.top_lines[idx].hide(false)
+          this.menu.animations.bottom_lines[idx].hide(false)
+          this.menu.animations.left_lines[idx].hide(true)
+          this.menu.animations.right_lines[idx].hide(true)
           this.menu.animations.index[idx].hide()
           this.menu.animations.length[idx].hide()
 
@@ -406,8 +432,10 @@ export default class Menu extends Page
           }
           
           this.menu.animations.links[this.menu.aIdx].play()
-          this.menu.animations.top_lines[this.menu.aIdx].show(true)
-          this.menu.animations.bottom_lines[this.menu.aIdx].show(true)
+          this.menu.animations.top_lines[this.menu.aIdx].show(false)
+          this.menu.animations.bottom_lines[this.menu.aIdx].show(false)
+          this.menu.animations.left_lines[this.menu.aIdx].show(true)
+          this.menu.animations.right_lines[this.menu.aIdx].show(true)
           this.menu.animations.index[this.menu.aIdx].show()
           this.menu.animations.length[this.menu.aIdx].show()
           this.menu.animations.title[this.menu.aIdx].show()

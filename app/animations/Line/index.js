@@ -2,21 +2,33 @@ import gsap from 'gsap'
 
 export default class Line
 {
-  constructor(element, vector=false)
+  constructor(element, vector=false, scaleXMod=false)
   {
     this.element = element 
 
-    this.createAnimation(vector)
+    this.createAnimation(vector, scaleXMod)
   }
 
-  createAnimation(vector)
+  createAnimation(vector, scaleXMod)
   {
-    if(!vector)
+    if(!vector && !scaleXMod)
     {
       this.scaleY = gsap.to(
         this.element, 
         {
-          scaleY: 0.5, 
+          scaleY: 0.25, 
+          duration: 1.0, 
+          ease: 'power2', 
+          paused: true
+        }
+      )
+    }
+    else if(vector && scaleXMod)
+    {
+      this.scaleX = gsap.to(
+        this.element, 
+        {
+          scaleX: scaleXMod, 
           duration: 1.0, 
           ease: 'power2', 
           paused: true

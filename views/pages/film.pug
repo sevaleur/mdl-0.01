@@ -27,8 +27,8 @@ block content
             .part.part__right
       .video__media
         .video__media__cover
-        .video__selected#plyr
-          iframe.video__selected__video.plyr__video-embed(src=film.selected_video)
+        .video__selected.plyr__video-embed#plyr
+          iframe.video__selected__video(src=film.selected_video)
     .video__wrapper 
       .video__iframe
       if device !== 'desktop'
