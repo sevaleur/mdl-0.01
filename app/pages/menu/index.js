@@ -70,7 +70,7 @@ export default class Menu extends Page
     }
     
     this.createBounds()
-    this.createMotion()
+    this.createAnimations()
     this.createMenuInteraction()
   }
 
@@ -166,14 +166,22 @@ export default class Menu extends Page
     }
   }
 
-  createMotion()
+  createAnimations()
   {
-    verticalLoop(
-      this.elements.marquee_title, 
-    {
-      repeat: -1, 
-      speed: 0.25,
-    })
+    super.createAnimations(false)
+
+    document.fonts.ready.then(
+      (fontFaceSet) => 
+      {
+        verticalLoop(
+          this.elements.marquee_title, 
+        {
+          repeat: -1, 
+          paddingBottom: 20,
+          speed: 0.25,
+        })
+      }
+    )
     
     this.showMarquee = gsap.fromTo(
       this.elements.marquee,

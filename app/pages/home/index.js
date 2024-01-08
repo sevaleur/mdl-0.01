@@ -248,7 +248,7 @@ export default class Home extends Page
     if(fIdx === null)
     {
       gsap.delayedCall(
-        2.5, () => 
+        2.0, () => 
         { 
           this.showcase.animations.titles[aIdx].show() 
           this.showcase.animations.types[aIdx].show() 

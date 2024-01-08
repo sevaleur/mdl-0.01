@@ -69,7 +69,7 @@ export default class Footer extends Component
       }
     )
 
-    if(this.device.phone)
+    if(!this.device.desktop)
     {
       this.onPhoneAnimation = gsap.fromTo(
         this.elements.phone_icon, 

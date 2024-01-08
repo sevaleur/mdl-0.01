@@ -90,7 +90,6 @@ export default class Page
       }
     })
 
-    this.createAnimations()
     this.preloadImages()
   }
 
@@ -98,8 +97,10 @@ export default class Page
     ANIMATIONS.
   */
 
-  createAnimations()
+  createAnimations(animations=false)
   {
+    if(!animations) return 
+
     this.animations = []
 
     /*

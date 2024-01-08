@@ -45,6 +45,12 @@ const build = urlBuilder(client)
 *
 */
 
+process.on('uncaughtException', function(err) 
+{ 
+  console.log(err) 
+  process.exit()
+}) 
+
 const url = query => 
 {
   return fetch(
@@ -301,26 +307,19 @@ app.get('/advertising', async(req, res) =>
 
 app.get('/advert/:uid', async(req, res) =>
 {
-  try
-  {
-    const partials = await handleReq(req)
-    const advert = await url(
-      encodeURIComponent(
-        `*[_type == "advert"
-          && slug.current == "${req.params.uid}"
-        ]`
-      )
+  const partials = await handleReq(req)
+  const advert = await url(
+    encodeURIComponent(
+      `*[_type == "advert"
+        && slug.current == "${req.params.uid}"
+      ]`
     )
+  )
 
-    res.render('pages/advert', {
-      ...partials,
-      advert: advert.result[0]
-    })
-  }
-  catch (error)
-  {
-    console.log(error)
-  }
+  res.render('pages/advert', {
+    ...partials,
+    advert: advert.result[0]
+  })
 })
 
 app.get('/shortFilms', async(req, res) =>
@@ -350,26 +349,19 @@ app.get('/shortFilms', async(req, res) =>
 
 app.get('/film/:uid', async(req, res) =>
 {
-  try
-  {
-    const partials = await handleReq(req)
-    const film = await url(
-      encodeURIComponent(
-        `*[_type == "film"
-          && slug.current == "${req.params.uid}"
-        ]`
-      )
+  const partials = await handleReq(req)
+  const film = await url(
+    encodeURIComponent(
+      `*[_type == "film"
+        && slug.current == "${req.params.uid}"
+      ]`
     )
+  )
 
-    res.render('pages/film', {
-      ...partials,
-      film: film.result[0]
-    })
-  }
-  catch (error)
-  {
-    console.log(error)
-  }
+  res.render('pages/film', {
+    ...partials,
+    film: film.result[0]
+  })
 })
 
 app.get('/commercial', async(req, res) =>
@@ -399,26 +391,19 @@ app.get('/commercial', async(req, res) =>
 
 app.get('/gallery/:uid', async(req, res) =>
 {
-  try
-  {
-    const partials = await handleReq(req)
-    const gallery = await url(
-      encodeURIComponent(
-        `*[_type == "gallery" 
-          && slug.current == "${req.params.uid}"
-        ]`
-      )
+  const partials = await handleReq(req)
+  const gallery = await url(
+    encodeURIComponent(
+      `*[_type == "gallery" 
+        && slug.current == "${req.params.uid}"
+      ]`
     )
+  )
 
-    res.render('pages/gallery', {
-      ...partials,
-      gallery: gallery.result[0]
-    })
-  }
-  catch (error)
-  {
-    console.log(error)
-  }
+  res.render('pages/gallery', {
+    ...partials,
+    gallery: gallery.result[0]
+  })
 })
 
 app.get('/portraits', async(req, res) =>

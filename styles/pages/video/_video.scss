@@ -384,6 +384,7 @@
 
       display: flex; 
       align-items: center;
+      justify-content: flex-start;
 
       position: absolute; 
       top: 50%; 
@@ -400,7 +401,7 @@
       text-transform: uppercase;
       letter-spacing: 1rem;
 
-      padding: 0 1rem; 
+      margin-right: 20px;
 
       &:nth-child(odd)
       {
@@ -923,7 +924,7 @@
           text-transform: uppercase;
           text-align: center;
 
-          padding: 0 1rem; 
+          margin-right: 20px; 
 
           &:nth-child(odd)
           {
@@ -975,7 +976,7 @@
           text-transform: uppercase;
           text-align: center;
 
-          padding: 0 1rem; 
+          margin-right: 20px; 
 
           &:nth-child(odd)
           {

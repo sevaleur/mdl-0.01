@@ -2,6 +2,7 @@
 .splitting .word,
 .splitting .char {
   display: inline-block;
+  vertical-align: sub;
 }
 
 /* Psuedo-element chars */

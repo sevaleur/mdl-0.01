@@ -54,7 +54,7 @@ export default class Gallery extends Page
       }
     }
 
-    this.createMotion()
+    this.createAnimations()
     this.createModal()
     this.onModalSelect()
     this.onDeviceCheck()
@@ -90,8 +90,10 @@ export default class Gallery extends Page
       this.elements.modal_selected.style.height = `${window.innerHeight - (bounds.height * 3)}px`
   }
 
-  createMotion()
+  createAnimations()
   {
+    super.createAnimations(false)
+    
     this.show_close = gsap.fromTo(
       this.elements.close, 
       {

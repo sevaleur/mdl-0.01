@@ -347,7 +347,7 @@
       text-transform: uppercase;
       letter-spacing: 1rem;
 
-      padding: 1rem 0; 
+      margin-bottom: 20px; 
 
       writing-mode: vertical-rl;
       transform: scale(-1, -1);
@@ -376,7 +376,7 @@
   &__gallery
   {
     position: absolute;
-    left: 20rem;
+    left: 19rem;
     top: 50%;
 
     transform: translateY(-30rem * 0.5);

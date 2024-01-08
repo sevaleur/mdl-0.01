@@ -249,6 +249,11 @@
       margin: 0;
     }
 
+    @include media('<=phone')
+    {
+      gap: 2.5rem;
+    }
+
     @include media('<=400px')
     {
       justify-content: flex-start;

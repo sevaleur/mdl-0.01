@@ -26,6 +26,13 @@ export default class About extends Page
   create()
   {
     super.create()
+
+    this.createAnimations()
+  }
+
+  createAnimations()
+  {
+    super.createAnimations(true)
   }
 
   /*

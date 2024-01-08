@@ -47,7 +47,8 @@ export default class Video extends Page
     this.createControls()
     this.createVideo()
     this.createBounds()
-    this.createMotion()
+    this.createLayout()
+    this.createAnimations()
   }
 
   createControls()
@@ -82,9 +83,6 @@ export default class Video extends Page
     this.vid.muted
       ? this.elements.controls_mute_icon.classList.add('on')
       : this.elements.controls_mute_icon.classList.remove('on')
-
-    this.iframe = document.querySelector('.plyr__video-embed')
-    this.iframeContainer = document.querySelector('.plyr__video-embed__container')
   }
 
   createBounds()
@@ -92,11 +90,9 @@ export default class Video extends Page
     this.backBounds = this.elements.back.getBoundingClientRect()
     this.titleBounds = this.elements.title_div.getBoundingClientRect()
     this.controlBounds = this.elements.controls.getBoundingClientRect()
-
-    this.createWidth()
   }
 
-  createWidth()
+  createLayout()
   {
     let calcWidth = window.innerWidth - (this.backBounds.width * 2) + 2
     let calcHeight = window.innerHeight - this.backBounds.height
@@ -117,51 +113,65 @@ export default class Video extends Page
 
     if(!this.device.desktop)
     {
-      if(this.iframe.firstChild.src.indexOf('vimeo') > 1)
+      let plyrContainer = document.querySelector('.plyr__video-embed')
+      let iframe = document.querySelector('iframe')
+       
+      if(iframe.src.includes('vimeo'))
       {
-        this.iframe.style.top = `${(calcVideo / 3) + 5}px`
+        plyrContainer.style.top = `${(calcVideo / 3) + 5}px`
       }
       else 
       {
-        this.iframe.style.top = `-${(this.backBounds.height / 3) + 5}px`
+        plyrContainer.style.top = `-${(this.backBounds.height / 3) + 5}px`
       }
     }
   }
 
-  createMotion()
+  createAnimations()
   {
-    horizontalLoop(
-      this.elements.title, 
-      { 
-        paused: false, 
-        reversed: false, 
-        repeat: -1, 
-        speed: 0.25 
+    super.createAnimations(false)
+
+    document.fonts.ready.then(
+      (fontFaceSet) => 
+      {
+        horizontalLoop(
+          this.elements.title, 
+          { 
+            paused: false, 
+            reversed: false, 
+            center: true, 
+            paddingRight: 20,
+            repeat: -1, 
+            speed: 0.25 
+          }
+        )
+    
+        if(this.elements.credits && this.elements.thanks)
+        {
+          horizontalLoop(
+            this.elements.credits, 
+            { 
+              paused: false, 
+              reversed: true, 
+              paddingRight: 20, 
+              repeat: -1, 
+              speed: 0.25 
+            }
+          )
+    
+          horizontalLoop(
+            this.elements.thanks, 
+            { 
+              paused: false, 
+              reversed: false, 
+              paddingRight: 20,
+              repeat: -1, 
+              speed: 0.25 
+            }
+          )
+        }
       }
     )
-
-    if(this.elements.credits && this.elements.thanks)
-    {
-      horizontalLoop(
-        this.elements.credits, 
-        { 
-          paused: false, 
-          reversed: true, 
-          repeat: -1, 
-          speed: 0.25 
-        }
-      )
-
-      horizontalLoop(
-        this.elements.thanks, 
-        { 
-          paused: false, 
-          reversed: false, 
-          repeat: -1, 
-          speed: 0.25 
-        }
-      )
-    }
     
     if(!this.device.phone)
     {

@@ -444,20 +444,26 @@
 
     @include media('<=phone')
     {
-      top: 2.5rem; 
-
+      height: 100%; 
+      top: 1rem; 
       transform: none;
-
+      justify-content: space-between;
+      padding: 5rem;
       flex-direction: column;
 
-      gap: 0;
+      gap: 0; 
     }
 
     @include media('<=500px')
     {
+      height:auto;
+      top: 3.5rem; 
+      justify-content: center;
       display: grid; 
-      grid-template-rows: 20rem 1fr; 
+      grid-template-rows: 12rem 1fr; 
       justify-items: center;
+      padding: 0;
+      gap: 2rem; 
     }
 
     &__title
@@ -474,10 +480,6 @@
 
       @include media('<=tablet')
       {
-        display: flex; 
-        flex-direction: column;
-        justify-content: space-evenly;
-
         text-align: right;
 
         border-right: 1px solid $color-grey;
@@ -486,10 +488,7 @@
       }
 
       @include media('<=phone')
-      {
-        justify-content: center;
-        align-items: center;
-        
+      { 
         text-align: center;
         width: fit-content;
 
