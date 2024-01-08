@@ -61,10 +61,13 @@ export default class Element
       transparent: true
     })
 
-    this.material.uniforms.u_imageSize.value = [
-      this.texture.image.naturalWidth, 
-      this.texture.image.naturalHeight
-    ]
+    if(this.texture !== undefined)
+    {
+      this.material.uniforms.u_imageSize.value = [
+        this.texture.source.data.naturalWidth, 
+        this.texture.source.data.naturalHeight
+      ]
+    }
 
     if(!this.screen.desktop)
       this.material.uniforms.u_phone.value = 1.0

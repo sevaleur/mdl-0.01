@@ -49,10 +49,13 @@ export default class Media
       }
     })
 
-    this.material.uniforms.u_imageSize.value = [
-      this.texture.image.naturalWidth,
-      this.texture.image.naturalHeight
-    ]
+    if(this.texture !== undefined)
+    {
+      this.material.uniforms.u_imageSize.value = [
+        this.texture.source.data.naturalWidth, 
+        this.texture.source.data.naturalHeight
+      ]
+    }
 
     this.plane = new Mesh( this.geo, this.material )
 

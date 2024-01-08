@@ -49,10 +49,13 @@ export default class Transition
       transparent: true
     })
 
-    this.material.uniforms.u_imageSize.value = [
-      this.element.texture.image.naturalWidth, 
-      this.element.texture.image.naturalHeight
-    ]
+    if(this.element.texture !== undefined)
+    {
+      this.material.uniforms.u_imageSize.value = [
+        this.element.texture.source.data.naturalWidth, 
+        this.element.texture.source.data.naturalHeight
+      ]
+    }
 
     this.plane = new Mesh( this.geo, this.material )
 

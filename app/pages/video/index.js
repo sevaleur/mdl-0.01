@@ -71,6 +71,9 @@ export default class Video extends Page
       hideControls: true, 
       loop: { active: true },
       loadSprite: false,
+      fullscreen: { enabled: false },
+      quality: { default: 4320 }, 
+      vimeo: { portrait: this.device.phone ? true : false }, 
       ratio: this.device.tablet || this.device.phone ? '9:16' : '16:9'
     })
 
@@ -94,6 +97,10 @@ export default class Video extends Page
 
   createLayout()
   {
+    let plyr = document.getElementById('plyr')
+    let plyrContainer = document.querySelector('.plyr__video-embed')
+    let iframe = document.querySelector('iframe')
+
     let calcWidth = window.innerWidth - (this.backBounds.width * 2) + 2
     let calcHeight = window.innerHeight - this.backBounds.height
     let calcVideo = window.innerHeight - (this.backBounds.height * 3)
@@ -108,17 +115,40 @@ export default class Video extends Page
     }
     else 
     {
-      this.elements.iframe.style.height = `${calcHeight - 1}px`
+      let desktopHeight = calcHeight - 1
+
+      this.elements.wrap.style.height = `${desktopHeight}px`
+      this.elements.iframe.style.height = `${desktopHeight}px`
+      plyr.style.height = `${desktopHeight}px`
+
+      if(window.innerHeight >= 890 && window.innerHeight <= 910 && window.innerWidth === 1440)
+      {
+        plyrContainer.style.transform = 'scale(1.0) translateY(1rem)'
+      }
+
+      if(window.innerHeight >= 1010 && window.innerHeight <= 1030 && window.innerWidth === 1280)
+      {
+        plyrContainer.style.transform = 'scale(1.0) translateY(16rem)'
+      }
+
+      if(window.innerHeight >= 1350 && window.innerHeight <= 1380 && window.innerWidth === 768)
+      {
+        plyrContainer.style.transform = 'scale(0.9) translateY(-5rem)'
+      }
     }
 
     if(!this.device.desktop)
     {
-      let plyrContainer = document.querySelector('.plyr__video-embed')
-      let iframe = document.querySelector('iframe')
-       
-      if(iframe.src.includes('vimeo'))
+      if(window.chrome)
       {
-        plyrContainer.style.top = `${(calcVideo / 3) + 5}px`
+        if(iframe.src.includes('vimeo'))
+        {
+          plyrContainer.style.top = `${(calcVideo / 3) + 5}px`
+        }
+        else 
+        {
+          plyrContainer.style.top = `-${(this.backBounds.height / 3) + 5}px`
+        }
       }
       else 
       {
@@ -372,6 +402,8 @@ export default class Video extends Page
 
   onIsCovered()
   {
+    if(!this.controls.isClicked && !this.controls.isPlaying) return 
+
     let location = (window.innerHeight - this.titleBounds.height) - this.scroll.current
     let scrollPos = (this.scroll.current + this.titleBounds.height) - window.innerHeight
 
