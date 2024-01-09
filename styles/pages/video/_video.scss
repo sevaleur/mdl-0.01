@@ -413,11 +413,6 @@
 
       &:nth-child(odd)
       {
-        @extend %titleLight-100;
-      }
-
-      &:nth-child(even)
-      {
         @extend %titleBold-100; 
 
         margin-top: 2.1rem;
@@ -934,11 +929,6 @@
 
           margin-right: 20px; 
 
-          &:nth-child(odd)
-          {
-            @extend %titleLight-100;
-          }
-
           &:nth-child(even)
           {
             @extend %titleBold-100; 
@@ -985,11 +975,6 @@
           text-align: center;
 
           margin-right: 20px; 
-
-          &:nth-child(odd)
-          {
-            @extend %titleLight-100; 
-          }
 
           &:nth-child(even)
           {

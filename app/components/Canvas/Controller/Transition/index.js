@@ -56,6 +56,13 @@ export default class Transition
         this.element.texture.source.data.naturalHeight
       ]
     }
+    else 
+    {
+      this.material.uniforms.u_imageSize.value = [
+        2.0, 
+        1.0
+      ]
+    }
 
     this.plane = new Mesh( this.geo, this.material )
 
@@ -113,9 +120,9 @@ export default class Transition
     {
       x: element.plane.position.x,
       y: element.plane.position.y,
-      z: element.plane.position.z + 0.01,
+      z: element.plane.position.z + 0.000001,
       duration: 1.5,
-      ease: 'expo.inOut'
+      ease: 'power2.inOut'
     }, 0)
 
     tl.to(this.plane.scale,
@@ -124,7 +131,7 @@ export default class Transition
       y: element.plane.scale.y,
       z: element.plane.scale.z,
       duration: 1.5,
-      ease: 'expo.inOut'
+      ease: 'power2.inOut'
     }, 0)
   }
 
@@ -146,7 +153,7 @@ export default class Transition
     this.plane.material.uniforms.u_planeSize.value = [this.plane.scale.x, this.plane.scale.y]
   }
 
-  updateX(_elements)
+  updateY(_elements)
   {
     if(_elements.id === 'gallery')
     {
@@ -154,16 +161,18 @@ export default class Transition
       this.element = elements[0]
     }
 
-    this.y = this.element.bounds.top / this.screen.height
+    this.y = ((this.element.bounds.top + this.scroll.current) / this.screen.height) * this.viewport.height
     this.pos_y = this.plane.position.y + this.y / 100
 
-    if(!this.screen.phone)
+    if(this.screen.desktop)
+    {
       this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height, -0.35, 0.35, this.pos_y)
+    }
   }
 
   update(elements)
   {
-    this.updateX(elements)
     this.updateScale()
+    this.updateY(elements)
   }
 }

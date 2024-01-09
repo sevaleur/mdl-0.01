@@ -352,11 +352,6 @@
       writing-mode: vertical-rl;
       transform: scale(-1, -1);
 
-      &:nth-child(odd)
-      {
-        @extend %titleLight-70;
-      }
-
       &:nth-child(even)
       {
         @extend %titleBold-70;

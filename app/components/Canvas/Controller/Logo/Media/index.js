@@ -49,14 +49,6 @@ export default class Media
       }
     })
 
-    if(this.texture !== undefined)
-    {
-      this.material.uniforms.u_imageSize.value = [
-        this.texture.source.data.naturalWidth, 
-        this.texture.source.data.naturalHeight
-      ]
-    }
-
     this.plane = new Mesh( this.geo, this.material )
 
     this.plane.position.z = 0.001
@@ -68,6 +60,21 @@ export default class Media
   createBounds()
   {
     this.bounds = this.element.getBoundingClientRect()
+
+    if(this.texture !== undefined)
+    {
+      this.plane.material.uniforms.u_imageSize.value = [
+        this.texture.source.data.naturalWidth, 
+        this.texture.source.data.naturalHeight
+      ]
+    }
+    else 
+    {
+      this.plane.material.uniforms.u_imageSize.value = [
+        2.0, 
+        1.0
+      ]
+    }
 
     this.updateScale()
     this.updateX()

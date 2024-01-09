@@ -57,7 +57,7 @@ export default class Video extends Page
       isPlaying: false, 
       isClicked: false,
       isCovered: false,
-      isInactive: false,
+      isManuallyPaused: false,
       isFullscreen: false, 
     }
   }
@@ -82,10 +82,6 @@ export default class Video extends Page
       this.controls.isPlaying = true 
       this.elements.controls_play_btn.classList.add('active')
     }
-
-    this.vid.muted
-      ? this.elements.controls_mute_icon.classList.add('on')
-      : this.elements.controls_mute_icon.classList.remove('on')
   }
 
   createBounds()
@@ -143,7 +139,7 @@ export default class Video extends Page
       {
         if(iframe.src.includes('vimeo'))
         {
-          plyrContainer.style.top = `${(calcVideo / 3) + 5}px`
+          plyrContainer.style.top = `${(calcVideo / 3) - 5}px`
         }
         else 
         {
@@ -152,7 +148,7 @@ export default class Video extends Page
       }
       else 
       {
-        plyrContainer.style.top = `-${(this.backBounds.height / 3) + 5}px`
+        plyrContainer.style.top = `-${(this.backBounds.height / 3) - 5}px`
       }
     }
   }
@@ -200,6 +196,14 @@ export default class Video extends Page
             }
           )
         }
+      }
+    )
+
+    this.onBackgroundChange = gsap.to(
+      this.elements.video_cover, 
+      {
+        background: this.background, 
+        paused: true
       }
     )
     
@@ -334,8 +338,8 @@ export default class Video extends Page
       : this.elements.controls_play_btn.classList.add('active')
 
     this.elements.controls_play_btn.classList.contains('active') 
-      ? (this.onPlay(), this.controls.isClicked = true)
-      : (this.onPause(), this.controls.isClicked = false)
+      ? (this.onPlay(), this.controls.isClicked = true, this.controls.isManuallyPaused = false)
+      : (this.onPause(), this.controls.isClicked = false, this.controls.isManuallyPaused = true)
   }
 
   onMute()
@@ -402,35 +406,54 @@ export default class Video extends Page
 
   onIsCovered()
   {
-    if(!this.controls.isClicked && !this.controls.isPlaying) return 
-
     let location = (window.innerHeight - this.titleBounds.height) - this.scroll.current
     let scrollPos = (this.scroll.current + this.titleBounds.height) - window.innerHeight
 
     if(scrollPos >= location)
     {
-      this.controls.isCovered = true 
+      if(this.controls.isManuallyPaused)
+      {
+        this.controls.isCovered = true
 
-      if(!this.device.phone)
-        this.enlargeControls.reverse()
+        if(!this.device.phone)
+          this.enlargeControls.reverse()
 
-      gsap.to(this.elements.video_cover, { background: this.background } )
-
-      if(this.controls.isPlaying)
-        this.onPause()
+        this.onBackgroundChange.play()
+      }
+      else 
+      {
+        this.controls.isCovered = true 
+  
+        if(!this.device.phone)
+          this.enlargeControls.reverse()
+  
+        this.onBackgroundChange.play()
+  
+        if(this.controls.isPlaying)
+          this.onPause()
+      }
     }
 
     if(scrollPos<=0)
     {
-      if(this.controls.isCovered)
+      if(this.controls.isCovered && this.controls.isManuallyPaused)
       {
-        this.controls.isCovered = false
+        this.controls.isCovered = false 
 
         if(!this.device.phone)
           this.enlargeControls.play()
-
-        gsap.to(this.elements.video_cover, { background: 'transparent' } )
-
+        
+        this.onBackgroundChange.reverse()
+      }
+      else if(this.controls.isCovered && !this.controls.isManuallyPaused)
+      {
+        this.controls.isCovered = false
+  
+        if(!this.device.phone)
+          this.enlargeControls.play()
+  
+        this.onBackgroundChange.reverse()
+  
         this.onPlay()  
       }
     }
@@ -499,6 +522,10 @@ export default class Video extends Page
   update()
   {
     super.update()
+
+    this.vid.muted
+      ? this.elements.controls_mute_icon.classList.add('on')
+      : this.elements.controls_mute_icon.classList.remove('on')
 
     if(this.device.desktop)
     {

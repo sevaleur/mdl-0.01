@@ -61,14 +61,6 @@ export default class Element
       transparent: true,
     })
 
-    if(this.texture !== undefined)
-    {
-      this.material.uniforms.u_imageSize.value = [
-        this.texture.source.data.naturalWidth, 
-        this.texture.source.data.naturalHeight
-      ]
-    }
-
     this.plane = new Mesh(
       this.geo, 
       this.material
@@ -91,6 +83,21 @@ export default class Element
     else 
     {
       this.bounds = this.element.getBoundingClientRect()
+
+      if(this.texture !== undefined)
+      {
+        this.plane.material.uniforms.u_imageSize.value = [
+          this.texture.source.data.naturalWidth, 
+          this.texture.source.data.naturalHeight
+        ]
+      }
+      else 
+      {
+        this.plane.material.uniforms.u_imageSize.value = [
+          2.0, 
+          1.0
+        ]
+      }
   
       this.updateScale()
       this.updateX()
@@ -106,6 +113,13 @@ export default class Element
 
   show()
   {
+    gsap.to(
+      this.material.uniforms.u_alpha,
+      {
+        value: 1.0
+      }
+    )
+
     gsap.fromTo(
       this.material.uniforms.u_state,
       {
@@ -126,13 +140,15 @@ export default class Element
       {
         value: 0.0,
         duration: 1,
-      })
+      }
+    )
 
     gsap.to(
       this.material.uniforms.u_alpha,
       {
         value: 0.0
-      })
+      }
+    )
   }
 
   /*
@@ -185,7 +201,10 @@ export default class Element
     if(this.length > 2 && !this.screen.tablet)
     {
       this.pos_viewport_y = this.plane.position.y + this.y / 100
-      this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height,  -1., 1., this.pos_viewport_y)
+
+      this.index !== 1
+        ? this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height,  -0.35, 0.35, this.pos_viewport_y)
+        : this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.height, this.viewport.height,  -1, 1, this.pos_viewport_y)
     }
   }
 

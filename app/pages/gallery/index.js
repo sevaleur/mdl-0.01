@@ -98,9 +98,11 @@ export default class Gallery extends Page
       this.elements.close, 
       {
         scale: 0,
+        opacity: 0,
       }, 
       {
         scale: 1.0,
+        opacity: 1.0,
         ease: 'power2.inOut', 
         paused: true
       }
@@ -293,7 +295,7 @@ export default class Gallery extends Page
       gsap.to(
         this.elements.modal_close, 
         {
-          top: this.coord.y, 
+          top: this.coord.y + 40, 
           left: this.coord.x,
           duration: 0.5, 
           ease: 'linear'

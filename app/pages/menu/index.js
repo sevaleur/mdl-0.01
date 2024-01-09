@@ -193,10 +193,6 @@ export default class Menu extends Page
         duration: 1.0,
         ease: 'power2.inOut',
         paused: true,
-        onComplete: () =>
-        {
-          this.menu.ready = true
-        }
       }
     )
   
@@ -405,6 +401,7 @@ export default class Menu extends Page
       this.showRightTitles.play()
         .eventCallback('onComplete', () => 
         {
+          this.menu.ready = true
           this.elements.menu_image_zero[0].style.visibility = 'visible'
 
           if(this.elements.menu_image_photos)

@@ -218,6 +218,8 @@ export default class Controller
 
     if(this.menu_to_gallery)
     {
+      if(this.transition) return 
+      
       const scroll = { ...this.menu.scroll }
 
       const { index, elements } = this.menu

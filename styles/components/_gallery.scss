@@ -502,9 +502,10 @@
 
     &__desc
     {
+      @extend %desc-16;
+
       align-self: center;
 
-      @extend %desc-16;
 
       @include media('<=tablet')
       {
@@ -514,6 +515,8 @@
       @include media('<=phone')
       {
         font-size: 2.5rem;
+
+        line-height: 1.08;
       }
 
       .char 

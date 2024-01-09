@@ -61,14 +61,6 @@ export default class Element
       transparent: true
     })
 
-    if(this.texture !== undefined)
-    {
-      this.material.uniforms.u_imageSize.value = [
-        this.texture.source.data.naturalWidth, 
-        this.texture.source.data.naturalHeight
-      ]
-    }
-
     if(!this.screen.desktop)
       this.material.uniforms.u_phone.value = 1.0
 
@@ -79,6 +71,21 @@ export default class Element
   createBounds()
   {
     this.bounds = this.element.getBoundingClientRect()
+
+    if(this.texture !== undefined)
+    {
+      this.plane.material.uniforms.u_imageSize.value = [
+        this.texture.source.data.naturalWidth, 
+        this.texture.source.data.naturalHeight
+      ]
+    }
+    else 
+    {
+      this.plane.material.uniforms.u_imageSize.value = [
+        2.0, 
+        1.0
+      ]
+    }
 
     this.updateScale()
     this.updateX()
