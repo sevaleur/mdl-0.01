@@ -11,9 +11,8 @@ import Ray from './Ray'
 
 export default class Controller 
 {
-  constructor({ bgTMap, sizes, scene, viewport, camera })
+  constructor({ sizes, scene, viewport, camera })
   {
-    this.bgTMap = bgTMap
     this.sizes = sizes 
     this.scene = scene 
     this.viewport = viewport
@@ -79,7 +78,6 @@ export default class Controller
   {
     return new Logo({
       template,
-      bgTMap: this.bgTMap,
       scene: this.scene,
       screen: this.sizes.screen,
       viewport: this.viewport,
@@ -92,7 +90,6 @@ export default class Controller
     if(this.showcase) this.destroyShowcase()
 
     this.showcase = new Showcase({
-      bgTMap: this.bgTMap,
       scene: this.scene,
       screen: this.sizes.screen,
       viewport: this.viewport,
@@ -107,7 +104,6 @@ export default class Controller
     if(this.menu) this.destroyMenu()
 
     this.menu = new Menu({
-      bgTMap: this.bgTMap,
       scene: this.scene,
       screen: this.sizes.screen,
       viewport: this.viewport,
@@ -121,7 +117,6 @@ export default class Controller
     if(this.gallery) this.destroyGallery()
 
     this.gallery = new Gallery({
-      bgTMap: this.bgTMap,
       scene: this.scene,
       screen: this.sizes.screen,
       viewport: this.viewport,

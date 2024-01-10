@@ -1,4 +1,4 @@
-import { ShaderMaterial, Mesh} from 'three'
+import { ShaderMaterial, Mesh, TextureLoader } from 'three'
 import gsap from 'gsap'
 
 import vertex from 'shaders/logo/vertex.glsl'
@@ -6,17 +6,22 @@ import fragment from 'shaders/logo/fragment.glsl'
 
 export default class Media
 {
-  constructor({ element, index, template, bgTMap, geometry, scene, screen, viewport })
+  constructor({ element, index, template, geometry, scene, screen, viewport })
   {
     this.element = element
     this.index = index
     this.template = template
-    this.bgTMap = bgTMap
     this.geo = geometry
     this.scene = scene
     this.screen = screen
     this.viewport = viewport
 
+    this.newTexture = {
+      required: false,
+    }
+
+    this.createMaterial()
+    this.createTexture()
     this.createMesh()
     this.createBounds()
   }
@@ -25,19 +30,15 @@ export default class Media
     CREATE.
   */
 
-  createMesh()
+  createMaterial()
   {
-    this.texture = window.IMAGE_TEXTURES[this.element.getAttribute('data-src')]
-    this.textureBG = window.IMAGE_TEXTURES[this.bgTMap.src]
-
     this.material = new ShaderMaterial(
     {
       vertexShader: vertex,
       fragmentShader: fragment,
       uniforms:
       {
-        tMap: { value: this.texture },
-        u_bg: { value: this.textureBG },
+        tMap: { value: null },
         u_alpha: { value: 1.0 },
         u_state: { value: 0.0 },
         u_scroll: { value: 0.0 },
@@ -48,7 +49,40 @@ export default class Media
         u_planeSize: { value: [ 0, 0 ] },
       }
     })
+  }
 
+  async createTexture()
+  { 
+    let src = this.element.getAttribute('data-src')
+
+    if(!window.IMAGE_TEXTURES[src])
+    {
+      this.newTexture.required = true
+
+      const textureLoader = new TextureLoader()
+      this.texture = await textureLoader.loadAsync(src)
+
+      this.material.uniforms.tMap.value = this.texture
+
+      this.material.uniforms.u_imageSize.value = [
+        this.texture.source.data.naturalWidth,
+        this.texture.source.data.naturalHeight
+      ]
+    }
+    else 
+    {
+      this.texture = window.IMAGE_TEXTURES[src]
+      this.material.uniforms.tMap.value = this.texture 
+      
+      this.material.uniforms.u_imageSize.value = [
+        this.texture.source.data.naturalWidth,
+        this.texture.source.data.naturalHeight
+      ]
+    } 
+  }
+
+  createMesh()
+  {
     this.plane = new Mesh( this.geo, this.material )
 
     this.plane.position.z = 0.001
@@ -61,20 +95,10 @@ export default class Media
   {
     this.bounds = this.element.getBoundingClientRect()
 
-    if(this.texture !== undefined)
-    {
-      this.plane.material.uniforms.u_imageSize.value = [
-        this.texture.source.data.naturalWidth, 
-        this.texture.source.data.naturalHeight
-      ]
-    }
-    else 
-    {
-      this.plane.material.uniforms.u_imageSize.value = [
-        2.0, 
-        1.0
-      ]
-    }
+    this.plane.material.uniforms.u_imageSize.value = [
+      this.texture.source.data.naturalWidth, 
+      this.texture.source.data.naturalHeight
+    ]
 
     this.updateScale()
     this.updateX()
@@ -99,6 +123,7 @@ export default class Media
     },
     {
       value: 1.0,
+      delay: 0.8, 
       duration: 1
     })
   }

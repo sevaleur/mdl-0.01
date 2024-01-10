@@ -37,7 +37,8 @@ export default class Menu extends Page
         menu_left_lines: 'span.menu__gallery__image__left', 
         menu_phone_titles: '.menu__right__phone__title',
         menu_phone_title_text: '.menu__right__phone__title__text',
-        nav: '.navigation__menu' 
+        nav_logo: '.navigation__logo',
+        nav_menu: '.navigation__menu' 
       },
       background: COLOR_NIGHT, 
       color: COLOR_CULTURED, 
@@ -76,18 +77,21 @@ export default class Menu extends Page
 
   createBounds()
   {
-    let nav_bounds = this.elements.nav.getBoundingClientRect()
-    let calc = window.innerHeight - nav_bounds.height
+    let logo_bounds = this.elements.nav_logo.getBoundingClientRect()
+    let menu_bounds = this.elements.nav_menu.getBoundingClientRect()
 
-    this.elements.marquee.style.height = `${calc}px`
+    let calcDesktop = window.innerHeight - logo_bounds.height
+    let calcPhone = window.innerHeight - menu_bounds.height
+    
+    this.elements.marquee.style.height = `${calcDesktop}px`
 
     if(this.device.desktop)
     {
-      this.elements.right.style.width = `${nav_bounds.width}px`
+      this.elements.right.style.width = `${menu_bounds.width}px`
     }
     else
     {
-      this.elements.right.style.height = `${calc - nav_bounds.height}px`
+      this.elements.right.style.height = `${calcPhone - menu_bounds.height}px`
     }
   }
 

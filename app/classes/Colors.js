@@ -14,6 +14,7 @@ export default class ColorManager
     {
       backgroundColor,
       color,
+      duration: 1.0
     })
   }
 }

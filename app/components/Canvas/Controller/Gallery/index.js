@@ -8,11 +8,10 @@ import Show from 'animations/Show'
 
 export default class Gallery
 {
-  constructor({ bgTMap, scene, screen, viewport, geo, transition })
+  constructor({ scene, screen, viewport, geo, transition })
   {
     this.id = 'gallery'
 
-    this.bgTMap = bgTMap
     this.scene = scene
     this.screen = screen
     this.viewport = viewport
@@ -34,7 +33,7 @@ export default class Gallery
 
     this.scene.add(this.group)
 
-    if(!this.transition) this.show()
+    if(!this.transition) this.show(false)
   }
 
   /*
@@ -59,9 +58,7 @@ export default class Gallery
     this.modal_image = document.querySelector('.gallery__modal__selected__figure__image')
     this.modal_selected = document.querySelector('.gallery__modal__selected')
     this.modal_images = document.querySelector('.gallery__modal__images')
-    this.modal_close_mobile = document.querySelector('.gallery__modal__text')
-    this.close = document.querySelector('.gallery__modal__selected__text__close')
-
+    this.modal_close = document.querySelector('.gallery__modal__text')
 
     this.length = this.images.length
   }
@@ -89,7 +86,6 @@ export default class Gallery
       return new Element({
         element,
         index,
-        bgTMap: this.bgTMap,
         link: this.links[index],
         geometry: this.geo,
         length: this.length,
@@ -108,7 +104,6 @@ export default class Gallery
       link.onclick = () =>
       {
         this.enlarge(index)
-        this.onModalHide()
       }
     })
   }
@@ -117,14 +112,14 @@ export default class Gallery
   {
     if(this.screen.desktop)
     {
-      this.show_close = gsap.fromTo(
-        this.close, 
+      this.onCloseShow = gsap.fromTo(
+        this.modal_close, 
         {
-          scale: 0,
-        }, 
+          yPercent: 300
+        },
         {
-          scale: 1.0,
-          duration: 0.8, 
+          yPercent: 0, 
+          duration: 0.8,
           ease: 'power2.inOut', 
           paused: true
         }
@@ -142,11 +137,12 @@ export default class Gallery
       this.titleSwitch = gsap.fromTo(
         this.gallery_scroll, 
         {
-          scaleX: 0.0
+          yPercent: -100,
+          opacity: 0.0,
         }, 
         {
-          scaleX: 1.0, 
-          transformOrigin: 'left',
+          yPercent: 0,
+          opacity: 1.0,
           duration: 0.8, 
           ease: 'power2.inOut', 
           paused: true
@@ -168,7 +164,7 @@ export default class Gallery
       })
 
       this.onModalMobile = gsap.fromTo(
-        this.modal_close_mobile, 
+        this.modal_close, 
         {
           xPercent: 100
         }, 
@@ -192,13 +188,10 @@ export default class Gallery
     this.onModalSelect = gsap.fromTo(
       this.modal_image, 
       {
-        scale: 0.0,
         opacity: 0.0
       },
       {
-        scale: 1.0, 
-        opacity: 1.0,
-        duration: 0.8, 
+        opacity: 1.0, 
         ease: 'power2.inOut', 
         paused: true
       }
@@ -211,7 +204,7 @@ export default class Gallery
       },
       {
         yPercent: 0, 
-        duration: 0.8, 
+        duration: 0.8,
         ease: 'power2.inOut', 
         paused: true
       }
@@ -225,11 +218,6 @@ export default class Gallery
   onBack()
   {
     this.back_button.addEventListener('click', () => { this.hide() })
-  }
-
-  onModalHide()
-  {
-    this.elements.forEach( element => { element.hide() })
   }
 
   show(transition=false)
@@ -253,21 +241,30 @@ export default class Gallery
 
       if(this.screen.desktop)
       {
-        this.show_close.reverse()
         this.titleSwitch.reverse()
+        this.onCloseShow.reverse().eventCallback('onReverseComplete', () => 
+        {
+          this.onModal.reverse().eventCallback('onReverseComplete', () => 
+          {
+            this.modal.style.display = 'none'
+            this.enlarged = false
+          })
+        })
+      }
+      else 
+      {
+        this.onModalMobile.reverse()
+  
+        this.onModalShow.reverse().eventCallback('onReverseComplete', () => 
+        {
+          this.onModal.reverse().eventCallback('onReverseComplete', () => 
+          {
+            this.modal.style.display = 'none'
+            this.enlarged = false
+          })
+        })
       }
 
-      if(this.screen.tablet || this.screen.mobile)
-        this.onModalMobile.reverse()
-
-      this.onModalShow.reverse().eventCallback('onReverseComplete', () => 
-      {
-        this.onModal.reverse().eventCallback('onReverseComplete', () => 
-        {
-          this.modal.style.display = 'none'
-          this.enlarged = false
-        })
-      })
     }
   }
 
@@ -282,45 +279,42 @@ export default class Gallery
 
     this.onModal.play()
     this.onModalSelect.play()
-
-    if(this.screen.desktop)
-      this.show_close.play()
     
-    if(this.screen.tablet || this.screen.mobile)
+    if(this.screen.desktop)
+    {
+      this.onModalShow.play().eventCallback('onComplete', () => 
+      {
+        this.onCloseShow.play()
+      })
+    }
+    else 
+    {
       this.onModalMobile.play()
+      this.onModalShow.play()
+    }
 
-    this.onModalShow.play()
-
-    this.modal_selected.onclick = () =>
+    this.modal_close.onclick = () =>
     {
       this.onModalSelect.reverse()
 
       if(this.screen.desktop)
-        this.show_close.reverse()
-
-      if(this.screen.tablet || this.screen.mobile)
-        this.onModalMobile.reverse()
-
-      this.onModalShow.reverse().eventCallback('onReverseComplete', () => 
       {
-        this.onModal.reverse().eventCallback('onReverseComplete', () => 
+        this.onCloseShow.reverse().eventCallback('onReverseComplete', () => 
         {
-          this.modal.style.display = 'none'
-          this.show()
-          this.enlarged = false
+          this.onModalShow.reverse().eventCallback('onReverseComplete', () => 
+          {
+            this.onModal.reverse().eventCallback('onReverseComplete', () => 
+            {
+              this.modal.style.display = 'none'
+              this.enlarged = false
+            })
+          })
         })
-      })
-
-    }
-
-    if(this.screen.tablet || this.screen.mobile)
-    {
-      this.modal_close_mobile.onclick = () =>
+      }
+      else 
       {
         this.onModalSelect.reverse()
-  
-        if(this.screen.tablet || this.screen.mobile)
-          this.onModalMobile.reverse()
+        this.onModalMobile.reverse()
   
         this.onModalShow.reverse().eventCallback('onReverseComplete', () => 
         {
@@ -331,7 +325,6 @@ export default class Gallery
             this.enlarged = false
           })
         })
-  
       }
     }
   }

@@ -35,13 +35,13 @@ export default class Preloader extends Component
     window.ASSETS.forEach(
       image => 
       {
-        textureLoader.load(
-          image, 
+        const texture = textureLoader.load(
+          image,
           (data) => 
           {
             window.IMAGE_TEXTURES[image] = data
             this.onAssetLoaded()
-          }
+          }  
         )
       }
     )
@@ -51,7 +51,7 @@ export default class Preloader extends Component
     EVENTS.
   */
 
-  onAssetLoaded(image)
+  onAssetLoaded()
   {
     this.loaded += 1
 

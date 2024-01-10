@@ -7,9 +7,8 @@ import Element from './Element'
 
 export default class Menu
 {
-  constructor({ bgTMap, scene, screen, viewport, geo, transition })
+  constructor({ scene, screen, viewport, geo, transition })
   {
-    this.bgTMap = bgTMap
     this.scene = scene
     this.screen = screen
     this.viewport = viewport
@@ -72,7 +71,6 @@ export default class Menu
       return new Element({
         element,
         index,
-        bgTMap: this.bgTMap,
         link: this.img_links[index],
         geometry: this.geo,
         length: this.img_length,

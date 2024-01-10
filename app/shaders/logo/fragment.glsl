@@ -10,7 +10,6 @@ uniform float u_intensity;
 uniform float u_scroll;
 uniform float u_time;
 
-uniform sampler2D u_bg;
 uniform sampler2D tMap;
 
 varying vec2 v_uv;
@@ -21,6 +20,11 @@ mat2 rotate(float a)
   float s = sin(a);
   float c = cos(a);
   return mat2(c, -s, s, c);
+}
+
+float rand(vec2 co)
+{
+  return fract(sin(dot(co.xy ,vec2(12.9898, 78.233))) * 43758.5453);
 }
 
 void main()
@@ -40,15 +44,25 @@ void main()
 
   vec2 uv_divided = fract(uv * vec2(u_intensity / dist));
 
-  vec2 uv_fDisp = uv + rotate(PI / dist) * uv_divided * (u_state + u_scroll) * 0.1;
-  vec2 uv_disp = uv + rotate(PI / dist) * uv_divided * (1. - (u_state + sqr + u_scroll)) * 0.1;
+  vec2 uv_disp = uv + rotate(PI / dist) * uv_divided * (1. - (1.0 + sqr + u_scroll)) * 0.1;
 
-  vec4 t1 = texture2D(u_bg, uv_fDisp);
-  t1.a = u_alpha;
+  float resolution = 5.0;
 
-  vec4 t2 = texture2D(tMap, uv_disp);
-  t2.a = u_alpha;
+  vec2 lowresxy = vec2(
+    floor(gl_FragCoord.x / resolution),
+    floor(gl_FragCoord.y / resolution)
+  );
 
-  gl_FragColor = mix(t1, t2, u_state);
-  gl_FragColor.a = u_alpha;
+  vec4 t = texture2D(tMap, uv_disp); 
+
+  gl_FragColor = t; 
+  
+  if(u_state > rand(lowresxy))
+  {
+    gl_FragColor.a = 1.0;
+  }
+  else
+  {
+    gl_FragColor.a = 0.0; 
+  }
 }

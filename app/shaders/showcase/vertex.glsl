@@ -20,7 +20,8 @@ vec3 deformationCurve(vec3 position, vec2 uv, vec2 offset)
 void main()
 {
   vec3 new_pos = position; 
-  float dist = distance(uv, u_hover + vec2(0.5)); 
+
+  float dist = distance(uv, vec2(u_hover + vec2(0.5))); 
 
   float k = 0.0;  
   if(dist < 0.2)

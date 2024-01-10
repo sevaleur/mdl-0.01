@@ -4,11 +4,10 @@ import Element from './Element'
 
 export default class Showcase
 {
-  constructor({ bgTMap, scene, screen, viewport, geo, transition, template })
+  constructor({ scene, screen, viewport, geo, transition, template })
   {
     this.id = 'showcase'
 
-    this.bgTMap = bgTMap
     this.scene = scene
     this.screen = screen
     this.viewport = viewport
@@ -54,7 +53,6 @@ export default class Showcase
         element,
         index,
         template: this.template,
-        bgTMap: this.bgTMap, 
         link: this.img_links[index],
         geometry: this.geo,
         length: this.img_length,
@@ -71,7 +69,14 @@ export default class Showcase
 
   show()
   {
-    this.elements.forEach( element => { element.show() })
+    this.elements.forEach( 
+      element => 
+      { 
+        element.newTexture.required
+          ? element.show(true) 
+          : element.show(false)
+      }
+    )
   }
 
   hide()

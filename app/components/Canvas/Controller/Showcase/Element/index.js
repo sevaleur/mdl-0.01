@@ -1,4 +1,4 @@
-import { ShaderMaterial, Mesh, Texture } from 'three'
+import { ShaderMaterial, Mesh, TextureLoader } from 'three'
 import gsap from 'gsap'
 
 import Prefix from 'prefix'
@@ -8,12 +8,11 @@ import fragment from 'shaders/showcase/fragment.glsl'
 
 export default class Element
 {
-  constructor({ element, index, template, bgTMap, link, geometry, length, scene, screen, viewport })
+  constructor({ element, index, template, link, geometry, length, scene, screen, viewport })
   {
     this.element = element
     this.index = index
     this.template = template
-    this.bgTMap = bgTMap
     this.link = link
     this.geo = geometry
     this.length = length
@@ -25,42 +24,79 @@ export default class Element
 
     this.active = false
 
+    this.newTexture = {
+      required: false,
+    }
+
     this.link_parent = this.link.parentElement
 
+    this.createMaterial()
+    this.createTexture()
     this.createMesh()
     this.createBounds()
+    this.createAnimations()
   }
 
   /*
     CREATE.
   */
 
+  createMaterial()
+  {
+    this.material = new ShaderMaterial(
+      {
+        vertexShader: vertex,
+        fragmentShader: fragment,
+        uniforms:
+        {
+          tMap: { value: null },
+          u_imageSize: { value: [0, 0] },
+          u_planeSize: { value: [0, 0] },
+          u_alpha: { value: 1.0 },
+          u_hover: { value : [ 0, 0 ] }, 
+          u_state: { value: 0.0 },
+          u_offset: { value: 0.0 },
+          u_deformation: { value: [ 0, 0 ] }, 
+          u_intensity: { value: 50. },
+          u_viewportSize: { value: [this.viewport.width, this.viewport.height] },
+        },
+        transparent: true,
+      }
+    )
+  }
+
+  async createTexture()
+  { 
+    let src = this.element.getAttribute('data-src')
+
+    if(!window.IMAGE_TEXTURES[src])
+    {
+      this.newTexture.required = true
+
+      const textureLoader = new TextureLoader()
+      this.texture = await textureLoader.loadAsync(src)
+
+      this.material.uniforms.tMap.value = this.texture
+
+      this.material.uniforms.u_imageSize.value = [
+        this.texture.source.data.naturalWidth,
+        this.texture.source.data.naturalHeight
+      ]
+    }
+    else 
+    {
+      this.texture = window.IMAGE_TEXTURES[src]
+      this.material.uniforms.tMap.value = this.texture 
+      
+      this.material.uniforms.u_imageSize.value = [
+        this.texture.source.data.naturalWidth,
+        this.texture.source.data.naturalHeight
+      ]
+    } 
+  }
+
   createMesh()
   {
-    this.texture = window.IMAGE_TEXTURES[this.element.getAttribute('data-src')]
-    this.textureBG = window.IMAGE_TEXTURES[this.bgTMap.src]
-
-    this.material = new ShaderMaterial(
-    {
-      vertexShader: vertex,
-      fragmentShader: fragment,
-      uniforms:
-      {
-        tMap: { value: this.texture },
-        u_bg: { value: this.textureBG },
-        u_imageSize: { value: [0, 0] },
-        u_planeSize: { value: [0, 0] },
-        u_alpha: { value: 1.0 },
-        u_hover: { value : [ 0, 0 ] }, 
-        u_state: { value: 0.0 },
-        u_offset: { value: 0.0 },
-        u_deformation: { value: [0, 0] },
-        u_intensity: { value: 10. },
-        u_viewportSize: { value: [this.viewport.width, this.viewport.height] },
-      },
-      transparent: true,
-    })
-
     this.plane = new Mesh(
       this.geo, 
       this.material
@@ -83,21 +119,6 @@ export default class Element
     else 
     {
       this.bounds = this.element.getBoundingClientRect()
-
-      if(this.texture !== undefined)
-      {
-        this.plane.material.uniforms.u_imageSize.value = [
-          this.texture.source.data.naturalWidth, 
-          this.texture.source.data.naturalHeight
-        ]
-      }
-      else 
-      {
-        this.plane.material.uniforms.u_imageSize.value = [
-          2.0, 
-          1.0
-        ]
-      }
   
       this.updateScale()
       this.updateX()
@@ -107,48 +128,64 @@ export default class Element
     }
   }
 
-  /*
-    ANIMATIONS.
-  */
-
-  show()
+  createAnimations()
   {
-    gsap.to(
+    this.onAlphaChange = gsap.fromTo(
       this.material.uniforms.u_alpha,
       {
-        value: 1.0
+        value: 0.0
+      },
+      {
+        value: 1.0,
+        delay: 0.5,
+        paused: true
       }
     )
-
-    gsap.fromTo(
+    
+    this.onStateChange = gsap.fromTo(
       this.material.uniforms.u_state,
       {
         value: 0.0
       },
       {
         value: 1.0,
-        delay: 0.6 * this.index, 
         duration: 1.0,
+        ease: 'power2.inOut',
+        paused: true
       }
     )
   }
 
+  /*
+    ANIMATIONS.
+  */
+
+  show(delay=false)
+  {
+    if(delay)
+    {
+      this.onAlphaChange.duration(0.5).play()
+        .eventCallback('onComplete', () => 
+        {
+          this.onStateChange.play()
+        }
+      )
+    }
+    else 
+    {
+      this.onAlphaChange.play()
+        .eventCallback('onComplete', () => 
+        {
+          this.onStateChange.play()
+        }
+      )
+    }
+  }
+
   hide()
   {
-    gsap.to(
-      this.material.uniforms.u_state,
-      {
-        value: 0.0,
-        duration: 1,
-      }
-    )
-
-    gsap.to(
-      this.material.uniforms.u_alpha,
-      {
-        value: 0.0
-      }
-    )
+    this.onStateChange.reverse()
+    this.onAlphaChange.reverse()
   }
 
   /*

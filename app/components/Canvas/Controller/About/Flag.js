@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { ShaderMaterial, Mesh, TextureLoader } from 'three'
 import gsap from 'gsap'
 
 import vertex from 'shaders/about/vertex.glsl'
@@ -19,6 +19,7 @@ export default class Flag
 
     this.createMesh()
     this.createBounds()
+    this.createAnimations()
   }
 
   /*
@@ -27,9 +28,14 @@ export default class Flag
 
   createMesh()
   {
-    this.texture = window.IMAGE_TEXTURES[this.element.getAttribute('data-src')]
+    let src = this.element.getAttribute('data-src')
 
-    this.material = new THREE.ShaderMaterial(
+    this.texture = window.IMAGE_TEXTURES[src]
+
+    if(this.texture === undefined)
+      this.texture = new TextureLoader().load(src)
+
+    this.material = new ShaderMaterial(
     {
       vertexShader: vertex,
       fragmentShader: fragment,
@@ -45,7 +51,7 @@ export default class Flag
       transparent: true
     })
 
-    this.plane = new THREE.Mesh( this.geo, this.material )
+    this.plane = new Mesh( this.geo, this.material )
     this.scene.add(this.plane)
   }
 
@@ -53,20 +59,10 @@ export default class Flag
   {
     this.bounds = this.element.getBoundingClientRect()
 
-    if(this.texture !== undefined)
-    {
-      this.plane.material.uniforms.u_imageSize.value = [
-        this.texture.source.data.naturalWidth, 
-        this.texture.source.data.naturalHeight
-      ]
-    }
-    else 
-    {
-      this.plane.material.uniforms.u_imageSize.value = [
-        2.0, 
-        1.0
-      ]
-    }
+    this.plane.material.uniforms.u_imageSize.value = [
+      this.texture.source.data.naturalWidth, 
+      this.texture.source.data.naturalHeight
+    ]
 
     this.updateScale()
     this.updateX()
@@ -75,29 +71,33 @@ export default class Flag
     this.plane.material.uniforms.u_planeSize.value = [this.plane.scale.x, this.plane.scale.y]
   }
 
+  createAnimations()
+  {
+    this.onAlphaChange = gsap.fromTo(
+      this.material.uniforms.u_alpha, 
+      {
+        value: 0.0
+      }, 
+      {
+        value: 1.0, 
+        duration: 0.5,
+        paused: true
+      }
+    )
+  }
+
   /*
     Animations.
   */
 
   show()
   {
-    gsap.to(
-      this.material.uniforms.u_alpha,
-      {
-        value: 1.0,
-        duration: 1.0
-      }
-    )
+    this.onAlphaChange.play()
   }
 
   hide()
   {
-    gsap.to(
-      this.material.uniforms.u_alpha,
-      {
-        value: 0.0
-      }
-    )
+    this.onAlphaChange.reverse()
   }
 
   /*

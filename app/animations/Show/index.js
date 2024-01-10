@@ -12,6 +12,8 @@ export default class Show
       by: 'chars'
     })
 
+    this.finished = false
+
     this.chars = this.element.querySelectorAll('.char')
     this.wrap(this.chars, 'span', 'wrap')
     this.create()
@@ -30,7 +32,7 @@ export default class Show
         gsap.set(
           char, 
           {
-            opacity: 0.0, 
+            opacity: 1.0, 
             xPercent: -150
           }
         )
@@ -63,7 +65,7 @@ export default class Show
       gsap.set(
         this.element, 
         {
-          opacity: 0.0,
+          opacity: 1.0,
         }
       )
 
@@ -77,12 +79,19 @@ export default class Show
                 opacity: 1.0
               }
             )
+
+            this.finished = true
           }
         )
     }
     else
     {
       this.onShow.reverse()
+        .eventCallback('onReverseComplete', () => 
+        {
+          this.finished = true
+        }
+      )
     } 
   }
 }

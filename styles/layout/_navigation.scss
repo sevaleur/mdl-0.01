@@ -63,7 +63,7 @@
     top: 2rem; 
     right: 2rem;
 
-    padding: 2rem 0; 
+    padding: 1rem 0; 
 
     border: 1px solid $color-grey;
     
@@ -227,8 +227,6 @@
     opacity: 0.0;
 
     display: flex; 
-    
-    margin: 0 1.5rem 0 0;
 
     @include media('<=tablet')
     {

@@ -4,34 +4,32 @@
   &__title 
   {
     height: 10rem; 
-    width: 24rem; 
+    width: 30rem; 
 
     position: absolute; 
     top: 0; 
-    left: 11.7rem;
+    left: 12rem;
 
-    border-right: 1px solid $color-grey;
-    border-bottom: 1px solid $color-grey;
+    border: 1px solid $color-grey;
+    border-top: none;
 
-    white-space: nowrap;
     overflow: hidden;
 
     background: $color-night;
 
-    transform: scaleX(0.0);
-
     z-index: z('modal');
+
+    display: grid;
+    place-content: center;
+
+    padding: 1rem 2rem;
+
+    opacity: 0.0; 
 
     &__text 
     {
-      @extend %titleBold-15; 
-
+      @extend %titleBold-30; 
       text-transform: uppercase;
-
-      position: absolute; 
-      top:50%; 
-      left: 50%; 
-      transform: translate(-50%, -50%);
     }
 
     @include media('<=tablet')
@@ -48,7 +46,7 @@
     width: 100%;
 
     z-index: z('modal');
-    background: #00000094;
+    background: #000000e8;
     opacity: 0.0;
 
     display: none;
@@ -204,26 +202,32 @@
 
     &__text 
     {
-      display: none;
+      position: absolute; 
+      bottom: 10rem; 
+      right: 50%; 
+
+      transform: translateX(50%);
+
+      height: 5rem;
+      width: 12rem;
+
+      background: $color-night;
+
+      border: 1px solid $color-grey;
+      border-bottom: none;
+
+      display: grid; 
+      place-content: center;
 
       @include media('<=tablet')
       {
-        display:block;
-
-        position: absolute;
-        bottom: 10rem;
         right: -0.1rem;
 
         height: 10rem;
-        width: 12rem;
 
-        background: $color-night;
-        border: 1px solid $color-grey;
+        transform: none;
+
         border-right: none;
-        border-bottom: none;
-
-        display: grid; 
-        place-content: center;
 
         @include media('<=tablet')
         {
@@ -243,7 +247,7 @@
       {
         @extend %desc-16;
         color: $color-cultured;
-        text-transform: lowercase;
+        text-transform: capitalize;
 
         cursor: pointer;
 
@@ -274,34 +278,9 @@
       width: 60rem;
       height: 60rem;
 
-      cursor: none;
-
       @include media('<=tablet')
       {
         padding-bottom: 15rem;
-      }
-
-      &__text
-      {
-        position: absolute; 
-        top: 50%; 
-        left: 50%;
-
-        transform: translate(-50%, -50%);
-
-        mix-blend-mode: difference;
-
-        @include media('<=tablet')
-        {
-          display: none;
-        }
-
-        &__close
-        {
-          @extend %desc-40; 
-
-          text-transform: uppercase;
-        }
       }
 
       &__figure
@@ -315,7 +294,6 @@
           width: 100%;
           object-fit: contain;
 
-          transform: scale(0.0);
           transform-origin: center;
         }
       }
@@ -485,10 +463,15 @@
         border-right: 1px solid $color-grey;
 
         padding-right: 1.5rem;
+
+        display: flex; 
+        flex-direction: column;
       }
 
       @include media('<=phone')
       { 
+        display:block;
+
         text-align: center;
         width: fit-content;
 

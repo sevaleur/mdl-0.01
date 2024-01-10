@@ -8,9 +8,9 @@ uniform float u_offset;
 uniform vec2 u_hover; 
 uniform vec2 u_imageSize;
 uniform vec2 u_planeSize;
+uniform vec2 u_viewportSize;
 
 uniform sampler2D tMap;
-uniform sampler2D u_bg; 
 
 varying vec2 v_uv;
 varying float v_dist; 
@@ -20,6 +20,11 @@ mat2 rotate(float a)
   float s = sin(a);
   float c = cos(a);
   return mat2(c, -s, s, c);
+}
+
+float rand(vec2 co)
+{
+  return fract(sin(dot(co.xy ,vec2(12.9898, 78.233))) * 43758.5453);
 }
 
 void main()
@@ -34,19 +39,26 @@ void main()
     v_uv.y * ratio.y + (1. - ratio.y) * .5 + u_offset
   );
 
-  float sqr = v_dist; 
+  float resolution = 10.0;
 
+  vec2 lowresxy = vec2(
+    floor(gl_FragCoord.x / resolution),
+    floor(gl_FragCoord.y / resolution)
+  );
+  
   vec2 uv_divided = fract(uv * vec2(u_intensity));
+  vec2 uv_disp = uv + PI / 4.0 * uv_divided * (1.0 - ( 1.0 + v_dist)) * 0.1;
 
-  vec2 uv_fDisp = uv + rotate(PI / 4.0) * uv_divided * u_state * 0.1;
-  vec2 uv_disp = uv + rotate(PI / 4.0) * uv_divided * (1.0 - ( u_state + sqr)) * 0.1;
+  vec4 t = texture2D(tMap, uv_disp);
 
-  vec4 t1 = texture2D(u_bg, uv_fDisp);
-  t1.a = u_alpha;
+  gl_FragColor = t; 
 
-  vec4 t2 = texture2D(tMap, uv_disp);
-  t2.a = u_alpha; 
-
-  gl_FragColor = mix(t1, t2, u_state);
-  gl_FragColor.a = u_alpha;
+  if(u_state > rand(lowresxy))
+  {
+    gl_FragColor.a = 1.0;
+  }
+  else
+  {
+    gl_FragColor.a = 0.0; 
+  }
 }

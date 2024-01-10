@@ -1,4 +1,4 @@
-import { ShaderMaterial, Mesh } from 'three'
+import { ShaderMaterial, Mesh, TextureLoader } from 'three'
 import gsap from 'gsap'
 
 import Prefix from 'prefix'
@@ -8,11 +8,10 @@ import fragment from 'shaders/gallery/element/fragment.glsl'
 
 export default class Element
 {
-  constructor({ element, index, bgTMap, link, geometry, length, scene, screen, viewport })
+  constructor({ element, index, link, geometry, length, scene, screen, viewport })
   {
     this.element = element
     this.index = index
-    this.bgTMap = bgTMap
     this.link = link
     this.geo = geometry
     this.length = length
@@ -22,39 +21,75 @@ export default class Element
 
     this.l_prefix = Prefix('transform')
 
+    this.newTexture = {
+      required: false,
+    }
+
+    this.createMaterial()
+    this.createTexture()
     this.createMesh()
     this.createBounds()
+    this.createAnimations()
   }
 
   /*
     Create.
   */
 
-  createMesh()
-  {
-    this.texture = window.IMAGE_TEXTURES[this.element.getAttribute('data-src')]
-    this.textureBG = window.IMAGE_TEXTURES[this.bgTMap.src]
-    
+  createMaterial()
+  { 
     this.material = new ShaderMaterial(
     {
       vertexShader: vertex,
       fragmentShader: fragment,
       uniforms:
       {
-        tMap: { value: this.texture },
-        u_bg: { value: this.textureBG },
+        tMap: { value: null },
         u_imageSize: { value: [0, 0] },
         u_planeSize: { value: [0, 0] },
         u_alpha: { value: 0.0 },
         u_offset: { value: 0 },
         u_scroll: { value: 0 },
         u_viewportSize: { value: [this.viewport.width, this.viewport.height] },
-        u_intensity: { value: 10.0 },
-        u_state: { value: 1.0 }
+        u_intensity: { value: 25.0 },
+        u_state: { value: 0.0 }
       },
       transparent: true
     })
+  }
 
+  async createTexture()
+  { 
+    let src = this.element.getAttribute('data-src')
+
+    if(!window.IMAGE_TEXTURES[src])
+    {
+      this.newTexture.required = true
+
+      const textureLoader = new TextureLoader()
+      this.texture = await textureLoader.loadAsync(src)
+
+      this.material.uniforms.tMap.value = this.texture
+
+      this.material.uniforms.u_imageSize.value = [
+        this.texture.source.data.naturalWidth,
+        this.texture.source.data.naturalHeight
+      ]
+    }
+    else 
+    {
+      this.texture = window.IMAGE_TEXTURES[src]
+      this.material.uniforms.tMap.value = this.texture 
+      
+      this.material.uniforms.u_imageSize.value = [
+        this.texture.source.data.naturalWidth,
+        this.texture.source.data.naturalHeight
+      ]
+    } 
+  }
+
+  createMesh()
+  {
     this.plane = new Mesh( this.geo, this.material)
     this.scene.add(this.plane)
   }
@@ -63,20 +98,10 @@ export default class Element
   {
     this.bounds = this.element.getBoundingClientRect()
 
-    if(this.texture !== undefined)
-    {
-      this.plane.material.uniforms.u_imageSize.value = [
-        this.texture.source.data.naturalWidth, 
-        this.texture.source.data.naturalHeight
-      ]
-    }
-    else 
-    {
-      this.plane.material.uniforms.u_imageSize.value = [
-        2.0, 
-        1.0
-      ]
-    }
+    this.plane.material.uniforms.u_imageSize.value = [
+      this.texture.source.data.naturalWidth, 
+      this.texture.source.data.naturalHeight
+    ]
 
     this.updateScale()
     this.updateX()
@@ -85,6 +110,32 @@ export default class Element
     this.plane.material.uniforms.u_planeSize.value = [this.plane.scale.x, this.plane.scale.y]
 
     this.pos_y = Math.sin(this.index + Math.PI) * (this.viewport.height / 2)
+  }
+
+  createAnimations()
+  {
+    this.onAlphaChange = gsap.fromTo(
+      this.material.uniforms.u_alpha,
+      {
+        value: 0.0
+      },
+      {
+        value: 1.0,
+        delay: 0.8,
+        paused: true
+      }
+    )
+    
+    this.onStateChange = gsap.fromTo(
+      this.material.uniforms.u_state,
+      {
+        value: 0.0
+      },
+      {
+        value: 1.0, 
+        paused: true
+      }
+    )
   }
 
   /*
@@ -97,51 +148,24 @@ export default class Element
   {
     if(transition)
     {
-      gsap.fromTo(
-        this.material.uniforms.u_state,
-      {
-        value: 0.0
-      },
-      {
-        value: 1.0
-      })
+      this.onAlphaChange.delay(0).play()  
+      this.onStateChange.play()
     }
     else 
     {
-      gsap.fromTo(
-        this.material.uniforms.u_state,
-      {
-        value: 0.0
-      },
-      {
-        value: 1.0,
-        duration: 1.0
-      })
+      this.onAlphaChange.duration(0.5).play()
+        .eventCallback('onComplete', () => 
+        {
+          this.onStateChange.duration(1.0).play()
+        }
+      )
     }
-
-    gsap.fromTo(
-      this.material.uniforms.u_alpha,
-    {
-      value: 0.0
-    },
-    {
-      value: 1.0,
-    })
   }
 
   hide()
   {
-    gsap.to(
-      this.material.uniforms.u_state,
-      {
-        value: 0.0,
-        duration: 1.0,
-      })
-
-    gsap.to(this.material.uniforms.u_alpha,
-    {
-      value: 0.0
-    })
+    this.onStateChange.reverse()
+    this.onAlphaChange.reverse()
   }
 
   /*

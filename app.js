@@ -103,121 +103,124 @@ app.use((req, res, next) => {
   next()
 })
 
+const handleAssets = async() => 
+{
+  const all_galleries = await url(
+    encodeURIComponent(
+      `*[_type == "gallery"]{
+        "images": images
+      }`
+    )
+  )
+  all_galleries.result.forEach(
+    gallery => 
+    {
+      gallery.images.forEach(
+        image => 
+        {
+          this.assets.push(build.image(image.asset._ref).url())
+        }
+      )
+    }
+  )
+
+  const all_adverts = await url(
+    encodeURIComponent(
+      `*[_type == "advert"]{
+        preview,
+        "photo": inDepth.photo, 
+        "photo2": inDepth.photoTwo
+      }`
+    )
+  )
+  all_adverts.result.forEach(
+    ad => 
+    {
+      this.assets.push(build.image(ad.preview.asset._ref).url())
+      
+      if(ad.photo)
+        this.assets.push(build.image(ad.photo.asset._ref).url())
+
+      if(ad.photo2)
+        this.assets.push(build.image(ad.photo2.asset._ref).url())
+    }
+  )
+
+  const all_films = await url(
+    encodeURIComponent(
+      `*[_type == "film"]{
+        preview,
+        "photo": inDepth.photo, 
+        "photo2": inDepth.photoTwo
+      }`
+    )
+  )
+  all_films.result.forEach(
+    ad => 
+    {
+      this.assets.push(build.image(ad.preview.asset._ref).url())
+      
+      if(ad.photo)
+        this.assets.push(build.image(ad.photo.asset._ref).url())
+
+      if(ad.photo2)
+        this.assets.push(build.image(ad.photo2.asset._ref).url())
+    }
+  )
+  
+  const portraits = await url(
+    encodeURIComponent(
+      `*[_type == "portraits"]{
+        images
+      }`
+    )
+  )
+  portraits.result[0].images.forEach(
+    image => 
+    {
+      this.assets.push(build.image(image.asset._ref).url())
+    }
+  )
+
+  const sl = await url(
+    encodeURIComponent(
+      `*[_type == "stillLife"]{
+        images
+      }`
+    )
+  )
+  sl.result[0].images.forEach(
+    image => 
+    {
+      this.assets.push(build.image(image.asset._ref).url())
+    }
+  )
+
+  const about = await url(
+    encodeURIComponent(
+      `*[_type == "about"]{
+        "head": header.image, 
+        "foot": footer.image
+      }`
+    )
+  )
+  this.assets.push(build.image(about.result[0].head.asset._ref).url())
+  this.assets.push(build.image(about.result[0].foot.asset._ref).url())
+
+  const navigation = await url(
+    encodeURIComponent(
+      `*[_type == "navigation"]{
+        "image": logo.asset
+      }`
+    )
+  )
+  this.assets.push(build.image(navigation.result[0].image._ref).url())
+}
+
 const handleReq = async(req) =>
 {
-  if(this.assets.length === 0)
-  { 
-    const all_galleries = await url(
-      encodeURIComponent(
-        `*[_type == "gallery"]{
-          "images": images
-        }`
-      )
-    )
-    all_galleries.result.forEach(
-      gallery => 
-      {
-        gallery.images.forEach(
-          image => 
-          {
-            this.assets.push(build.image(image.asset._ref).url())
-          }
-        )
-      }
-    )
-  
-    const all_adverts = await url(
-      encodeURIComponent(
-        `*[_type == "advert"]{
-          preview,
-          "photo": inDepth.photo, 
-          "photo2": inDepth.photoTwo
-        }`
-      )
-    )
-    all_adverts.result.forEach(
-      ad => 
-      {
-        this.assets.push(build.image(ad.preview.asset._ref).url())
-        
-        if(ad.photo)
-          this.assets.push(build.image(ad.photo.asset._ref).url())
-
-        if(ad.photo2)
-          this.assets.push(build.image(ad.photo2.asset._ref).url())
-      }
-    )
-  
-    const all_films = await url(
-      encodeURIComponent(
-        `*[_type == "film"]{
-          preview,
-          "photo": inDepth.photo, 
-          "photo2": inDepth.photoTwo
-        }`
-      )
-    )
-    all_films.result.forEach(
-      ad => 
-      {
-        this.assets.push(build.image(ad.preview.asset._ref).url())
-        
-        if(ad.photo)
-          this.assets.push(build.image(ad.photo.asset._ref).url())
-
-        if(ad.photo2)
-          this.assets.push(build.image(ad.photo2.asset._ref).url())
-      }
-    )
-    
-    const portraits = await url(
-      encodeURIComponent(
-        `*[_type == "portraits"]{
-          images
-        }`
-      )
-    )
-    portraits.result[0].images.forEach(
-      image => 
-      {
-        this.assets.push(build.image(image.asset._ref).url())
-      }
-    )
-  
-    const sl = await url(
-      encodeURIComponent(
-        `*[_type == "stillLife"]{
-          images
-        }`
-      )
-    )
-    sl.result[0].images.forEach(
-      image => 
-      {
-        this.assets.push(build.image(image.asset._ref).url())
-      }
-    )
-  
-    const about = await url(
-      encodeURIComponent(
-        `*[_type == "about"]{
-          "head": header.image, 
-          "foot": footer.image
-        }`
-      )
-    )
-    this.assets.push(build.image(about.result[0].head.asset._ref).url())
-    this.assets.push(build.image(about.result[0].foot.asset._ref).url())
-  
-    const navigation = await url(
-      encodeURIComponent(
-        `*[_type == "navigation"]{
-          "image": logo.asset
-        }`
-      )
-    )
-    this.assets.push(build.image(navigation.result[0].image._ref).url())
-  }
+  if(!this.assets.length)
+    await handleAssets()
 
   const meta = await url(
     encodeURIComponent(

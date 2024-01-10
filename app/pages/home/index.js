@@ -279,21 +279,31 @@ export default class Home extends Page
   {
     super.show()
 
-    this.main.show()
-    this.st.show()
+    gsap.delayedCall(1.0, () => 
+    {
+      this.main.show()
+      this.st.show()
+    })
   }
 
   hide()
   {
-    super.hide()
-
-    this.main.hide()
-    this.st.hide()
-
-    this.showcase.animations.titles.forEach(
-      t => 
+    super.hide(true)
+    
+    return new Promise(resolve => 
       {
-        t.hide()
+        this.showcase.animations.titles.forEach(
+          (t, idx) => 
+          {
+            t.hide()
+            this.showcase.animations.types[idx].hide()
+          }
+        )
+    
+        this.main.hide()
+        this.st.hide()
+
+        gsap.delayedCall(0.8, () => { resolve() })
       }
     )
   }

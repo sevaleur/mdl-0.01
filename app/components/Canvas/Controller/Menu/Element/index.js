@@ -1,4 +1,4 @@
-import { ShaderMaterial, Mesh } from 'three'
+import { ShaderMaterial, Mesh, TextureLoader } from 'three'
 import gsap from 'gsap'
 
 import Prefix from 'prefix'
@@ -8,11 +8,10 @@ import fragment from 'shaders/menu/fragment.glsl'
 
 export default class Element
 {
-  constructor({ element, index, bgTMap, link, geometry, length, scene, screen, viewport })
+  constructor({ element, index, link, geometry, length, scene, screen, viewport })
   {
     this.element = element
     this.index = index
-    this.bgTMap = bgTMap
     this.link = link
     this.geo = geometry
     this.length = length
@@ -24,6 +23,12 @@ export default class Element
 
     this.link_parent = this.link.parentElement
 
+    this.newTexture = {
+      required: false,
+    }
+
+    this.createMaterial()
+    this.createTexture()
     this.createMesh()
     this.createAnimations()
     this.createBounds()
@@ -33,11 +38,8 @@ export default class Element
     CREATE.
   */
 
-  createMesh()
+  createMaterial()
   {
-    this.texture = window.IMAGE_TEXTURES[this.element.getAttribute('data-src')]
-    this.textureBG = window.IMAGE_TEXTURES[this.bgTMap.src]
-
     this.material = new ShaderMaterial(
     {
       vertexShader: vertex,
@@ -45,7 +47,6 @@ export default class Element
       uniforms:
       {
         tMap: { value: this.texture },
-        u_bg: { value: this.textureBG },
         u_imageSize: { value: [0, 0] },
         u_planeSize: { value: [0, 0] },
         u_alpha: { value: 1.0 },
@@ -53,14 +54,47 @@ export default class Element
         u_scroll: { value: 0 },
         u_progress: { value: 0.0 },
         u_viewportSize: { value: [this.viewport.width, this.viewport.height] },
-        u_intensity: { value: 10. },
+        u_intensity: { value: 50. },
         u_state: { value: 0.0 },
         u_time: { value: 0.0 }, 
         u_phone: { value: 0.0 }
       },
       transparent: true
     })
+  }
 
+  async createTexture()
+  { 
+    let src = this.element.getAttribute('data-src')
+
+    if(!window.IMAGE_TEXTURES[src])
+    {
+      this.newTexture.required = true
+
+      const textureLoader = new TextureLoader()
+      this.texture = await textureLoader.loadAsync(src)
+
+      this.material.uniforms.tMap.value = this.texture
+
+      this.material.uniforms.u_imageSize.value = [
+        this.texture.source.data.naturalWidth,
+        this.texture.source.data.naturalHeight
+      ]
+    }
+    else 
+    {
+      this.texture = window.IMAGE_TEXTURES[src]
+      this.material.uniforms.tMap.value = this.texture 
+      
+      this.material.uniforms.u_imageSize.value = [
+        this.texture.source.data.naturalWidth,
+        this.texture.source.data.naturalHeight
+      ]
+    } 
+  }
+
+  createMesh()
+  {
     if(!this.screen.desktop)
       this.material.uniforms.u_phone.value = 1.0
 
@@ -72,20 +106,10 @@ export default class Element
   {
     this.bounds = this.element.getBoundingClientRect()
 
-    if(this.texture !== undefined)
-    {
-      this.plane.material.uniforms.u_imageSize.value = [
-        this.texture.source.data.naturalWidth, 
-        this.texture.source.data.naturalHeight
-      ]
-    }
-    else 
-    {
-      this.plane.material.uniforms.u_imageSize.value = [
-        2.0, 
-        1.0
-      ]
-    }
+    this.plane.material.uniforms.u_imageSize.value = [
+      this.texture.source.data.naturalWidth, 
+      this.texture.source.data.naturalHeight
+    ]
 
     this.updateScale()
     this.updateX()
@@ -96,23 +120,25 @@ export default class Element
 
   createAnimations()
   {
-    this.state = gsap.to(
-      this.material.uniforms.u_state,
+    this.onAlphaChange = gsap.fromTo(
+      this.material.uniforms.u_alpha,
+      {
+        value: 0.0
+      },
       {
         value: 1.0,
-        delay: 1.0,
-        duration: 1.0,
-        ease: 'linear',
+        delay: 0.8,
         paused: true
       }
     )
-
-    this.alpha = gsap.to(
-      this.material.uniforms.u_alpha,
+    
+    this.onStateChange = gsap.fromTo(
+      this.material.uniforms.u_state,
       {
-        value: 1.0,
-        delay: 1.0,
-        ease: 'linear', 
+        value: 0.0
+      },
+      {
+        value: 1.0, 
         paused: true
       }
     )
@@ -124,13 +150,18 @@ export default class Element
 
   show()
   {
-    this.state.play()
+    this.onAlphaChange.duration(0.5).play()
+      .eventCallback('onComplete', () => 
+      {
+        this.onStateChange.duration(1.0).play()
+      }
+    )
   }
 
   hide()
   {
-    this.state.reverse()
-    this.alpha.reverse()
+    this.onStateChange.reverse()
+    this.onAlphaChange.reverse()
   }
 
   /*

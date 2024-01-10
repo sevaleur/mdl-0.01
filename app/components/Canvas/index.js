@@ -26,7 +26,6 @@ export default class Canvas
     this.createScene()
     this.createCamera()
     this.createRenderer()
-    this.createImage()
     
     this.onResize()
     
@@ -87,32 +86,9 @@ export default class Canvas
     })
   }
 
-  createImage()
-  {
-    let dummy_canvas = document.createElement("canvas")
-    dummy_canvas.width = 100
-    dummy_canvas.height = 100
-
-    let _ctx = dummy_canvas.getContext('2d')
-
-    _ctx.fillStyle = '#0d0d0d'
-    _ctx.fillRect(0, 0, dummy_canvas.width, dummy_canvas.height)
-
-    const png = dummy_canvas.toDataURL('image/png')
-
-    let image = new Image()
-    image.src = png
-
-    this.bgTMap = image
-
-    let textureLoad = new TextureLoader()
-    textureLoad.load( png, (data) => window.IMAGE_TEXTURES[png] = data )
-  }
-
   createController()
   {
     this.controller = new Controller({
-      bgTMap: this.bgTMap, 
       sizes: this.sizes, 
       scene: this.scene, 
       viewport: this.viewport,

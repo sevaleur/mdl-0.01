@@ -93,20 +93,6 @@ export default class Gallery extends Page
   createAnimations()
   {
     super.createAnimations(false)
-    
-    this.show_close = gsap.fromTo(
-      this.elements.close, 
-      {
-        scale: 0,
-        opacity: 0,
-      }, 
-      {
-        scale: 1.0,
-        opacity: 1.0,
-        ease: 'power2.inOut', 
-        paused: true
-      }
-    )
 
     this.onBackShow = gsap.fromTo(
       this.elements.back, 
@@ -207,24 +193,6 @@ export default class Gallery extends Page
     observer.observe(this.elements.modal_image, { attributes : true })
   }
 
-  onModalEnter()
-  {
-    this.elements.close.style.display = 'block'
-    this.show_close.play()
-  }
-
-  onModalLeave()
-  {
-    this.show_close.reverse()
-      .eventCallback(
-        'onReverseComplete', 
-        () => 
-      { 
-        this.elements.close.style.display = 'none' 
-      } 
-    )
-  }
-
   onModalImagesEnter(idx)
   {
     this.modal.animations.hover[idx].play()
@@ -286,24 +254,6 @@ export default class Gallery extends Page
     )
   }
 
-  update()
-  {
-    super.update()
-
-    if(this.device.desktop)
-    {
-      gsap.to(
-        this.elements.modal_close, 
-        {
-          top: this.coord.y + 40, 
-          left: this.coord.x,
-          duration: 0.5, 
-          ease: 'linear'
-        }
-      )
-    }
-  }
-
   /* 
     EVENTLISTENERS.
   */
@@ -311,12 +261,6 @@ export default class Gallery extends Page
   addEventListeners()
   {
     super.addEventListeners()
-
-    if(this.device.desktop)
-    {
-      this.elements.modal_selected.addEventListener('mouseenter', this.onModalEnter.bind(this))
-      this.elements.modal_selected.addEventListener('mouseleave', this.onModalLeave.bind(this))
-    }
 
     this.elements.modal_images_div.forEach(
       (div, idx) => 
@@ -335,12 +279,6 @@ export default class Gallery extends Page
   removeEventListeners()
   {
     super.removeEventListeners()
-
-    if(this.device.desktop)
-    {
-      this.elements.modal_selected.removeEventListener('mouseenter', this.onModalEnter)
-      this.elements.modal_selected.removeEventListener('mouseleave', this.onModalLeave)
-    }
 
     this.elements.modal_images_div.forEach(
       (div, idx) => 

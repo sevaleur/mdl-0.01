@@ -37,32 +37,21 @@ export default class Transition
       uniforms:
       {
         tMap: { value: this.element.texture },
-        u_bg: { value: this.element.bgTMap },
         u_alpha: { value: 1.0 },
         u_imageSize: { value: [0, 0] },
         u_planeSize: { value: [0, 0] },
         u_viewportSize: { value: [this.viewport.width, this.viewport.height] },
         u_offset: { value: this.element.plane.material.uniforms.u_offset.value },
-        u_state: { value: 0.0 },
+        u_state: { value: 1.0 },
         u_intensity: { value: 10.0 }
       },
       transparent: true
     })
 
-    if(this.element.texture !== undefined)
-    {
-      this.material.uniforms.u_imageSize.value = [
-        this.element.texture.source.data.naturalWidth, 
-        this.element.texture.source.data.naturalHeight
-      ]
-    }
-    else 
-    {
-      this.material.uniforms.u_imageSize.value = [
-        2.0, 
-        1.0
-      ]
-    }
+    this.material.uniforms.u_imageSize.value = [
+      this.element.texture.source.data.naturalWidth, 
+      this.element.texture.source.data.naturalHeight
+    ]
 
     this.plane = new Mesh( this.geo, this.material )
 
@@ -112,7 +101,12 @@ export default class Transition
       {
         _elements.show(true)
     
-        this.hide()
+        gsap.delayedCall(
+          0.8, () => 
+          {
+            this.hide()
+          }
+        )
       }
     })
 

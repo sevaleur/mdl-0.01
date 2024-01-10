@@ -5,10 +5,9 @@ import Media from './Media'
 
 export default class Logo
 {
-  constructor({ template, bgTMap, scene, screen, viewport, geo })
+  constructor({ template, scene, screen, viewport, geo })
   {
     this.template = template
-    this.bgTMap = bgTMap
     this.scene = scene
     this.screen = screen
     this.viewport = viewport
@@ -54,7 +53,6 @@ export default class Logo
         element,
         index,
         template: this.template,
-        bgTMap: this.bgTMap,
         geometry: this.geo,
         scene: this.group,
         screen: this.screen,

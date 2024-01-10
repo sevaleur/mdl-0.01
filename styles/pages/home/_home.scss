@@ -161,12 +161,6 @@
             letter-spacing: 1rem;
             line-height: 7rem;
 
-            text-shadow:
-            -1px -1px 0 #0d0d0d,
-            1px -1px 0 #0d0d0d,
-            -1px 1px 0 #0d0d0d,
-            1px 1px 0 #0d0d0d;
-
             @include media('<=tablet')
             {
               font-size: 7rem;
@@ -185,12 +179,6 @@
           &__text 
           {
             @extend %desc-16;
-
-            text-shadow:
-            -1px -1px 0 #0d0d0d,
-            1px -1px 0 #0d0d0d,
-            -1px 1px 0 #0d0d0d,
-            1px 1px 0 #0d0d0d;
 
             @include media('<=tablet')
             {
