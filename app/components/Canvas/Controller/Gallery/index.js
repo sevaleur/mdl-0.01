@@ -26,10 +26,8 @@ export default class Gallery
     this.createAnimations()
     this.createConfig()
     this.createGallery()
+    this.createBackListener()
     this.onResize()
-
-    this.createLinkListeners()
-    this.onBack()
 
     this.scene.add(this.group)
 
@@ -49,23 +47,14 @@ export default class Gallery
 
     this.images = document.querySelectorAll('img.gallery__media__div__figure__image')
     this.links = document.querySelectorAll('.gallery__media__div')
-    this.title = document.querySelector('.gallery__info__title')
-    this.desc = document.querySelector('.gallery__info__desc')
-
-    this.back_button = document.querySelector('.gallery__back')
-
-    this.modal = document.querySelector('.gallery__modal')
-    this.modal_image = document.querySelector('.gallery__modal__selected__figure__image')
-    this.modal_selected = document.querySelector('.gallery__modal__selected')
-    this.modal_images = document.querySelector('.gallery__modal__images')
-    this.modal_close = document.querySelector('.gallery__modal__text')
+    this.back = document.querySelector('.gallery__back')
+    this.info = document.querySelector('.gallery__info')
 
     this.length = this.images.length
   }
 
   createConfig()
   {
-    this.back_pressed = false
     this.faded = false
     this.enlarged = false
 
@@ -96,44 +85,10 @@ export default class Gallery
     })
   }
 
-  createLinkListeners()
-  {
-    this.links.forEach(
-      (link, index) =>
-    {
-      link.onclick = () =>
-      {
-        this.enlarge(index)
-      }
-    })
-  }
-
   createAnimations()
   {
     if(this.screen.desktop)
     {
-      this.onCloseShow = gsap.fromTo(
-        this.modal_close, 
-        {
-          yPercent: 300
-        },
-        {
-          yPercent: 0, 
-          duration: 0.8,
-          ease: 'power2.inOut', 
-          paused: true
-        }
-      )
-
-      this.text = gsap.to([
-        this.title,
-        this.desc
-      ],
-      {
-        opacity: 0.0,
-        paused: true
-      })
-
       this.titleSwitch = gsap.fromTo(
         this.gallery_scroll, 
         {
@@ -149,79 +104,37 @@ export default class Gallery
         }
       )
 
-      this.onTitleSwitch = new Show(this.gallery_scroll_title)
-    }
-    else 
-    {
-      this.text = gsap.to([
-        this.title,
-        this.desc
-      ],
-      {
-        opacity: 0.1,
-        duration: 0.5,
-        paused: true
-      })
-
-      this.onModalMobile = gsap.fromTo(
-        this.modal_close, 
+      this.infoFade = gsap.fromTo(
+        this.info,
         {
-          xPercent: 100
-        }, 
+          xPercent: -125
+        },
         {
-          xPercent: 0, 
-          duration: 0.8, 
-          ease: 'power2.inOut', 
+          xPercent: 0,
+          duration: 1.0, 
+          ease: 'power2.inOut',
           paused: true
         }
       )
+
+      this.onTitleSwitch = new Show(this.gallery_scroll_title)
     }
+  }
 
-    this.onModal = gsap.to(
-      this.modal,
-    {
-      opacity: 1.0,
-      duration: .5,
-      paused: true,
-    })
-
-    this.onModalSelect = gsap.fromTo(
-      this.modal_image, 
-      {
-        opacity: 0.0
-      },
-      {
-        opacity: 1.0, 
-        ease: 'power2.inOut', 
-        paused: true
-      }
-    )
-
-    this.onModalShow = gsap.fromTo(
-      this.modal_images, 
-      {
-        yPercent: 100
-      },
-      {
-        yPercent: 0, 
-        duration: 0.8,
-        ease: 'power2.inOut', 
-        paused: true
-      }
-    )
+  createBackListener()
+  {
+    this.back.addEventListener('click', () => { this.hide() } )
   }
 
   /*
     ANIMATIONS.
   */
 
-  onBack()
-  {
-    this.back_button.addEventListener('click', () => { this.hide() })
-  }
-
   show(transition=false)
   {
+    if(this.screen.desktop)
+      this.infoFade.play()
+
     this.elements.forEach( element => { element.show(transition) })
   }
 
@@ -229,134 +142,47 @@ export default class Gallery
   {
     this.elements.forEach( element => { element.hide() })
 
-    if(this.screen.desktop && !this.enlarged)
+    if(this.screen.desktop)
     {
-      this.titleSwitch.reverse()
-      this.onTitleSwitch.hide()
-    }
+      this.infoFade.reverse()
 
-    if(this.enlarged)
-    {
-      this.onModalSelect.reverse()
-
-      if(this.screen.desktop)
+      if(!this.enlarged)
       {
         this.titleSwitch.reverse()
-        this.onCloseShow.reverse().eventCallback('onReverseComplete', () => 
-        {
-          this.onModal.reverse().eventCallback('onReverseComplete', () => 
-          {
-            this.modal.style.display = 'none'
-            this.enlarged = false
-          })
-        })
+        this.onTitleSwitch.hide()
       }
-      else 
-      {
-        this.onModalMobile.reverse()
-  
-        this.onModalShow.reverse().eventCallback('onReverseComplete', () => 
-        {
-          this.onModal.reverse().eventCallback('onReverseComplete', () => 
-          {
-            this.modal.style.display = 'none'
-            this.enlarged = false
-          })
-        })
-      }
-
-    }
-  }
-
-  enlarge(index)
-  {
-    this.enlarged = true
-
-    this.modal_image.src = this.elements[index].texture.image.src
-    this.modal_image.alt = this.elements[index].texture.image.alt
-
-    this.modal.style.display = 'grid'
-
-    this.onModal.play()
-    this.onModalSelect.play()
-    
-    if(this.screen.desktop)
-    {
-      this.onModalShow.play().eventCallback('onComplete', () => 
-      {
-        this.onCloseShow.play()
-      })
-    }
-    else 
-    {
-      this.onModalMobile.play()
-      this.onModalShow.play()
-    }
-
-    this.modal_close.onclick = () =>
-    {
-      this.onModalSelect.reverse()
-
-      if(this.screen.desktop)
-      {
-        this.onCloseShow.reverse().eventCallback('onReverseComplete', () => 
-        {
-          this.onModalShow.reverse().eventCallback('onReverseComplete', () => 
-          {
-            this.onModal.reverse().eventCallback('onReverseComplete', () => 
-            {
-              this.modal.style.display = 'none'
-              this.enlarged = false
-            })
-          })
-        })
-      }
-      else 
-      {
-        this.onModalSelect.reverse()
-        this.onModalMobile.reverse()
-  
-        this.onModalShow.reverse().eventCallback('onReverseComplete', () => 
-        {
-          this.onModal.reverse().eventCallback('onReverseComplete', () => 
-          {
-            this.modal.style.display = 'none'
-            this.show()
-            this.enlarged = false
-          })
-        })
-      }
-    }
-  }
-
-  fadeIn()
-  {
-    this.faded = false
-    this.text.reverse()
-
-    if(this.screen.desktop)
-    {
-      this.titleSwitch.reverse()
-      this.onTitleSwitch.hide()
-    }
-  }
-
-  fadeOut()
-  {
-    this.faded = true
-    this.text.play()
-
-    if(this.screen.desktop)
-    {
-      this.titleSwitch.play()
-        .eventCallback(
-          'onComplete', () => { this.onTitleSwitch.show() })
     }
   }
 
   /*
     EVENTS.
   */
+
+  onFadeIn()
+  {
+    this.faded = false
+
+    if(this.screen.desktop)
+    {
+      this.infoFade.play()
+      this.titleSwitch.reverse()
+      this.onTitleSwitch.hide()
+    }
+  }
+
+  onFadeOut()
+  {
+    this.faded = true
+
+    if(this.screen.desktop)
+    {
+      this.infoFade.reverse()
+      this.titleSwitch.play()
+        .eventCallback(
+          'onComplete', () => { this.onTitleSwitch.show() })
+    }
+  }
+
 
   onResize()
   {
@@ -428,11 +254,11 @@ export default class Gallery
 
     if(this.scroll.current < -50)
     {
-      if(!this.faded) this.fadeOut()
+      if(!this.faded) this.onFadeOut()
     }
     else
     {
-      if(this.faded) this.fadeIn()
+      if(this.faded) this.onFadeIn()
     }
   }
 

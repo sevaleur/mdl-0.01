@@ -18,16 +18,18 @@ export default class Gallery extends Page
         info: '.gallery__info',
         title: '.gallery__info__title',
         desc: '.gallery__info__desc', 
+        links: '.gallery__media__div',
+        gallery_images: 'img.gallery__media__div__figure__image',
+        modal: '.gallery__modal',
         modal_selected: '.gallery__modal__selected',
         modal_image: 'img.gallery__modal__selected__figure__image', 
         modal_images: '.gallery__modal__images',
         modal_images_div: '.gallery__modal__images__div',
         modal_images_image: 'img.gallery__modal__images__div__media__figure__image',
         modal_images_figure: '.gallery__modal__images__div__media__figure',
-        modal_close: '.gallery__modal__selected__text',
         modal_top_lines: 'span.gallery__modal__images__div__top',
         modal_bottom_lines: 'span.gallery__modal__images__div__bottom',
-        close: '.gallery__modal__selected__text__close',
+        modal_close: '.gallery__modal__text',
         back: '.gallery__back',
         footer: '.footer'
       }, 
@@ -47,6 +49,7 @@ export default class Gallery extends Page
 
     this.modal = {
       active: '', 
+      enlarged: false,
       animations: {
         hover: [],
         top_lines: [], 
@@ -56,7 +59,7 @@ export default class Gallery extends Page
 
     this.createAnimations()
     this.createModal()
-    this.onModalSelect()
+    this.onModalSelection()
     this.onDeviceCheck()
   }
 
@@ -119,6 +122,70 @@ export default class Gallery extends Page
         paused: true
       }
     )
+
+    this.onModal = gsap.to(
+      this.elements.modal,
+    {
+      opacity: 1.0,
+      duration: .5,
+      paused: true,
+    })
+
+    this.onModalSelect = gsap.fromTo(
+      this.elements.modal_image, 
+      {
+        opacity: 0.0
+      },
+      {
+        opacity: 1.0, 
+        ease: 'power2.inOut', 
+        paused: true
+      }
+    )
+
+    this.onModalShow = gsap.fromTo(
+      this.elements.modal_images, 
+      {
+        yPercent: 100
+      },
+      {
+        yPercent: 0, 
+        duration: 0.8,
+        ease: 'power2.inOut', 
+        paused: true
+      }
+    )
+
+    if(this.device.desktop)
+    {
+      this.onCloseShow = gsap.fromTo(
+        this.elements.modal_close, 
+        {
+          yPercent: 300
+        },
+        {
+          yPercent: 0, 
+          duration: 0.8,
+          ease: 'power2.inOut', 
+          paused: true
+        }
+      )
+    }
+    else 
+    {
+      this.onModalMobile = gsap.fromTo(
+        this.modal_close, 
+        {
+          xPercent: 100
+        }, 
+        {
+          xPercent: 0, 
+          duration: 0.8, 
+          ease: 'power2.inOut', 
+          paused: true
+        }
+      )
+    }
   }
 
   createMotionElement(element)
@@ -163,7 +230,7 @@ export default class Gallery extends Page
     this.elements.modal_image.src = this.elements.modal_images_image[idx].src
   }
 
-  onModalSelect()
+  onModalSelection()
   {
     let observer = new MutationObserver((changes) => {
       changes.forEach(change => 
@@ -191,6 +258,76 @@ export default class Gallery extends Page
       })
     })
     observer.observe(this.elements.modal_image, { attributes : true })
+  }
+
+  onModalEnlarge(idx)
+  {
+    this.modal.enlarged = true
+
+    this.elements.modal_image.src = this.elements.gallery_images[idx].src
+    this.elements.modal_image.alt = this.elements.gallery_images[idx].alt
+
+    gsap.delayedCall(
+      0.5, 
+      () => 
+      {
+        this.modal.animations.top_lines[idx].show(true)
+        this.modal.animations.btm_lines[idx].show(true)
+      }
+    )
+
+    this.elements.modal.style.display = 'grid'
+
+    this.onModal.play()
+    this.onModalSelect.play()
+    
+    if(this.device.desktop)
+    {
+      this.onModalShow.play().eventCallback('onComplete', () => 
+      {
+        this.onCloseShow.play()
+      })
+    }
+    else 
+    {
+      this.onModalMobile.play()
+      this.onModalShow.play()
+    }
+  }
+
+  onModalClose()
+  {
+    this.onModalSelect.reverse()
+
+    if(this.device.desktop)
+    {
+      this.onCloseShow.reverse().eventCallback('onReverseComplete', () => 
+      {
+        this.onModalShow.reverse().eventCallback('onReverseComplete', () => 
+        {
+          this.onModal.reverse().eventCallback('onReverseComplete', () => 
+          {
+            this.elements.modal.style.display = 'none'
+            this.modal.enlarged = false
+          })
+        })
+      })
+    }
+    else 
+    {
+      this.onModalSelect.reverse()
+      this.onModalMobile.reverse()
+
+      this.onModalShow.reverse().eventCallback('onReverseComplete', () => 
+      {
+        this.onModal.reverse().eventCallback('onReverseComplete', () => 
+        {
+          this.elements.modal.style.display = 'none'
+          this.show()
+          this.modal.enlarged = false
+        })
+      })
+    }
   }
 
   onModalImagesEnter(idx)
@@ -236,20 +373,73 @@ export default class Gallery extends Page
   {
     super.hide(true)
 
-    this.title.hide()
-
-    if(this.desc)
-      this.desc.hide()
-    
-    this.onInfo.reverse()
-
     return new Promise(
       resolve => 
-      {
+    {
+        this.title.hide()
+        
+        if(this.desc)
+        this.desc.hide()
+      
+        this.onInfo.reverse()
         this.onBackShow.reverse()
           .eventCallback(
             'onReverseComplete', 
-            () => { resolve() })
+            () => 
+          {
+            resolve()
+          }
+        )
+
+        if(this.modal.enlarged)
+        {
+          this.onModalSelect.reverse()
+
+          if(this.device.desktop)
+          {
+            this.onCloseShow.reverse()
+              .eventCallback(
+                'onReverseComplete', 
+                () => 
+              {
+                this.onModal.reverse()
+                  .eventCallback(
+                    'onReverseComplete', 
+                    () => 
+                  {
+                    this.elements.modal.style.display = 'none'
+                    this.modal.enlarged = false
+
+                    resolve()
+                  }
+                )
+              } 
+            )
+          }
+          else 
+          {
+            this.onModalMobile.reverse()
+      
+            this.onModalShow.reverse()
+              .eventCallback(
+                'onReverseComplete', 
+                () => 
+              {
+                this.onModal.reverse()
+                  .eventCallback(
+                    'onReverseComplete', 
+                    () => 
+                  {
+                    this.elements.modal.style.display = 'none'
+                    this.modal.enlarged = false
+
+                    resolve()
+                  }
+                )
+              }
+            )
+          }
+        }
       }
     )
   }
@@ -273,6 +463,14 @@ export default class Gallery extends Page
       }
     )
 
+    this.elements.links.forEach(
+      (link, idx) =>
+      {
+        link.addEventListener('click', this.onModalEnlarge.bind(this, idx))
+      }
+    )
+    
+    this.elements.modal_close.addEventListener('click', this.onModalClose.bind(this))
     this.elements.back.addEventListener('click', this.onBack.bind(this))
   }
 
@@ -288,6 +486,15 @@ export default class Gallery extends Page
         div.removeEventListener('click', this.onModalChangeSelection)
       }
     )
+
+    this.elements.links.forEach(
+      (link, idx) =>
+      {
+        link.removeEventListener('click', this.onModalEnlarge)
+      }
+    )
+    
+    this.elements.modal_close.removeEventListener('click', this.onModalClose)
 
     this.elements.back.removeEventListener('click', this.onBack)
   }

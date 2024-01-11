@@ -209,6 +209,9 @@ export default class Controller
     if(this.gallery)
       this.gallery.hide()
 
+    if(this.transition)
+      (this.transition.hide(), this.transition = null)
+
     this.menu_to_gallery = template === 'commercial' && url.indexOf('gallery') > -1
 
     if(this.menu_to_gallery)

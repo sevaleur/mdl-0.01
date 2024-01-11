@@ -219,6 +219,8 @@
       display: grid; 
       place-content: center;
 
+      cursor: pointer;
+
       @include media('<=tablet')
       {
         right: -0.1rem;
@@ -248,8 +250,6 @@
         @extend %desc-16;
         color: $color-cultured;
         text-transform: capitalize;
-
-        cursor: pointer;
 
         @include media('<=tablet')
         {
@@ -400,15 +400,22 @@
   {
     position: absolute;
     top: 50%;
-    left: 15rem;
+    left: 5rem;
     transform: translateY(-50%);
 
     opacity: 0.0;
 
     z-index: z('title');
 
+    width: 50rem; 
+    border: 1px solid $color-grey; 
+    padding: 10rem 5rem; 
+
     @include media('<=tablet')
     {
+      border: none; 
+      padding: 0; 
+
       top: 18%; 
       left: 0; 
 
@@ -451,6 +458,8 @@
       line-height: 6rem;
       text-transform: uppercase;
 
+      white-space: nowrap;
+
       .char 
       {
         opacity: 0.0;
@@ -458,6 +467,7 @@
 
       @include media('<=tablet')
       {
+        white-space: wrap;
         text-align: right;
 
         border-right: 1px solid $color-grey;
