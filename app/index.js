@@ -18,11 +18,11 @@ export default class App
   {
     this.createDevice()
     this.createContent()
-    this.createPages()
     this.createCanvas()
     this.createPreloader()
     this.createNavigation()
     this.createFooter()
+    this.createPages()
 
     this.addEventListeners()
     this.addLinkListeners()
@@ -73,25 +73,6 @@ export default class App
     this.template = this.content.getAttribute('data-template')
   }
 
-  createPages()
-  {
-    this.pages = {
-      home: new Home({ device: this.device }),
-      advertising: new Menu({ device: this.device }),
-      shortFilms: new Menu({ device: this.device }),
-      commercial: new Menu({ device: this.device }),
-      portraits: new Gallery({ device: this.device }),
-      stillLife: new Gallery({ device: this.device }),
-      gallery: new Gallery({ device: this.device }),
-      advert: new Video({ device: this.device }),
-      film: new Video({ device: this.device }),
-      about: new About({ device: this.device }),
-    }
-
-    this.page = this.pages[this.template]
-    this.page.create()
-  }
-
   createCanvas()
   {
     this._canvas = document.createElement('canvas')
@@ -123,6 +104,25 @@ export default class App
       template: this.template, 
       device: this.device
     })
+  }
+
+  createPages()
+  {
+    this.pages = {
+      home: new Home({ device: this.device }),
+      advertising: new Menu({ device: this.device }),
+      shortFilms: new Menu({ device: this.device }),
+      commercial: new Menu({ device: this.device }),
+      portraits: new Gallery({ device: this.device }),
+      stillLife: new Gallery({ device: this.device }),
+      gallery: new Gallery({ device: this.device }),
+      advert: new Video({ device: this.device }),
+      film: new Video({ device: this.device }),
+      about: new About({ device: this.device }),
+    }
+
+    this.page = this.pages[this.template]
+    this.page.create()
   }
 
   /*

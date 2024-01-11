@@ -15,9 +15,7 @@ export default class Preloader extends Component
     })
 
     this.canvas = canvas
-
     this.loaded = 0
-    this.finished = false
 
     window.IMAGE_TEXTURES = {}
 
@@ -74,7 +72,6 @@ export default class Preloader extends Component
         {
           opacity: 0.0,
           duration: 0.5,
-          delay: 0.5,
           onComplete: () =>
           {
             this.emit('completed')

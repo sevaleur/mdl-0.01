@@ -111,8 +111,6 @@ export default class Home extends Page
       this.mid = this.showcase.elements[this.half]
   
       this.active = this.mid
-      
-      this.onSelect(this.half)
   
       this.showcase.elements.forEach( 
         (el, idx) => 
@@ -278,12 +276,13 @@ export default class Home extends Page
   show()
   {
     super.show()
+  
+    this.showcase.length > 1
+      ? this.onSelect(this.half)
+      : this.onSelect(0)
 
-    gsap.delayedCall(1.0, () => 
-    {
-      this.main.show()
-      this.st.show()
-    })
+    this.main.show()
+    this.st.show()
   }
 
   hide()
