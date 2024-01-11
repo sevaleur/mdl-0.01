@@ -108,33 +108,7 @@ export default class Video extends Page
 
       this.elements.title_div.style.width = `${calcWidth}px`
       this.elements.iframe.style.height = `${calcHeight - this.backBounds.height}px`
-    }
-    else 
-    {
-      let desktopHeight = calcHeight - 1
 
-      this.elements.wrap.style.height = `${desktopHeight}px`
-      this.elements.iframe.style.height = `${desktopHeight}px`
-      plyr.style.height = `${desktopHeight}px`
-
-      if(window.innerHeight >= 890 && window.innerHeight <= 910 && window.innerWidth === 1440)
-      {
-        plyrContainer.style.transform = 'scale(1.0) translateY(1rem)'
-      }
-
-      if(window.innerHeight >= 1010 && window.innerHeight <= 1030 && window.innerWidth === 1280)
-      {
-        plyrContainer.style.transform = 'scale(1.0) translateY(16rem)'
-      }
-
-      if(window.innerHeight >= 1350 && window.innerHeight <= 1380 && window.innerWidth === 768)
-      {
-        plyrContainer.style.transform = 'scale(0.9) translateY(-5rem)'
-      }
-    }
-
-    if(!this.device.desktop)
-    {
       if(window.chrome)
       {
         if(iframe.src.includes('vimeo'))
@@ -149,6 +123,59 @@ export default class Video extends Page
       else 
       {
         plyrContainer.style.top = `-${(this.backBounds.height / 3) - 5}px`
+      }
+    }
+    else if(this.device.tablet)
+    {
+      this.elements.iframe.style.height = `${calcHeight}px`
+
+      if(window.chrome)
+      {
+        if(iframe.src.includes('vimeo'))
+        {
+          plyrContainer.style.top = `${this.backBounds.height * 2}px`
+        }
+        else 
+        {
+          plyrContainer.style.top = `-${this.backBounds.height * 2}px`
+        }
+      }
+      else 
+      {
+        plyrContainer.style.top = `-${this.backBounds.height * 2}px`
+      }
+    }
+    else 
+    {
+      let desktopHeight = calcHeight - 1
+
+      this.elements.wrap.style.height = `${desktopHeight}px`
+      this.elements.iframe.style.height = `${desktopHeight}px`
+      plyr.style.height = `${desktopHeight}px`
+
+      if(window.chrome)
+      {
+        if(window.innerHeight >= 890 && window.innerHeight <= 910 && window.innerWidth === 1440)
+        {
+          plyrContainer.style.transform = 'scale(1.0) translateY(1rem)'
+        }
+  
+        if(window.innerHeight >= 1010 && window.innerHeight <= 1030 && window.innerWidth === 1280)
+        {
+          plyrContainer.style.transform = 'scale(1.0) translateY(16rem)'
+        }
+  
+        if(window.innerHeight >= 1350 && window.innerHeight <= 1380 && window.innerWidth === 768)
+        {
+          plyrContainer.style.transform = 'scale(0.9) translateY(-5rem)'
+        }
+      }
+      else 
+      {
+        if(!iframe.src.includes('vimeo'))
+        {
+          plyrContainer.style.top = `7rem`
+        }
       }
     }
   }

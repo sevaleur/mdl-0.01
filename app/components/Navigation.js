@@ -269,23 +269,28 @@ export default class Navigation extends Component
       { 
         this.elements.menu_list.style.display = 'flex' 
 
-        this.nav_links.forEach(
-          link =>
+        document.fonts.ready.then(
+          (fontFaceSet) => 
           {
-            gsap.to(
-              link, 
+            this.nav_links.forEach(
+              link =>
               {
-                opacity: 1.0, 
-                duration: 0.5, 
+                gsap.to(
+                  link, 
+                  {
+                    opacity: 1.0, 
+                    duration: 0.5, 
+                  }
+                )
+                
+                if(!this.device.desktop)
+                {
+                  this.elements.menu_social.style.display = 'grid'
+                  this.onSocialsShow.play()
+                }
+                link.show()
               }
             )
-            
-            if(!this.device.desktop)
-            {
-              this.elements.menu_social.style.display = 'grid'
-              this.onSocialsShow.play()
-            }
-            link.show()
           }
         )
       }
