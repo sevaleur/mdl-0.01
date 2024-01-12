@@ -2,6 +2,7 @@
 
 uniform vec2 u_imageSize;
 uniform vec2 u_planeSize;
+
 uniform float u_alpha;
 uniform float u_scroll;
 uniform float u_intensity;
@@ -28,6 +29,9 @@ void main()
     v_uv.y * ratio.y + (1. - ratio.y) * .5
   );
 
+  vec2 uv_divided = fract(uv * vec2(u_intensity));
+  vec2 uv_disp = uv + PI / 4.0 * uv_divided * (1.0 - (1.0 + (u_scroll * 0.5))) * 0.1;
+
   float resolution = 10.0;
 
   vec2 lowresxy = vec2(
@@ -35,7 +39,7 @@ void main()
     floor(gl_FragCoord.y / resolution)
   );
 
-  vec4 t = texture2D(tMap, uv); 
+  vec4 t = texture2D(tMap, uv_disp); 
 
   gl_FragColor = t; 
   

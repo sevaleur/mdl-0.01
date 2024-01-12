@@ -107,10 +107,12 @@ export default class Gallery
       this.infoFade = gsap.fromTo(
         this.info,
         {
-          xPercent: -125
+          xPercent: -110,
+          yPercent: -50,
         },
         {
           xPercent: 0,
+          yPercent: -50,
           duration: 1.0, 
           ease: 'power2.inOut',
           paused: true

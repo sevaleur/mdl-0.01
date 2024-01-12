@@ -48,7 +48,6 @@ export default class Element
         u_imageSize: { value: [0, 0] },
         u_planeSize: { value: [0, 0] },
         u_alpha: { value: 0.0 },
-        u_offset: { value: 0 },
         u_scroll: { value: 0 },
         u_viewportSize: { value: [this.viewport.width, this.viewport.height] },
         u_intensity: { value: 25.0 },
@@ -209,8 +208,6 @@ export default class Element
   {
     this.x = ((this.bounds.left + current) / this.screen.width) * this.viewport.width
     const pos_viewport = this.plane.position.x + this.x / 100
-
-    this.plane.material.uniforms.u_offset.value = gsap.utils.mapRange(-this.viewport.width, this.viewport.width, -0.35, 0.35, pos_viewport)
 
     this.plane.position.x = (-this.viewport.width / 2) + (this.plane.scale.x / 2) + this.x
   }
