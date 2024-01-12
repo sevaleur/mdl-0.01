@@ -197,9 +197,6 @@ export default class Controller
     if(this.showcase)
       this.showcase.hide()
 
-    if(this.bg)
-      this.bg.hide()
-
     if(this.menu)
       this.menu.hide()
 
