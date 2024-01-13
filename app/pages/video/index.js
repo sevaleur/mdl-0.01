@@ -72,7 +72,6 @@ export default class Video extends Page
       loop: { active: true },
       loadSprite: false,
       fullscreen: { enabled: false },
-      quality: { default: 4320 }, 
       vimeo: { portrait: this.device.phone ? true : false }, 
       ratio: this.device.tablet || this.device.phone ? '9:16' : '16:9'
     })

@@ -30,7 +30,7 @@ void main()
   );
 
   vec2 uv_divided = fract(uv * vec2(u_intensity));
-  vec2 uv_disp = uv + PI / 4.0 * uv_divided * (1.0 - (1.0 + (u_scroll * 0.5))) * 0.1;
+  vec2 uv_disp = uv + PI / 4.0 * uv_divided * (1.0 - (1.0 + abs((u_scroll * 0.5)))) * 0.1;
 
   float resolution = 10.0;
 

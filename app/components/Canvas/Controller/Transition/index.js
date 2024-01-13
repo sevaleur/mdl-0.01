@@ -72,20 +72,6 @@ export default class Transition
     Animations.
   */
 
-  animateMenu(menu)
-  {
-    if(menu)
-    {
-      menu.scroll.current = this.scroll.current
-      menu.scroll.target = this.scroll.target
-    }
-    else
-    {
-      return
-    }
-
-  }
-
   animateTransition(_elements)
   {
     let element 

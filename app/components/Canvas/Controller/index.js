@@ -206,14 +206,12 @@ export default class Controller
     if(this.gallery)
       this.gallery.hide()
 
-    if(this.transition)
-      (this.transition.hide(), this.transition = null)
-
     this.menu_to_gallery = template === 'commercial' && url.indexOf('gallery') > -1
 
     if(this.menu_to_gallery)
     {
-      if(this.transition) return 
+      if(this.transition)
+        (this.transition.hide(), this.transition = null) 
       
       const scroll = { ...this.menu.scroll }
 
@@ -268,14 +266,6 @@ export default class Controller
         this.transition
           ? this.createMenu(this.transition)
           : this.createMenu()
-
-        gsap.delayedCall(0.5, () =>
-        {
-          if(this.gallery_to_menu)
-          {
-            if(this.transition) this.transition.animateMenu(this.menu)
-          }
-        })
 
         this.destroyShowcase()
         this.destroyGallery()
@@ -369,7 +359,6 @@ export default class Controller
 
     if(this.menu)
       this.menu.onTouchDown({ y, x })
-    
 
     if(this.gallery)
       this.gallery.onTouchDown({ y, x })

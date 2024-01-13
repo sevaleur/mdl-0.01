@@ -48,7 +48,7 @@ export default class Element
         u_imageSize: { value: [0, 0] },
         u_planeSize: { value: [0, 0] },
         u_alpha: { value: 0.0 },
-        u_scroll: { value: 0 },
+        u_scroll: { value: 0.0 },
         u_viewportSize: { value: [this.viewport.width, this.viewport.height] },
         u_intensity: { value: 25.0 },
         u_state: { value: 0.0 }

@@ -89,8 +89,15 @@ export default class Gallery extends Page
 
     this.elements.modal_images.style.width = `${calc}px`  
 
-    if(!this.device.desktop)
+    if(this.device.desktop)
+    {
+      this.elements.modal_selected.style.top = `${bounds.height / 2}px`
+      this.elements.modal_selected.style.height = `${window.innerHeight - (bounds.height * 2)}px`
+    }
+    else 
+    {
       this.elements.modal_selected.style.height = `${window.innerHeight - (bounds.height * 3)}px`
+    }
   }
 
   createAnimations()
@@ -174,7 +181,7 @@ export default class Gallery extends Page
     else 
     {
       this.onModalMobile = gsap.fromTo(
-        this.modal_close, 
+        this.elements.modal_close, 
         {
           xPercent: 100
         }, 
@@ -323,7 +330,6 @@ export default class Gallery extends Page
         this.onModal.reverse().eventCallback('onReverseComplete', () => 
         {
           this.elements.modal.style.display = 'none'
-          this.show()
           this.modal.enlarged = false
         })
       })

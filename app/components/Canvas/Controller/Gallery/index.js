@@ -204,36 +204,47 @@ export default class Gallery
 
   onTouchDown({ y })
   {
-    if(this.enlarged) return
-    if(this.transition && !this.transition.finished) return
-
-    this.scroll.position = this.scroll.current 
+    if(this.transition && !this.transition.finished)
+    {
+      this.scroll.position = 0
+    }
+    else 
+    {
+      this.scroll.position = this.scroll.current 
+    }
   }
 
   onTouchMove({ y, x })
   {
-    if(this.enlarged) return
-    if(this.transition && !this.transition.finished) return
+    const dist_y = y.start - y.end
+    const dist_x = x.start - x.end
 
-    const dist = y.start - y.end
-
-    
-    this.scroll.target = this.scroll.position - dist * 1.25
+    if(this.transition && !this.transition.finished)
+    {
+      this.scroll.target = 0
+    }
+    else 
+    {
+      this.scroll.target = this.scroll.position - (dist_y + dist_x) * 1.5
+    }
   }
 
   onTouchUp({ y })
   {
-    if(this.enlarged) return
-    if(this.transition && !this.transition.finished) return
+
   }
 
   onWheel({ pixelY, pixelX })
   {
-    if(this.enlarged) return
-    if(this.transition && !this.transition.finished) return
-
-    this.scroll.target -= pixelX * 0.6
-    this.scroll.target -= pixelY * 0.6
+    if(this.transition && !this.transition.finished)
+    {
+      this.scroll.target = 0
+    }
+    else 
+    {
+      this.scroll.target -= pixelX * 0.6
+      this.scroll.target -= pixelY * 0.6
+    }
   }
 
   /*

@@ -199,6 +199,8 @@ export default class App
 
   onTouchDown(e)
   {
+    if(this.page.modal && this.page.modal.enlarged) return 
+
     if(this.canvas && this.canvas.onTouchDown)
       this.canvas.onTouchDown(e)
 
@@ -208,6 +210,8 @@ export default class App
 
   onTouchMove(e)
   {
+    if(this.page.modal && this.page.modal.enlarged) return 
+
     if(this.canvas && this.canvas.onTouchMove)
       this.canvas.onTouchMove(e)
 
@@ -217,6 +221,8 @@ export default class App
 
   onTouchUp(e)
   {
+    if(this.page.modal && this.page.modal.enlarged) return 
+
     if(this.canvas && this.canvas.onTouchUp)
       this.canvas.onTouchUp(e)
 
@@ -235,6 +241,8 @@ export default class App
 
   onWheel(e)
   {
+    if(this.page.modal && this.page.modal.enlarged) return 
+
     const norm_wheel = normalizeWheel(e)
 
     if(this.canvas && this.canvas.onWheel)

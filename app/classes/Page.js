@@ -247,7 +247,7 @@ export default class Page
     this.touch.y.end = y
 
     const y_dist = this.touch.y.start - this.touch.y.end
-    this.scroll.target = this.scroll.position + y_dist * 1.2
+    this.scroll.target = this.scroll.position + y_dist * 1.5
   }
 
   onTouchUp(e)

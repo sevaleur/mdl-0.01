@@ -48,10 +48,10 @@
       top: 50%; 
       left: 50%;
 
-      transform: translate(-57.5rem, -50%);
+      transform: translate(-50%, -50%);
 
       display: grid; 
-      grid-template-columns: 5rem 100rem;
+      grid-template-columns: 5rem 100rem 5rem;
       grid-template-rows: repeat(6, 10rem);
 
       gap: 2rem;
@@ -202,7 +202,6 @@
           }
         }
       }
-
 
       &__link
       {

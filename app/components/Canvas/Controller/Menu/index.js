@@ -129,7 +129,7 @@ export default class Menu
   {
     const dist = y.start - y.end
 
-    this.scroll.target = this.scroll.position - dist
+    this.scroll.target = this.scroll.position - dist * 1.5
   }
 
   onTouchUp({ y, x })
