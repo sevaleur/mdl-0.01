@@ -286,7 +286,7 @@ export default class App
   addEventListeners()
   {
     window.addEventListener('popstate', this.onPopState.bind(this))
-    window.addEventListener('mousewheel', this.onWheel.bind(this))
+    window.addEventListener('wheel', this.onWheel.bind(this))
     window.addEventListener('mousemove', this.onMove.bind(this))
 
     window.addEventListener('touchstart', this.onTouchDown.bind(this))

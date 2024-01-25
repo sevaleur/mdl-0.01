@@ -118,7 +118,10 @@ const handleAssets = async() =>
       gallery.images.forEach(
         image => 
         {
-          this.assets.push(build.image(image.asset._ref).url())
+          let src = build.image(image.asset._ref).url()
+      
+          if(!this.assets.includes(src))
+            this.assets.push(src)
         }
       )
     }
@@ -136,13 +139,27 @@ const handleAssets = async() =>
   all_adverts.result.forEach(
     ad => 
     {
-      this.assets.push(build.image(ad.preview.asset._ref).url())
+      let src = build.image(ad.preview.asset._ref).url()
+      let src_two, src_three
+
+      if(!this.assets.includes(src))
+        this.assets.push(src)
       
       if(ad.photo)
-        this.assets.push(build.image(ad.photo.asset._ref).url())
+      {
+        src_two = build.image(ad.photo.asset._ref).url()
+
+        if(!this.assets.includes(src_two))
+          this.assets.push(src_two) 
+      }
 
       if(ad.photo2)
-        this.assets.push(build.image(ad.photo2.asset._ref).url())
+      {
+        src_three = build.image(ad.photo2.asset._ref).url()
+
+        if(!this.assets.includes(src_three))
+          this.assets.push(src_three)
+      }
     }
   )
 
@@ -158,13 +175,27 @@ const handleAssets = async() =>
   all_films.result.forEach(
     ad => 
     {
-      this.assets.push(build.image(ad.preview.asset._ref).url())
+      let src = build.image(ad.preview.asset._ref).url()
+      let src_two, src_three
+
+      if(!this.assets.includes(src))
+        this.assets.push(src)
       
       if(ad.photo)
-        this.assets.push(build.image(ad.photo.asset._ref).url())
+      {
+        src_two = build.image(ad.photo.asset._ref).url()
+
+        if(!this.assets.includes(src_two))
+          this.assets.push(src_two) 
+      }
 
       if(ad.photo2)
-        this.assets.push(build.image(ad.photo2.asset._ref).url())
+      {
+        src_three = build.image(ad.photo2.asset._ref).url()
+
+        if(!this.assets.includes(src_three))
+          this.assets.push(src_three)
+      }
     }
   )
   
@@ -178,7 +209,10 @@ const handleAssets = async() =>
   portraits.result[0].images.forEach(
     image => 
     {
-      this.assets.push(build.image(image.asset._ref).url())
+      let src = build.image(image.asset._ref).url()
+
+      if(!this.assets.includes(src))
+        this.assets.push(src)
     }
   )
 
@@ -192,7 +226,10 @@ const handleAssets = async() =>
   sl.result[0].images.forEach(
     image => 
     {
-      this.assets.push(build.image(image.asset._ref).url())
+      let src = build.image(image.asset._ref).url()
+
+      if(!this.assets.includes(src))
+        this.assets.push(src)
     }
   )
 
@@ -204,8 +241,15 @@ const handleAssets = async() =>
       }`
     )
   )
-  this.assets.push(build.image(about.result[0].head.asset._ref).url())
-  this.assets.push(build.image(about.result[0].foot.asset._ref).url())
+
+  let flagTop = build.image(about.result[0].head.asset._ref).url()
+  let flagBtm = build.image(about.result[0].foot.asset._ref).url()
+
+  if(!this.assets.includes(flagTop))
+    this.assets.push(flagTop)
+
+  if(!this.assets.includes(flagBtm))
+    this.assets.push(flagBtm)
 
   const navigation = await url(
     encodeURIComponent(
@@ -214,13 +258,16 @@ const handleAssets = async() =>
       }`
     )
   )
-  this.assets.push(build.image(navigation.result[0].image._ref).url())
+
+  let nav = build.image(navigation.result[0].image._ref).url()
+
+  if(!this.assets.includes(nav))
+    this.assets.push(nav)
 }
 
 const handleReq = async(req) =>
 {
-  if(!this.assets.length)
-    await handleAssets()
+  await handleAssets()
 
   const meta = await url(
     encodeURIComponent(

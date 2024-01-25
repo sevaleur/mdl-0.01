@@ -309,5 +309,4 @@ export default class Page
   {
 
   }
-
 }
